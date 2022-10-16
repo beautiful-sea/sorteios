@@ -162,4 +162,5 @@ class User extends Authenticatable
     {
         return $this->profiles()->detach($profile);
     }
+
 }

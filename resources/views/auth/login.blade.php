@@ -1,73 +1,63 @@
 @extends('layouts.app')
-
+@section('page-style')
+    <style>
+        label, h4, p {
+            color: white!important;
+        }
+    </style>
+@endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
+            <div class="card  mb-0" style="    background: #10163a">
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <a href="/" class="brand-logo d-flex justify-content-center">
+                       <img src="/images/logo_sorteio1.png" style="width: max-content">
+                    </a>
+
+                    <h4 class="card-title mb-1">Seja bem-vindo! 👋</h4>
+                    <p class="card-text mb-2">Por favor, faça login para acessar sua conta.</p>
+
+                    <form class="auth-login-form mt-2" action="/login" method="POST" novalidate="novalidate">
                         @csrf
-
-                        <div class="form-group row">
-                            <label for="email" class="col-sm-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
-
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback">
+                        <div class="mb-1">
+                            <label for="login-email" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="login-email" name="email" placeholder="john@example.com" aria-describedby="login-email" tabindex="1" autofocus="">
+                            @if ($errors->has('email'))
+                                <span class="invalid-feedback">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
-                                @endif
-                            </div>
+                            @endif
                         </div>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-4">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('auth.forgot') }}
+                        <div class="mb-1">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label" for="login-password">Senha</label>
+                                <a href="/forgot-password">
+                                    <small>Esqueceu sua senha?</small>
                                 </a>
                             </div>
+                            <div class="input-group input-group-merge form-password-toggle">
+                                <input type="password" class="form-control form-control-merge" id="login-password" name="password" tabindex="2" placeholder="············" aria-describedby="login-password">
+                                <span class="input-group-text cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
+                            </div>
+                            @if ($errors->has('password'))
+                                <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                            @endif
                         </div>
 
-                        <p class="text-center mb-3">
-                            Or Login with
-                        </p>
-
-                        @include('partials.socials-icons')
-
+                        <button class="btn btn-primary w-100 waves-effect waves-float waves-light" tabindex="4">Entrar</button>
                     </form>
+
+                    <p class="text-center mt-2">
+                        <span>Novo na plataforma?</span>
+                        <a href="/register">
+                            <span>Criar uma conta</span>
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>

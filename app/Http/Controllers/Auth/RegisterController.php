@@ -67,8 +67,8 @@ class RegisterController extends Controller
             $data,
             [
                 'name'                  => 'required|max:255|unique:users|alpha_dash',
-                'first_name'            => 'alpha_dash',
-                'last_name'             => 'alpha_dash',
+                'first_name'            => 'required',
+                'last_name'             => 'required',
                 'email'                 => 'required|email|max:255|unique:users',
                 'password'              => 'required|min:6|max:30|confirmed',
                 'password_confirmation' => 'required|same:password',

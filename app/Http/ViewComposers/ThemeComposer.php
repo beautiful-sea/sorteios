@@ -21,28 +21,5 @@ class ThemeComposer
         $this->user = Auth::user();
     }
 
-    /**
-     * Bind data to the view.
-     *
-     * @param  View  $view
-     * @return void
-     */
-    public function compose(View $view)
-    {
-        $theme = null;
 
-        if (Auth::check()) {
-            $user = $this->user;
-
-            if ($user->profile) {
-                $theme = Theme::find($user->profile->theme_id);
-
-                if ($theme->status === 0) {
-                    $theme = Theme::find(Theme::default);
-                }
-            }
-        }
-
-        $view->with('theme', $theme);
-    }
 }

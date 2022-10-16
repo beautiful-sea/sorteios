@@ -118,14 +118,11 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
             'deleted',
         ],
     ]);
+    Route::resource('rifas', \App\Http\Controllers\RifaController::class );
+
     Route::post('search-users', 'App\Http\Controllers\UsersManagementController@search')->name('search-users');
 
-    Route::resource('themes', \App\Http\Controllers\ThemesManagementController::class, [
-        'names' => [
-            'index'   => 'themes',
-            'destroy' => 'themes.destroy',
-        ],
-    ]);
+
 
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     Route::get('routes', 'App\Http\Controllers\AdminDetailsController@listRoutes');

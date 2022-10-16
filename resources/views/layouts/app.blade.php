@@ -1,87 +1,64 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@isset($pageConfigs)
+{!! \Helper::updatePageConfig($pageConfigs) !!}
+@endisset
 
-        {{-- CSRF Token --}}
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!DOCTYPE html>
 
-        <title>@hasSection('template_title')@yield('template_title') | @endif {{ config('app.name', Lang::get('titles.app')) }}</title>
-        <meta name="description" content="">
-        <meta name="author" content="Jeremy Kenedy">
-        <link rel="shortcut icon" href="/favicon.ico">
+<html class="loading light"
+      lang=" pt"
+      data-textdirection="{{ env('MIX_CONTENT_DIRECTION') === 'rtl' ? 'rtl' : 'ltr' }}" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
+    <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="author" content="PIXINVENT">
+    <title>@yield('title') - Bitfuel - Painel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
+    <meta name="grecaptcha-key" content="{{config('recaptcha.v3.public_key')}}">
+    <script src="https://www.google.com/recaptcha/api.js?render={{config('recaptcha.v3.public_key')}}"></script>
+    {{-- Include core + vendor Styles --}}
+    @include('panels.styles')
 
-        {{-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries --}}
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
+</head>
+    <body  class="pace-done vertical-layout vertical-menu-modern navbar-floating footer-static default menu-expanded"
+           data-menu="vertical-menu-modern"
+           data-col="blank-page"
+           data-framework="laravel"
+           data-asset-path="{{ asset('/')}}">
+        @include('panels.navbar')
+        <!-- END: Header-->
 
-        {{-- Fonts --}}
-        @yield('template_linked_fonts')
-
-        {{-- Styles --}}
-        <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
-
-        @yield('template_linked_css')
-
-        <style type="text/css">
-            @yield('template_fastload_css')
-
-            @if (Auth::User() && (Auth::User()->profile) && (Auth::User()->profile->avatar_status == 0))
-                .user-avatar-nav {
-                    background: url({{ Gravatar::get(Auth::user()->email) }}) 50% 50% no-repeat;
-                    background-size: auto 100%;
-                }
-            @endif
-
-        </style>
-
-        {{-- Scripts --}}
-        <script>
-            window.Laravel = {!! json_encode([
-                'csrfToken' => csrf_token(),
-            ]) !!};
-        </script>
-
-        @if (Auth::User() && (Auth::User()->profile) && $theme->link != null && $theme->link != 'null')
-            <link rel="stylesheet" type="text/css" href="{{ $theme->link }}">
-        @endif
-
-        @yield('head')
-        @include('scripts.ga-analytics')
-    </head>
-    <body>
-        <div id="app">
-
-            @include('partials.nav')
-
-            <main class="py-4">
-
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            @include('partials.form-status')
-                        </div>
+            <!-- BEGIN: Main Menu-->
+            @include('panels.sidebar')
+        <!-- END: Main Menu-->
+            <!-- BEGIN: Content-->
+            <div class="app-content content " id="app">
+                <div class="content-overlay"></div>
+                <div class="header-navbar-shadow"></div>
+                <div >
+                    <div class="sidebar">
+                        {{-- Include Sidebar Content --}}
+                        @yield('content-sidebar')
                     </div>
                 </div>
+                <div class="content-wrapper container-xxl p-0">
+                    <div class="content-body">
+                        <div class="content-header row">
+                            <h1>@yield("title")</h1>
+                        </div>
+                        @yield('content')
+                    </div>
+                </div>
+            </div>
+            <!-- End: Content-->
+            <div class="sidenav-overlay"></div>
+            <div class="drag-target"></div>
+        @include('panels.footer')
 
-                @yield('content')
-
-            </main>
-
-        </div>
-
-        {{-- Scripts --}}
-        <script src="{{ mix('/js/app.js') }}"></script>
-
-        @if(config('settings.googleMapsAPIStatus'))
-            {!! HTML::script('//maps.googleapis.com/maps/api/js?key='.config("settings.googleMapsAPIKey").'&libraries=places&dummy=.js', array('type' => 'text/javascript')) !!}
-        @endif
-
-        @yield('footer_scripts')
-
+        @include('panels.scripts')
     </body>
 </html>
