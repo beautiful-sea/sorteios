@@ -5,8 +5,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 import Dropzone from "dropzone/dist/dropzone";
-Dropzone.autoDiscover = true;
-
+import requests from "./scripts/helpers/requests";
+import helpers from "./scripts/helpers/helpers";
 require('./bootstrap');
 require('hideshowpassword');
 // var Dropzone = require('dropzone');
@@ -14,14 +14,38 @@ var password = require('password-strength-meter');
 
 window.Vue = require('vue');
 
+axios.defaults.baseURL = '/api/front/';
+require('sweetalert2').default;
+const pluginRequest = {
+    install () {
+        Vue.requests = requests
+        Vue.prototype.$requests = requests
+    }
+}
+
+Vue.use(pluginRequest)
+
+const pluginHelpers = {
+    install () {
+        Vue.helpers = helpers
+        Vue.prototype.$helpers = helpers
+    }
+}
+Vue.use(pluginHelpers)
+
+Dropzone.autoDiscover = true;
+
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+Vue.component('loader-helper', require('./components/helpers/Loader').default);
+Vue.component('paginacao-helper', require('./components/helpers/Paginacao').default);
 
-//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('public-sorteio-comprar', require('./components/public/sorteio/Cotas.vue').default);
 Vue.component('users-count', require('./components/UsersCount.vue').default);
 
 const app = new Vue({

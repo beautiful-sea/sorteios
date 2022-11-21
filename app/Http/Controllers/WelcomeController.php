@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rifa;
+
 class WelcomeController extends Controller
 {
     /**
@@ -11,6 +13,7 @@ class WelcomeController extends Controller
      */
     public function welcome()
     {
-        return view('pages.public.home');
+        $rifas = Rifa::all();
+        return view('pages.public.home')->with(['rifas'   =>  $rifas]);
     }
 }

@@ -23,7 +23,7 @@ class CreateRifasTable extends Migration
             $table->string('premio');
             $table->integer('status')->default(false);
             $table->boolean('mostrar_data_sorteio')->default(false);
-            $table->time('periodo');
+            $table->dateTime('periodo');
             $table->float('valor_por_numero');
             $table->integer('quantidade_de_numeros');
             $table->integer('quantidade_maxima_de_numeros');
@@ -49,6 +49,8 @@ class CreateRifasTable extends Migration
             $table->string('numero_sorteado')->nullable();
 
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

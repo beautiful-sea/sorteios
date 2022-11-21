@@ -96,9 +96,9 @@
             position: relative;
             transition: all .2s linear;
         }
-        @media (max-width: 576px)
-        {
-            .planos-item{
+
+        @media (max-width: 576px) {
+            .planos-item {
                 background-color: #009c05;
                 border-radius: 10px;
                 padding: 20px 20px;
@@ -110,6 +110,7 @@
                 position: relative;
                 transition: all .2s linear;
             }
+
             .planos-item_titulo {
                 max-width: 100%;
             }
@@ -136,6 +137,7 @@
                 box-shadow: 0px 0px 25px -5px #005000;
             }
         }
+
         .planos-item_titulo h3 {
             color: #fff;
             text-transform: uppercase;
@@ -317,54 +319,148 @@
             background-color: #fd5631;
             transition: all .2s linear;
         }
+
+        .earnings-card {
+            box-shadow: 1px 1px 2px 0px black;
+            color: black;
+            margin: 0px;
+        }
+
+        .row{
+            margin: 0px;
+        }
     </style>
 @endsection
 @section('content')
 
-    <section>
-       <div class="row">
-           <div class="col-12">
-               <div class="card">
-                   <div class="card-body">
-                       <div class="mt-4 mb-2 text-center">
-                           <h4>Sorteios disponíveis</h4>
-                           <p class="card-text">Compre suas fichas e concorra a prêmios!</p>
-                       </div>
-                       <div class="swiper-responsive-breakpoints swiper-container px-4 py-2 swiper-container-initialized swiper-container-horizontal swiper-container-pointer-events">
-                           <div class="swiper-wrapper"  aria-live="polite"  >
-                               <div class="swiper-slide swiper-slide-active" role="group" aria-label="1 / 2" >
-                                   <a href="#">
-                                       <div class="item-heading">
-                                           <h5 class="text-truncate mb-0">Apple Watch Series 6</h5>
-                                           <small class="text-body">Sorteio 20/11/2022 às 20:00</small>
-                                       </div>
-                                       <div class="img-container w-50 mx-auto py-75">
-                                           <img src="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/app-assets/images/elements/apple-watch.png" class="img-fluid" alt="image">
-                                       </div>
+        <div class="row">
+            <div class="col-12">
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img class="d-block w-100"
+                                 src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_184016b47a2%20text%20%7B%20fill%3A%23444%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_184016b47a2%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23666%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22247.3125%22%20y%3D%22217.7%22%3ESecond%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+                                 alt="First slide">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100"
+                                 src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_184016b47a2%20text%20%7B%20fill%3A%23444%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_184016b47a2%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23666%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22247.3125%22%20y%3D%22217.7%22%3ESecond%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+                                 alt="Second slide">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100"
+                                 src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_184016b47a2%20text%20%7B%20fill%3A%23444%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_184016b47a2%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23666%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22247.3125%22%20y%3D%22217.7%22%3ESecond%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+                                 alt="Third slide">
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-6 col-12" style="padding: 10px 20px">
+                <div class="card earnings-card">
+                    <div class="card-body" style="padding: 20px">
+                        <div class="row">
+                            <div class="col-4" style="margin: auto;text-align: center;">
+                                <img  style="width: 100%" src="/images/73181-select.gif">
+                            </div>
+                            <div class="col-8"  style="margin: auto;">
+                                <h3 style="color: white">Escolha uma rifa</h3>
+                                <p>É muito fácil participar. Comece escolhendo uma rifa ativa
+                                    disponível</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-12" style="padding: 10px 20px">
+                <div class="card earnings-card">
+                    <div class="card-body" style="padding: 20px">
+                        <div class="row">
+                            <div class="col-4" style="margin: auto;text-align: center;">
+                                <img style="width: 100%" src="/images/19527-select-option.gif">
+                            </div>
+                            <div class="col-8">
+                                <h3 style="color: white">Selecione os números</h3>
+                                <p>Escolha quantos quiser! Quanto mais escolher, mais chances de
+                                    ganhar.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-12" style="padding: 10px 20px">
+                <div class="card earnings-card">
+                    <div class="card-body" style="padding: 20px">
+                        <div class="row">
+                            <div class="col-4" style="margin: auto;text-align: center;">
+                                <img style="width: 100%" src="/images/37960-online-payment.gif">
+                            </div>
+                            <div class="col-8">
+                                <h3 style="color: white">Faça o pagamento</h3>
+                                <p>Escolha uma das nossas formas de pagamento disponíveis no site.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-12" style="padding: 10px 20px">
+                <div class="card earnings-card">
+                    <div class="card-body" style="padding: 20px">
+                        <div class="row">
+                            <div class="col-4" style="margin: auto;text-align: center;">
+                                <img style="width: 100%" src="/images/67230-trophy-winner.gif">
+                            </div>
+                            <div class="col-8">
+                                <h3 style="color: white">Aguarde o sorteio</h3>
+                                <p>Agora é aguardar o sorteio pela Loteria Federal e boa sorte para
+                                    você!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mt-4 mb-2 text-center">
+                <h2>Sorteios disponíveis</h2>
+                <p class="card-text" style="font-size: 18px">Compre suas fichas e concorra a prêmios!</p>
+            </div>
+        </div>
+        <div class="row">
+            @foreach($rifas as $rifa)
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <img class="card-img-top"
+                             src="{{\Storage::url($rifa->primeira_imagem->path)}}"
+                             alt="Card image cap">
+                        <div class="card-body">
+                            <h4 class="card-title">{{$rifa->titulo}}</h4>
+                            <p class="card-text">
+                                {{$rifa->resumo}}
+                            </p>
+                            @if($rifa->status === 0)
+                                <a href="/sorteios/{{$rifa->id}}" class="btn btn-success waves-effect">Ver sorteio</a>
+                            @elseif($rifa->status === 1)
+                                <a href="#" class="btn btn-danger waves-effect">Ver resultado</a>
+                            @else
+                                <button disabled href="#" class="btn btn-info waves-effect">Em breve</button>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            @endforeach
 
-                                   </a>
-                               </div>
-                               <div class="swiper-slide swiper-slide-next" role="group" aria-label="2 / 2" >
-                                   <a href="#">
-                                       <div class="item-heading">
-                                           <h5 class="text-truncate mb-0">Apple MacBook Pro - Silver</h5>
-                                           <small class="text-body">Sorteio 20/11/2022 às 20:00</small>
-                                       </div>
-                                       <div class="img-container w-50 mx-auto py-50">
-                                           <img src="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/app-assets/images/elements/apple-watch.png" class="img-fluid" alt="image">
-                                       </div>
-                                   </a>
-                               </div>
-                           </div>
-                           <!-- Add Arrows -->
-                           <div class="swiper-button-next" tabindex="0" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-2b96bb0dcc40b161" aria-disabled="false"></div>
-                           <div class="swiper-button-prev swiper-button-disabled" tabindex="-1" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-2b96bb0dcc40b161" aria-disabled="true"></div>
-                           <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
-                   </div>
-               </div>
-           </div>
-       </div>
-    </section>
+
+        </div>
 @endsection
 
 @section('vendor-script')

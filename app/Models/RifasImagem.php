@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class RifasImagem extends Model
 {
     use HasFactory;
-
+    protected $fillable = ['path'];
+    protected $table = 'rifas_imagens';
     public function rifa(){
         return $this->belongsTo(Rifa::class);
     }

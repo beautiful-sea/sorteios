@@ -95,9 +95,9 @@
             position: relative;
             transition: all .2s linear;
         }
-        @media (max-width: 576px)
-        {
-            .planos-item{
+
+        @media (max-width: 576px) {
+            .planos-item {
                 background-color: #009c05;
                 border-radius: 10px;
                 padding: 20px 20px;
@@ -109,6 +109,7 @@
                 position: relative;
                 transition: all .2s linear;
             }
+
             .planos-item_titulo {
                 max-width: 100%;
             }
@@ -135,6 +136,7 @@
                 box-shadow: 0px 0px 25px -5px #005000;
             }
         }
+
         .planos-item_titulo h3 {
             color: #fff;
             text-transform: uppercase;
@@ -316,6 +318,136 @@
             background-color: #fd5631;
             transition: all .2s linear;
         }
+
+        h2 {
+            font-family: montserrat;
+            font-size: 32px;
+            line-height: 38.4px;
+            vertical-align: baseline;
+            letter-spacing: normal;
+            word-spacing: 0px;
+            margin: 0px;
+            padding: 0px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: black;
+        }
+
+        .badge-sorteio p {
+            font-family: montserrat;
+            font-size: 19px;
+            font-style: normal;
+            font-variant-caps: normal;
+            font-variant-east-asian: normal;
+            font-variant-ligatures: normal;
+            font-variant-numeric: normal;
+            font-weight: 400;
+
+        }
+
+        .badge-sorteio .info-badge-sorteio {
+            font-family: montserrat;
+            font-size: 22px;
+            font-style: normal;
+            font-variant-caps: normal;
+            font-variant-east-asian: normal;
+            font-variant-ligatures: normal;
+            font-variant-numeric: normal;
+            font-weight: 700;
+
+        }
+
+        .raffle-ticket-container {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+        }
+
+        .raffle-ticket--available .raffle-ticket-number.raffle-ticket-number--available, .raffle-ticket--paid .raffle-ticket-number.raffle-ticket-number--paid, .raffle-ticket--reserved .raffle-ticket-number.raffle-ticket-number--reserved, .raffle-ticket--all .raffle-ticket-number {
+            display: block !important;
+        }
+
+        .raffle-ticket-number--reserved {
+            color: #fff !important;
+            background-color: #17a2b8 !important;
+        }
+
+        .raffle-ticket-number--available {
+            color: #212529 !important;
+            background-color: #ccc !important;
+        }
+
+        .raffle-ticket-number--paid {
+            color: #fff !important;
+            background-color: #28a745 !important;
+        }
+
+        @media (min-width: 992px) {
+            .raffle-ticket-number {
+                max-width: 56px !important;
+            }
+        }
+
+        @media (min-width: 576px) {
+            .raffle-ticket-number {
+                max-width: 56px !important;
+            }
+        }
+
+        .raffle-ticket-number {
+            display: none;
+            position: relative;
+            cursor: pointer;
+            padding: 0.75rem;
+            font-size: .9em;
+            min-width: 53px;
+            flex: 1 1 0px !important;
+            flex-grow: 1;
+            flex-shrink: 1;
+            flex-basis: 0;
+        }
+
+        .raffle-ticket-number .numero-tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translate(-50%, 0);
+            background-color: black;
+            font-size: 12px;
+            padding: 5px 8px;
+            font-weight: normal;
+            border-radius: 3px;
+            line-height: 15px;
+            margin-bottom: 5px;
+            color: white;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .raffle-ticket-number--available:hover {
+            background-color: #b3b3b3 !important;
+        }
+
+        .raffle-ticket-number--selected {
+            cursor: pointer !important;
+            color: #fff !important;
+            background-color: #17a2b8 !important;
+        }
+
+        @media (min-width: 992px) {
+            .raffle-ticket-number {
+                max-width: 56px !important;
+            }
+        }
+
+        @media (min-width: 576px) {
+            .raffle-ticket-number {
+                max-width: 56px !important;
+            }
+        }
     </style>
 @endsection
 @section('content')
@@ -325,311 +457,141 @@
             <div class="col-12 ">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row my-2">
-                            <div class="col-12 col-md-7  mb-2 mb-md-0">
-                                <h4>GOLF GTI MK7 STG</h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <h2>{{$rifa->titulo}}</h2>
+                                <p style="font-size: 20px">{{$rifa->resumo}}</p>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-6">
 
-                                <div class="d-flex  " style="    height: fit-content;">
-                                    <img src="https://dmais.shop/wp-content/uploads/2022/02/golf5a.png"
-                                         class="img-fluid product-img" alt="product image">
+                                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner">
+                                        @foreach($rifa->imagens as $key=>$imagem)
+                                            <div class="carousel-item {{$key ===0?'active':''}}">
+                                                <img class="d-block w-100"
+                                                     src="{{\Storage::url($imagem->path)}}">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                                       data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Voltar</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                                       data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Próximo</span>
+                                    </a>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-5">
-                                <div class="ecommerce-details-price d-flex flex-wrap mt-1">
-                                    <h4 class="item-price me-1"><span
-                                            class="card-text item-company">Valor do número:</span> <b>R$ 2,00 </b></h4>
+                            <div class="col-12  col-md-6 col-lg-6">
+                                <div class="d-flex justify-content-between">
+                                    <div class="badge-sorteio"
+                                         style="padding: 10px;border-radius: 5px; background-color: #008800;width: 100%;text-align: center;height: 70px;margin: 10px">
+                                        <h4 class="info-badge-sorteio" style="color: white">Valor</h4>
+                                        <p style="color: white;font-size: 16px">{{$rifa->valor_por_numero_em_real}}</p>
+                                    </div>
+                                    <div class="badge-sorteio"
+                                         style="padding: 10px;border-radius: 5px; background-color: dimgrey;width: 100%;text-align: center;height: 70px;margin: 10px">
+                                        <h4 class="info-badge-sorteio" style="color: white">Data</h4>
+                                        <p style="color: white;font-size: 16px">{{$rifa->periodo_formatado}}</p>
+                                    </div>
                                 </div>
-                                <p class="card-text"><span class="text-success">Números disponíveis</span></p>
-                                <p><strong>RECURSOS DO NOSSO SISTEMA:</strong><br>• Sorteios ilimitados;<br>• Sorteios
-                                    com até 100 mil números;<br>• Recebimento por mercadopago (PIX ou Cartão);<br>•
-                                    Baixas automáticas;<br>• Descontos progressivos;<br>• Painel de Afiliados;<br>• Top
-                                    Five (clientes que mais compraram)<br>• Compra mínima de números;<br>• Galeria de
-                                    fotos e vídeo;<br>• Cronômetro regressivo;<br>• Escolha de números automático pelo
-                                    sistema;<br>• Exibir/Ocultar números para escolha (opcional);<br>• Botão de cobrança
-                                    direto para Whatsapp;<br>• Filtros de busca dos pedidos;</p>
-                                <div class="product-color-options product-features">
-                                    <h6>Colors</h6>
-                                    <ul class="list-unstyled mb-0">
-                                        <li class="d-inline-block">
-                                            <div class="color-option b-primary">
-                                                <img src="https://dmais.shop/wp-content/uploads/2022/02/golf5a.png"
-                                                     class="img-fluid product-img" style="width: 50px!important" alt="product image">
-                                            </div>
-                                        </li>
-                                        <li class="d-inline-block">
-                                            <div class="color-option b-success">
-                                                <img src="https://dmais.shop/wp-content/uploads/2022/02/golf5a.png"
-                                                     class="img-fluid product-img"  style="width: 50px!important"  alt="product image">
-                                            </div>
-                                        </li>
-                                    </ul>
+                                <div class="d-flex m-1">
+                                    {!! $rifa->descricao !!}
                                 </div>
+                                <div class="m-1 mt-4">
+                                    <div>
+                                        <h4 style="font-weight: 900; "><span
+                                                style="border-left: 6px solid green; margin-right: 10px;"></span>COMPRA
+                                            AUTOMÁTICA</h4>
+                                        <p>O site escolhe números aleatórios para você.</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between"
+                                         style="background-color: #008800; padding: 10px; border-radius: 10px">
+                                        <div class="d-flex justify-content-between">
+                                            <span style="border: 3px solid darkgreen;margin: auto;border-radius: 5px">
+                                                <i style="color: darkgreen" class="fa-solid fa-minus fa-fw"></i>
+                                            </span>
+                                            <input value="1" type="number"
+                                                   style="background-color: darkgreen;color: white;width: 100px;margin: 5px; border-radius: 10px;border: none; text-align:center">
+                                            <span style="border: 3px solid darkgreen;margin: auto;border-radius: 5px">
+                                                <i style="color: darkgreen" class="fa-solid fa-plus fa-fw"></i>
+                                            </span>
+                                        </div>
+                                        <button class="btn "
+                                                style="border-radius: 15px;color: white;background-color: darkgreen">
+                                            Comprar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
 
+                        </div>
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-12 col-md-3 col-lg-3" style="padding: 0px">
+                                <div class="card earnings-card">
+                                    <div class="card-body" style="padding: 20px">
+                                        <div class="row">
+                                            <div class="col-4" style="margin: auto;text-align: center;">
+                                                <img style="width: 100%" src="/images/73181-select.gif">
+                                            </div>
+                                            <div class="col-8 m-auto">
+                                                <h4>Escolha uma rifa</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-lg-3 col-12" style="padding: 0px">
+                                <div class="card earnings-card">
+                                    <div class="card-body" style="padding: 20px">
+                                        <div class="row">
+                                            <div class="col-4" style="margin: auto;text-align: center;">
+                                                <img style="width: 100%" src="/images/19527-select-option.gif">
+                                            </div>
+                                            <div class="col-8 m-auto">
+                                                <h4>Selecione os números</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-lg-3 col-12" style="padding: 0px">
+                                <div class="card earnings-card">
+                                    <div class="card-body" style="padding: 20px">
+                                        <div class="row">
+                                            <div class="col-4" style="margin: auto;text-align: center;">
+                                                <img style="width: 100%" src="/images/37960-online-payment.gif">
+                                            </div>
+                                            <div class="col-8 m-auto">
+                                                <h4>Faça o pagamento</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-lg-3 col-12" style="padding: 0px">
+                                <div class="card earnings-card">
+                                    <div class="card-body" style="padding: 20px">
+                                        <div class="row">
+                                            <div class="col-4" style="margin: auto;text-align: center;">
+                                                <img style="width: 100%" src="/images/67230-trophy-winner.gif">
+                                            </div>
+                                            <div class="col-8 m-auto">
+                                                <h4>Aguarde o sorteio</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                        <hr>
+                        <public-sorteio-comprar :rifa="{{$rifa}}" :mp_public_key="{{json_encode($mp_public_key)}}"></public-sorteio-comprar>
 
-            <div class="  col-12">
-                <div style="background-image: linear-gradient(to top, #0ba360 0%, #3cba92 100%);" class="card text-white text-center cardlucky mb-3 mt-3 animate__animated animate__bounceIn animate__delay-1s ">
-
-                    <div class="card-body">
-
-                        <h5 class="card-title color-white"><b>Números da Sorte!</b></h5>
-
-                        <p class="card-text">Escolha a quantidade que quiser comprar! Quanto mais números comprar, mais chances de ganhar!</p>
-
-                    </div>
-
-                    <div class="card-footer bg-transparent border-transparent">
-
-                        <a class="btn btn-lg d-block mt-2 text-dark LiderPulse" onclick="LuckyScreen()" style="background-color:#ffc900; box-shadow: 0 0 0 0 #ffc900; border-radius: 10px;"><b>COMPRAR NÚMEROS <i class="fa fa-thumbs-up" aria-hidden="true"></i></b></a>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="row wq-planos">
-            <div class="col-md-12 col-12 col-lg-12 col-sm-12 col-xs-12 ">
-                <div class="planos-item ">
-                    <figure>
-                        <img src="controllerJava/img/logo-rede-premios.png" alt="" title="">
-                        <figcaption>
-                            <h4>R$ 12</h4>
-                            <p>10 cartelas</p>
-                        </figcaption>
-                    </figure>
-
-                    <div class="planos-item_titulo">
-                        <h3>2 - número(s) </h3>
-                        <span></span>
-                    </div>
-
-                    <div>
-                        <div class="desconto-02">
-                            <p><s>DE
-                                    R$ 4,00</s>
-                            </p>
-                        </div>
-                        <div class="preco-avista">
-                            <h3>POR
-                                R$ 2,00</h3>
-                        </div>
-                    </div>
-
-                    <div>
-                        <input type="text" name="kit" value="10" style="display: none;">
-                        <input type="text" name="pixelvenda" value="" style="display: none;">
-
-                        <button type="submit" class="btn btn-planos btn_02" onclick="ComprarDesconto('2')">
-                            Comprar Agora
-                        </button>
-
-                        <p class="entrega">2 Chances
-                            de ganhar*</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 col-12 col-lg-12 col-sm-12 col-xs-12 ">
-                <div class="planos-item ">
-                    <figure>
-                        <img src="controllerJava/img/logo-rede-premios.png" alt="" title="">
-                        <figcaption>
-                            <h4>R$ 12</h4>
-                            <p>10 cartelas</p>
-                        </figcaption>
-                    </figure>
-
-                    <div class="planos-item_titulo">
-                        <h3>22 - número(s) </h3>
-                        <span></span>
-                    </div>
-
-                    <div>
-                        <div class="desconto-02">
-                            <p><s>DE
-                                    R$ 44,00</s>
-                            </p>
-                        </div>
-                        <div class="preco-avista">
-                            <h3>POR
-                                R$ 30,80</h3>
-                        </div>
-                    </div>
-
-                    <div>
-                        <input type="text" name="kit" value="10" style="display: none;">
-                        <input type="text" name="pixelvenda" value="" style="display: none;">
-
-                        <button type="submit" class="btn btn-planos btn_02" onclick="ComprarDesconto('22')">
-                            Comprar Agora
-                        </button>
-
-                        <p class="entrega">22 Chances
-                            de ganhar*</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 col-12 col-lg-12 col-sm-12 col-xs-12 ">
-                <div class="planos-item melhor-compra">
-                    <div class="destaque">CAMPEÃO DE VENDAS</div>
-                    <figure>
-                        <img src="controllerJava/img/logo-rede-premios.png" alt="" title="">
-                        <figcaption>
-                            <h4>R$ 12</h4>
-                            <p>10 cartelas</p>
-                        </figcaption>
-                    </figure>
-
-                    <div class="planos-item_titulo">
-                        <h3>32 - número(s) </h3>
-                        <span></span>
-                    </div>
-
-                    <div>
-                        <div class="desconto-02">
-                            <p><s>DE
-                                    R$ 64,00</s>
-                            </p>
-                        </div>
-                        <div class="preco-avista">
-                            <h3>POR
-                                R$ 41,60</h3>
-                        </div>
-                    </div>
-
-                    <div>
-                        <input type="text" name="kit" value="10" style="display: none;">
-                        <input type="text" name="pixelvenda" value="" style="display: none;">
-
-                        <button type="submit" class="btn btn-planos btn_02" onclick="ComprarDesconto('32')">
-                            Comprar Agora
-                        </button>
-
-                        <p class="entrega">32 Chances
-                            de ganhar*</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 col-12 col-lg-12 col-sm-12 col-xs-12 ">
-                <div class="planos-item ">
-                    <figure>
-                        <img src="controllerJava/img/logo-rede-premios.png" alt="" title="">
-                        <figcaption>
-                            <h4>R$ 12</h4>
-                            <p>10 cartelas</p>
-                        </figcaption>
-                    </figure>
-
-                    <div class="planos-item_titulo">
-                        <h3>42 - número(s) </h3>
-                        <span></span>
-                    </div>
-
-                    <div>
-                        <div class="desconto-02">
-                            <p><s>DE
-                                    R$ 84,00</s>
-                            </p>
-                        </div>
-                        <div class="preco-avista">
-                            <h3>POR
-                                R$ 50,40</h3>
-                        </div>
-                    </div>
-
-                    <div>
-                        <input type="text" name="kit" value="10" style="display: none;">
-                        <input type="text" name="pixelvenda" value="" style="display: none;">
-
-                        <button type="submit" class="btn btn-planos btn_02" onclick="ComprarDesconto('42')">
-                            Comprar Agora
-                        </button>
-
-                        <p class="entrega">42 Chances
-                            de ganhar*</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 col-12 col-lg-12 col-sm-12 col-xs-12 ">
-                <div class="planos-item ">
-                    <figure>
-                        <img src="controllerJava/img/logo-rede-premios.png" alt="" title="">
-                        <figcaption>
-                            <h4>R$ 12</h4>
-                            <p>10 cartelas</p>
-                        </figcaption>
-                    </figure>
-
-                    <div class="planos-item_titulo">
-                        <h3>52 - número(s) </h3>
-                        <span></span>
-                    </div>
-
-                    <div>
-                        <div class="desconto-02">
-                            <p><s>DE
-                                    R$ 104,00</s>
-                            </p>
-                        </div>
-                        <div class="preco-avista">
-                            <h3>POR
-                                R$ 57,20</h3>
-                        </div>
-                    </div>
-
-                    <div>
-                        <input type="text" name="kit" value="10" style="display: none;">
-                        <input type="text" name="pixelvenda" value="" style="display: none;">
-
-                        <button type="submit" class="btn btn-planos btn_02" onclick="ComprarDesconto('52')">
-                            Comprar Agora
-                        </button>
-
-                        <p class="entrega">52 Chances
-                            de ganhar*</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 col-12 col-lg-12 col-sm-12 col-xs-12 ">
-                <div class="planos-item ">
-                    <figure>
-                        <img src="controllerJava/img/logo-rede-premios.png" alt="" title="">
-                        <figcaption>
-                            <h4>R$ 12</h4>
-                            <p>10 cartelas</p>
-                        </figcaption>
-                    </figure>
-
-                    <div class="planos-item_titulo">
-                        <h3>62 - número(s) </h3>
-                        <span></span>
-                    </div>
-
-                    <div>
-                        <div class="desconto-02">
-                            <p><s>DE
-                                    R$ 124,00</s>
-                            </p>
-                        </div>
-                        <div class="preco-avista">
-                            <h3>POR
-                                R$ 62,00</h3>
-                        </div>
-                    </div>
-
-                    <div>
-                        <input type="text" name="kit" value="10" style="display: none;">
-                        <input type="text" name="pixelvenda" value="" style="display: none;">
-
-                        <button type="submit" class="btn btn-planos btn_02" onclick="ComprarDesconto('62')">
-                            Comprar Agora
-                        </button>
-
-                        <p class="entrega">62 Chances
-                            de ganhar*</p>
                     </div>
                 </div>
             </div>
@@ -642,6 +604,7 @@
     {{-- vendor files --}}
     <script src="{{ asset('vendors/js/forms/wizard/bs-stepper.min.js') }} "></script>
     <script src="{{ asset('vendors/js/extensions/toastr.min.js') }}"></script>
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
 @endsection
 @section('page-script')
 @endsection

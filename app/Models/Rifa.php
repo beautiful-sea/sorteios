@@ -2,12 +2,20 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Rifa extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+
+    const STATUS_LABEL = [
+        0   =>  'EM ANDAMENTO',
+        1   =>  'ENCERRADO'
+    ];
 
     protected $fillable = [
         'titulo',
@@ -37,9 +45,42 @@ class Rifa extends Model
         'id_grupo_botao_whatsapp',
         'numero_sorteado'];
 
+    protected $appends = ['valor_por_numero_em_real','periodo_formatado'];
+
     public function imagens()
     {
         return $this->hasMany(RifasImagem::class);
+    }
+
+    public function getPrimeiraImagemAttribute(){
+        return (count($this->imagens))?$this->imagens[0]:(object)['path'=>null];
+    }
+
+    public function getValorPorNumeroEmRealAttribute(){
+        $valor = number_format($this->valor_por_numero,2,',','.');
+        return "R$ $valor";
+    }
+
+    public function getPeriodoFormatadoAttribute(){
+        return Carbon::parse($this->periodo)->format('d/m/Y');
+    }
+
+    public function pedidos(){
+        return $this->hasMany(Pedido::class);
+    }
+
+    public function cotas(){
+        return $this->hasMany(Cota::class);
+    }
+
+    public function getStatusLabelAttribute(){
+        return self::STATUS_LABEL[$this->status]??'ENCERRADO';
+    }
+
+    public function getCreatedAtDiffAttribute(){
+        $data = $this->created_at;
+        $data->setLocale('pt_BR');
+        return $data->diffForHumans();
     }
 
 }

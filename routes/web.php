@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 // Homepage Route
 Route::group(['middleware' => ['web', 'checkblocked']], function () {
     Route::get('/', 'App\Http\Controllers\WelcomeController@welcome')->name('welcome');
+    Route::get('/sorteios/{rifa}', 'App\Http\Controllers\RifaController@show')->name('sorteios.show');
     Route::get('/terms', 'App\Http\Controllers\TermsController@terms')->name('terms');
 });
 
@@ -33,10 +34,6 @@ Route::group(['middleware' => ['web', 'activity', 'checkblocked']], function () 
     Route::get('/activate/{token}', ['as' => 'authenticated.activate', 'uses' => 'App\Http\Controllers\Auth\ActivateController@activate']);
     Route::get('/activation', ['as' => 'authenticated.activation-resend', 'uses' => 'App\Http\Controllers\Auth\ActivateController@resend']);
     Route::get('/exceeded', ['as' => 'exceeded', 'uses' => 'App\Http\Controllers\Auth\ActivateController@exceeded']);
-
-    // Socialite Register Routes
-    Route::get('/social/redirect/{provider}', ['as' => 'social.redirect', 'uses' => 'App\Http\Controllers\Auth\SocialController@getSocialRedirect']);
-    Route::get('/social/handle/{provider}', ['as' => 'social.handle', 'uses' => 'App\Http\Controllers\Auth\SocialController@getSocialHandle']);
 
     // Route to for user to reactivate their user deleted account.
     Route::get('/re-activate/{token}', ['as' => 'user.reactivate', 'uses' => 'App\Http\Controllers\RestoreUserController@userReActivate']);
@@ -54,7 +51,7 @@ Route::group(['middleware' => ['auth', 'activated', 'activity', 'checkblocked']]
 Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep', 'checkblocked']], function () {
 
     //  Homepage Route - Redirect based on user role is in controller.
-    Route::get('/home', ['as' => 'public.home',   'uses' => 'App\Http\Controllers\UserController@index']);
+    Route::get('/home', ['as' => 'public.home',   'uses' => 'App\Http\Controllers\HomeController@index']);
 
     // Show users profile - viewable by other users.
     Route::get('profile/{username}', [
