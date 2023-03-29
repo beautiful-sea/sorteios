@@ -326,141 +326,216 @@
             margin: 0px;
         }
 
-        .row{
+        .row {
             margin: 0px;
         }
     </style>
 @endsection
 @section('content')
-
-        <div class="row">
-            <div class="col-12">
-                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img class="d-block w-100"
-                                 src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_184016b47a2%20text%20%7B%20fill%3A%23444%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_184016b47a2%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23666%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22247.3125%22%20y%3D%22217.7%22%3ESecond%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
-                                 alt="First slide">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100"
-                                 src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_184016b47a2%20text%20%7B%20fill%3A%23444%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_184016b47a2%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23666%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22247.3125%22%20y%3D%22217.7%22%3ESecond%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
-                                 alt="Second slide">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100"
-                                 src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_184016b47a2%20text%20%7B%20fill%3A%23444%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_184016b47a2%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23666%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22247.3125%22%20y%3D%22217.7%22%3ESecond%20slide%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
-                                 alt="Third slide">
-                        </div>
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+    <div class="row">
+        <div class="col-12">
+            <div class="app-title"><h1>⚡ Prêmios</h1>
+                <div class="app-title-desc">Escolha sua sorte
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-6 col-12" style="padding: 10px 20px">
-                <div class="card earnings-card">
-                    <div class="card-body" style="padding: 20px">
-                        <div class="row">
-                            <div class="col-4" style="margin: auto;text-align: center;">
-                                <img  style="width: 100%" src="/images/73181-select.gif">
-                            </div>
-                            <div class="col-8"  style="margin: auto;">
-                                <h3 style="color: white">Escolha uma rifa</h3>
-                                <p>É muito fácil participar. Comece escolhendo uma rifa ativa
-                                    disponível</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-6 col-12" style="padding: 10px 20px">
-                <div class="card earnings-card">
-                    <div class="card-body" style="padding: 20px">
-                        <div class="row">
-                            <div class="col-4" style="margin: auto;text-align: center;">
-                                <img style="width: 100%" src="/images/19527-select-option.gif">
-                            </div>
-                            <div class="col-8">
-                                <h3 style="color: white">Selecione os números</h3>
-                                <p>Escolha quantos quiser! Quanto mais escolher, mais chances de
-                                    ganhar.</p>
+        @foreach($rifas as $key=>$rifa)
+            @if($key === 0)
+                <div class="col-12 mb-2" onclick="window.location.href = '/sorteios/{{$rifa->id}}'">
+                    <div class="SorteioTpl_sorteioTpl__2s2Wu SorteioTpl_destaque__3vnWR  pointer">
+                        <div class="SorteioTpl_imagemContainer__2-pl4 col-auto blocoImagemSlide">
+                            <div id="carouselSorteio63bc967f0ad56" class="carousel slide carousel-dark carousel-fade"
+                                 data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active imagemSlide blocoImagemSlide"
+                                         style="width:100%;height:290px">
+                                        <div style="display:block;overflow:hidden;position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;margin:0">
+                                            <img alt="CHEVROLET CORVETTE STI 2020"
+                                                 src="{{\Storage::url($rifa->primeira_imagem->path)}}"
+                                                 decoding="async" data-nimg="fill" class="SorteioTpl_imagem__2GXxI"
+                                                 style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%">
+                                            <noscript><img alt="{{$rifa->titulo}}"
+                                                           src="{{\Storage::url($rifa->primeira_imagem->path)}}"
+                                                           decoding="async" data-nimg="fill"
+                                                           style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%"
+                                                           class="SorteioTpl_imagem__2GXxI" loading="lazy"/></noscript>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-6 col-12" style="padding: 10px 20px">
-                <div class="card earnings-card">
-                    <div class="card-body" style="padding: 20px">
-                        <div class="row">
-                            <div class="col-4" style="margin: auto;text-align: center;">
-                                <img style="width: 100%" src="/images/37960-online-payment.gif">
-                            </div>
-                            <div class="col-8">
-                                <h3 style="color: white">Faça o pagamento</h3>
-                                <p>Escolha uma das nossas formas de pagamento disponíveis no site.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-6 col-12" style="padding: 10px 20px">
-                <div class="card earnings-card">
-                    <div class="card-body" style="padding: 20px">
-                        <div class="row">
-                            <div class="col-4" style="margin: auto;text-align: center;">
-                                <img style="width: 100%" src="/images/67230-trophy-winner.gif">
-                            </div>
-                            <div class="col-8">
-                                <h3 style="color: white">Aguarde o sorteio</h3>
-                                <p>Agora é aguardar o sorteio pela Loteria Federal e boa sorte para
-                                    você!</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="mt-4 mb-2 text-center">
-                <h2>Sorteios disponíveis</h2>
-                <p class="card-text" style="font-size: 18px">Compre suas fichas e concorra a prêmios!</p>
-            </div>
-        </div>
-        <div class="row">
-            @foreach($rifas as $rifa)
-                <div class="col-md-6 col-lg-4">
-                    <div class="card">
-                        <img class="card-img-top"
-                             src="{{\Storage::url($rifa->primeira_imagem->path)}}"
-                             alt="Card image cap">
-                        <div class="card-body">
-                            <h4 class="card-title">{{$rifa->titulo}}</h4>
-                            <p class="card-text">
+                        <div class="SorteioTpl_info__t1BZr"><h1 class="SorteioTpl_title__3RLtu">{{$rifa->titulo}}</h1>
+                            <p class="SorteioTpl_descricao__1b7iL" style="margin-bottom:1px">
                                 {{$rifa->resumo}}
                             </p>
                             @if($rifa->status === 0)
-                                <a href="/sorteios/{{$rifa->id}}" class="btn btn-success waves-effect">Ver sorteio</a>
+                                <span class="badge bg-success blink bg-opacity-75 font-xsss">Adquira já!</span>
                             @elseif($rifa->status === 1)
-                                <a href="#" class="btn btn-danger waves-effect">Ver resultado</a>
+                                <span class="badge bg-black font-xsss">Concluído! </span>
                             @else
-                                <button disabled href="#" class="btn btn-info waves-effect">Em breve</button>
+                                <span class="badge bg-warning font-xsss">Em breve! </span>
                             @endif
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @else
+                <div class="col-12 mb-2" onclick="window.location.href = '/sorteios/{{$rifa->id}}'">
+                    <div class="SorteioTpl_sorteioTpl__2s2Wu   pointer">
+                        <div class="SorteioTpl_imagemContainer__2-pl4 col-auto ">
+                            <div style="display:block;overflow:hidden;position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;margin:0">
+                                <img alt="250 PRA 20.000,00"
+                                     src="{{\Storage::url($rifa->primeira_imagem->path)}}"
+                                     decoding="async" data-nimg="fill" class="SorteioTpl_imagem__2GXxI"
+                                     style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%">
+                                <noscript><img alt="{{$rifa->titulo}}"
+                                               src="{{\Storage::url($rifa->primeira_imagem->path)}}"
+                                               decoding="async" data-nimg="fill"
+                                               style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%"
+                                               class="SorteioTpl_imagem__2GXxI" loading="lazy"/>
+                                </noscript>
+                            </div>
+                        </div>
+                        <div class="SorteioTpl_info__t1BZr">
+                            <h1 class="SorteioTpl_title__3RLtu">{{$rifa->titulo}}
+                                <p class="SorteioTpl_descricao__1b7iL" style="margin-bottom:1px">🍀Concorra a uma Hillux
+                                    {{$rifa->resumo}}
+                                </p>
+                                @if($rifa->status === 0)
+                                    <span class="badge bg-success blink bg-opacity-75 font-xsss">Adquira já!</span>
+                                @elseif($rifa->status === 1)
+                                    <span class="badge bg-black font-xsss">Concluído! </span>
+                                @else
+                                    <span class="badge bg-warning font-xsss">Em breve! </span>
+                                @endif
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        @endforeach
 
+        <div class="app-ganhadores mb-2 p-0 ">
+            <div class="col-12">
+                <div class="app-title"><h1>🎉 Ganhadores</h1>
+                    <div class="app-title-desc">sortudos
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="ganhadorItem_ganhadorContainer__1Sbxm mb-2">
+                            <div class="ganhadorItem_ganhadorFoto__324kH box-shadow-08">
+                                <div style="display:block;overflow:hidden;position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;margin:0">
+                                    <i style="font-size: 2em; text-align: center; width: 100%; padding-top: 10px; color: green;"
+                                       class="fa fa-user-circle"></i>
+                                </div>
+                            </div>
+                            <div class="undefined w-100"><h3 class="ganhadorItem_ganhadorNome__2j_J-">Patrícia
+                                    Mendes</h3>
+                                <p class="ganhadorItem_ganhadorDescricao__Z4kO2">Ganhou <b>HILUX SRX OU R$ 280</b>
+                                    número 0832</p>
+                            </div>
+                            <div>
+                                <div class="rounded-pill"
+                                     style="width:40px;height:40px;position:relative;overflow:hidden">
+                                    <div style="display:block;overflow:hidden;position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;margin:0">
+                                        <img alt="RIFA DE GRUPO 500 PRA 10.000,00"
+                                             src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                                             decoding="async" data-nimg="fill"
+                                             style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                </div>
+            </div>
         </div>
+
+        <div class="app-perguntas">
+            <div class="app-title"><h1>🤷 Perguntas frequentes</h1>
+            </div>
+            <div id="perguntas-box">
+                <div class="mb-2" style="cursor: pointer;">
+                    <div class="pergunta-item d-flex flex-column p-2 bg-card box-shadow-08 rounded-10 font-weight-500 font-xs">
+                        <div class="pergunta-item--pergunta" data-bs-toggle="collapse" data-bs-target="#pergunta-3"
+                             aria-expanded="false" aria-controls="pergunta-3"><i
+                                    class="bi bi-arrow-right me-2 text-cor-primaria"></i>
+                            <span>COMO VEJO MEUS NÚMEROS?												</span>
+                        </div>
+                        <div class="d-block">
+                            <div class="pergunta-item--resp collapse mt-1 text-muted" id="pergunta-3"
+                                 data-bs-parent="#perguntas-box">
+                                <p>Acesse o menu Meus Números ou o carrinho de compras no topo do site, informe seu
+                                    telefone e você poderá ver todas as suas compras realizadas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-2" style="cursor: pointer;">
+                    <div class="pergunta-item d-flex flex-column p-2 bg-card box-shadow-08 rounded-10 font-weight-500 font-xs">
+                        <div class="pergunta-item--pergunta" data-bs-toggle="collapse" data-bs-target="#pergunta-1"
+                             aria-expanded="false" aria-controls="pergunta-1"><i
+                                    class="bi bi-arrow-right me-2 text-cor-primaria"></i>
+                            <span>PRECISO ENVIAR COMPROVANTE?												</span>
+                        </div>
+                        <div class="d-block">
+                            <div class="pergunta-item--resp collapse mt-1 text-muted" id="pergunta-1"
+                                 data-bs-parent="#perguntas-box">
+                                <p>Caso você tenha feito o pagamento via Pix QR Code ou copiando o código, não é
+                                    necessário enviar o comprovante, aguardando até 5 minutos após o pagamento, o
+                                    sistema irá dar baixa automaticamente.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-2" style="cursor: pointer;">
+                    <div class="pergunta-item d-flex flex-column p-2 bg-card box-shadow-08 rounded-10 font-weight-500 font-xs">
+                        <div class="pergunta-item--pergunta" data-bs-toggle="collapse" data-bs-target="#pergunta-2"
+                             aria-expanded="false" aria-controls="pergunta-2"><i
+                                    class="bi bi-arrow-right me-2 text-cor-primaria"></i>
+                            <span>POSSO COMPRAR MAIS NÚMEROS?												</span>
+                        </div>
+                        <div class="d-block">
+                            <div class="pergunta-item--resp collapse mt-1 text-muted" id="pergunta-2"
+                                 data-bs-parent="#perguntas-box">
+                                <p>Claro. Você pode comprar quantos números e quantas vezes quiser. Quantos mais você
+                                    comprar mais chances tem de ganhar.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @foreach($rifas as $rifa)
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <img class="card-img-top"
+                         src="{{\Storage::url($rifa->primeira_imagem->path)}}"
+                         alt="Card image cap">
+                    <div class="card-body">
+                        <h4 class="card-title">{{$rifa->titulo}}</h4>
+                        <p class="card-text">
+                            {{$rifa->resumo}}
+                        </p>
+                        @if($rifa->status === 0)
+                            <a href="/sorteios/{{$rifa->id}}" class="btn btn-success waves-effect">Ver sorteio</a>
+                        @elseif($rifa->status === 1)
+                            <a href="#" class="btn btn-danger waves-effect">Ver resultado</a>
+                        @else
+                            <button disabled href="#" class="btn btn-info waves-effect">Em breve</button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endforeach
+
+
+    </div>
 @endsection
 
 @section('vendor-script')

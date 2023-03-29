@@ -3,7 +3,7 @@
 {!! \Helper::updatePageConfig($pageConfigs) !!}
 @endisset
 
-    <!DOCTYPE html>
+        <!DOCTYPE html>
 
 <html class="loading light"
       lang=" pt"
@@ -24,10 +24,15 @@
     <meta name="grecaptcha-key" content="{{config('recaptcha.v3.public_key')}}">
     <script src="https://www.google.com/recaptcha/api.js?render={{config('recaptcha.v3.public_key')}}"></script>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+          integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer">
+
     <style>
-        .content-new{
+        .content-new {
             margin-left: 0px;
         }
+
         @if(!auth()->check())
             html .content-new {
             padding: 0;
@@ -71,28 +76,13 @@
 <!-- END: Header-->
 
 <!-- BEGIN: Main Menu-->
-@if(auth()->check())
-    @include('panels.sidebar')
-@endif
+{{--@if(auth()->check())--}}
+{{--    @include('panels.sidebar')--}}
+{{--@endif--}}
 <!-- END: Main Menu-->
 <!-- BEGIN: Content-->
-<div class="{!! auth()->check()?'app-content':'' !!} content-new " id="app">
-    <div class="content-overlay"></div>
-    <div class="header-navbar-shadow"></div>
-    <div>
-        <div class="sidebar">
-            {{-- Include Sidebar Content --}}
-            @yield('content-sidebar')
-        </div>
-    </div>
-    <div class="content-wrapper container-xxl p-0">
-        <div class="content-body">
-            <div class="content-header row">
-                <h1>@yield("title")</h1>
-            </div>
-            @yield('content')
-        </div>
-    </div>
+<div class="container app-main layoutFundoGeralConteudo">
+    @yield('content')
 </div>
 <!-- End: Content-->
 <div class="sidenav-overlay"></div>
