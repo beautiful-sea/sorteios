@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['web', 'checkblocked']], function () {
     Route::get('/', 'App\Http\Controllers\WelcomeController@welcome')->name('welcome');
     Route::get('/sorteios/{rifa}', 'App\Http\Controllers\RifaController@show')->name('sorteios.show');
+    Route::get('/sorteios', 'App\Http\Controllers\RifaController@index')->name('sorteios.index');
+    Route::get('/meus-numeros', 'App\Http\Controllers\RifaController@meusNumeros');
     Route::get('/terms', 'App\Http\Controllers\TermsController@terms')->name('terms');
 });
 

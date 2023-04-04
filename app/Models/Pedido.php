@@ -10,4 +10,8 @@ class Pedido extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    public function rifa(){
+        return $this->belongsTo(Rifa::class);
+    }
 }

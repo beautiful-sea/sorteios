@@ -18,6 +18,10 @@ Route::group([],function () {
 
     Route::get('cotas/{rifa}', 'CotaController@all');
     Route::post('pedidos', 'PedidoController@novo');
+    Route::get('/sorteios', 'RifaController@index')->name('sorteios.index');
+    Route::get('/buscarRifasPorTelefoneDoPedido', 'RifaController@buscarRifasPorTelefoneDoPedido');
+
+
 });
 
 

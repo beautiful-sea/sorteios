@@ -510,32 +510,6 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        @foreach($rifas as $rifa)
-            <div class="col-md-6 col-lg-4">
-                <div class="card">
-                    <img class="card-img-top"
-                         src="{{\Storage::url($rifa->primeira_imagem->path)}}"
-                         alt="Card image cap">
-                    <div class="card-body">
-                        <h4 class="card-title">{{$rifa->titulo}}</h4>
-                        <p class="card-text">
-                            {{$rifa->resumo}}
-                        </p>
-                        @if($rifa->status === 0)
-                            <a href="/sorteios/{{$rifa->id}}" class="btn btn-success waves-effect">Ver sorteio</a>
-                        @elseif($rifa->status === 1)
-                            <a href="#" class="btn btn-danger waves-effect">Ver resultado</a>
-                        @else
-                            <button disabled href="#" class="btn btn-info waves-effect">Em breve</button>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        @endforeach
-
-
-    </div>
 @endsection
 
 @section('vendor-script')

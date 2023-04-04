@@ -46,6 +46,8 @@ Vue.component('loader-helper', require('./components/helpers/Loader').default);
 Vue.component('paginacao-helper', require('./components/helpers/Paginacao').default);
 
 Vue.component('public-sorteio-comprar', require('./components/public/sorteio/Cotas.vue').default);
+Vue.component('public-sorteios-listar', require('./components/public/sorteio/Listar.vue').default);
+Vue.component('public-meus-numeros', require('./components/public/sorteio/MeusNumeros.vue').default);
 Vue.component('users-count', require('./components/UsersCount.vue').default);
 
 const app = new Vue({

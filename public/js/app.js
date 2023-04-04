@@ -2465,6 +2465,145 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/public/sorteio/Listar.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/public/sorteio/Listar.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Listar.vue",
+  data: function data() {
+    return {
+      sorteios: [],
+      status: "EM_ANDAMENTO",
+      loading: false
+    };
+  },
+  methods: {
+    redirecionarPaginaSorteio: function redirecionarPaginaSorteio(sorteio) {
+      window.location.href = "/sorteios/" + sorteio.id;
+    },
+    getClassTabStatus: function getClassTabStatus(tab_status) {
+      if (this.status == tab_status) {
+        return " btn botaoLista botaoLista_2 btn-info";
+      } else {
+        return " btn botaoLista botaoLista_2 btn-light";
+      }
+    },
+    setStatus: function setStatus(status) {
+      this.status = status;
+      this.listarSorteios();
+    },
+    listarSorteios: function listarSorteios() {
+      var params = {
+        status: this.status
+      };
+      Vue.requests.listar("/sorteios", this, 'sorteios', {
+        loader: 'loading',
+        params: params
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.listarSorteios();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/public/sorteio/MeusNumeros.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/public/sorteio/MeusNumeros.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "MeusNumeros.blade.php",
+  data: function data() {
+    return {
+      sorteios: [],
+      loading: true,
+      telefone: ''
+    };
+  },
+  methods: {
+    redirecionarPaginaSorteio: function redirecionarPaginaSorteio(sorteio) {
+      window.location.href = "/sorteios/" + sorteio.rifa.id;
+    },
+    //Valida se o telefone está no formato: /(\d{0,2})(\d{0,5})(\d{0,4})/) e se possui 15 caracteres
+    validarFormatoTelefone: function validarFormatoTelefone() {
+      var telefone = this.telefone;
+      var regex = /(\d{0,2})(\d{0,5})(\d{0,4})/;
+      if (telefone.length === 14 && regex.test(telefone)) {
+        //remove o alerta de erro
+        $('.msgAlerta').html('').hide();
+        return true;
+      } else {
+        this.telefone = '';
+        $('.msgAlerta').html('Informe um telefone válido').show();
+        return false;
+      }
+    },
+    getSorteios: function getSorteios() {
+      //adiciona um loader no botao "cotinuar" enquanto a requisição é feita
+      $('#botaoContiuarCheckout').html('<i class="bi bi-arrow-right"></i> Carregando...').attr('disabled', true);
+      var params = {
+        telefone: this.telefone
+      };
+      Vue.requests.listar('/buscarRifasPorTelefoneDoPedido', this, 'sorteios', {
+        params: params,
+        loader: 'loading'
+      }, function (r) {
+        //Se o usuário não tiver nenhum sorteio, mostrar uma mensagem "Você ainda não tem nenhum sorteio"
+        if (r.data.length === 0) {
+          $('.msgAlerta').html('Você ainda não tem nenhum sorteio').show();
+        }
+        //fecha o modal
+        $('#modal-meus-numeros').modal('hide');
+        //remove o loader do botao "continuar"
+        $('#botaoContiuarCheckout').html('Continuar <i class="bi bi-arrow-right"></i>').attr('disabled', false);
+      });
+    }
+  },
+  mounted: function mounted() {
+    //Ao abrir a página, abrir um modal com titulo de Login e um campo "Informe seu telefone" e um botao "Continuar"
+    //Ao clicar no botao, fazer uma requisição para o backend, que irá trazer os sorteios do usuário
+    //Se o usuário não tiver nenhum sorteio, mostrar uma mensagem "Você ainda não tem nenhum sorteio"
+    //Se o usuário tiver sorteios, mostrar a lista de sorteios
+    $('#modal-meus-numeros').modal('show');
+
+    //Não deixa fechar o modal se nao informar o telefone e nao tiver nenhum sorteio
+    $('#modal-meus-numeros').on('hidden.bs.modal', function (e) {
+      if (this.sorteios.length === 0) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    });
+  },
+  created: function created() {
+    Vue.directive('telefone', {
+      bind: function bind(el) {
+        el.oninput = function (e) {
+          if (!e.isTrusted) {
+            return;
+          }
+          var x = el.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+          el.value = !x[2] ? x[1] : '(' + x[1] + ')' + x[2] + (x[3] ? '-' + x[3] : '');
+        };
+      }
+    });
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/UsersCount.vue?vue&type=template&id=165659de&":
 /*!**************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/UsersCount.vue?vue&type=template&id=165659de& ***!
@@ -2829,6 +2968,461 @@ var staticRenderFns = [function () {
   }, [_vm._v("Número 000 reservado "), _c("br"), _vm._v("por "), _c("b", {
     staticClass: "text-warning"
   }, [_vm._v("José")])]);
+}];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/public/sorteio/Listar.vue?vue&type=template&id=75a2b9a0&scoped=true&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/public/sorteio/Listar.vue?vue&type=template&id=75a2b9a0&scoped=true& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-12"
+  }, [_vm._m(0), _vm._v(" "), _c("div", {
+    staticClass: "app-card card mb-2"
+  }, [_c("div", {
+    staticClass: "app-body d-flex align-items-center justify-content-center py-2"
+  }, [_c("p", {
+    staticClass: "text-muted font-xs text-uppercase mb-0 me-2"
+  }, [_vm._v("Listar")]), _vm._v(" "), _c("div", {
+    staticClass: "btn-group btn-group-sm",
+    attrs: {
+      "aria-label": "Filtros de listagem",
+      role: "group"
+    }
+  }, [_c("button", {
+    "class": _vm.getClassTabStatus("EM_ANDAMENTO"),
+    attrs: {
+      type: "button"
+    },
+    on: {
+      click: function click($event) {
+        return _vm.setStatus("EM_ANDAMENTO");
+      }
+    }
+  }, [_vm._v("Ativos\n          ")]), _vm._v(" "), _c("button", {
+    "class": _vm.getClassTabStatus("ENCERRADO"),
+    attrs: {
+      type: "button"
+    },
+    on: {
+      click: function click($event) {
+        return _vm.setStatus("ENCERRADO");
+      }
+    }
+  }, [_vm._v("\n            Concluídos\n          ")]), _vm._v(" "), _c("button", {
+    staticClass: "btn botaoLista botaoLista_3 btn-light",
+    attrs: {
+      type: "button"
+    }
+  }, [_vm._v("Em breve\n          ")])])])])]), _vm._v(" "), _vm.sorteios.length && !_vm.loading ? _c("div", {
+    staticClass: "blocoListaSorteios"
+  }, _vm._l(_vm.sorteios, function (sorteio) {
+    return _c("div", {
+      staticClass: "col-12 mb-2"
+    }, [_c("div", {
+      staticClass: "SorteioTpl_sorteioTpl__2s2Wu pointer",
+      on: {
+        click: function click($event) {
+          return _vm.redirecionarPaginaSorteio(sorteio);
+        }
+      }
+    }, [_c("div", {
+      staticClass: "SorteioTpl_imagemContainer__2-pl4 col-auto"
+    }, [_c("div", {
+      staticStyle: {
+        display: "block",
+        overflow: "hidden",
+        position: "absolute",
+        top: "0",
+        left: "0",
+        bottom: "0",
+        right: "0",
+        "box-sizing": "border-box",
+        margin: "0"
+      }
+    }, [_c("img", {
+      staticClass: "SorteioTpl_imagem__2GXxI",
+      staticStyle: {
+        position: "absolute",
+        top: "0",
+        left: "0",
+        bottom: "0",
+        right: "0",
+        "box-sizing": "border-box",
+        padding: "0",
+        border: "none",
+        margin: "auto",
+        display: "block",
+        width: "0",
+        height: "0",
+        "min-width": "100%",
+        "max-width": "100%",
+        "min-height": "100%",
+        "max-height": "100%"
+      },
+      attrs: {
+        alt: "250 PRA 20.000,00",
+        "data-nimg": "fill",
+        decoding: "async",
+        src: ""
+      }
+    }), _vm._v(" "), _c("noscript", [_c("img", {
+      staticClass: "SorteioTpl_imagem__2GXxI",
+      staticStyle: {
+        position: "absolute",
+        top: "0",
+        left: "0",
+        bottom: "0",
+        right: "0",
+        "box-sizing": "border-box",
+        padding: "0",
+        border: "none",
+        margin: "auto",
+        display: "block",
+        width: "0",
+        height: "0",
+        "min-width": "100%",
+        "max-width": "100%",
+        "min-height": "100%",
+        "max-height": "100%"
+      },
+      attrs: {
+        src: sorteio.primeira_imagem,
+        alt: "250 PRA 20.000,00",
+        "data-nimg": "fill",
+        decoding: "async",
+        loading: "lazy"
+      }
+    })])])]), _vm._v(" "), _c("div", {
+      staticClass: "SorteioTpl_info__t1BZr",
+      staticStyle: {
+        width: "70%"
+      }
+    }, [_c("h1", {
+      staticClass: "SorteioTpl_title__3RLtu"
+    }, [_vm._v(_vm._s(sorteio.titulo))]), _vm._v(" "), _c("h3", {
+      staticClass: "SorteioTpl_descricao__1b7iL",
+      staticStyle: {
+        "margin-bottom": "1px",
+        "line-height": "1.4em"
+      }
+    }, [_vm._v("Data do sorteio: "), _c("b", [_vm._v("\n            " + _vm._s(sorteio.periodo_formatado) + "\n          ")])]), _vm._v(" "), _c("span", {
+      staticClass: "badge bg-success blink bg-opacity-75 font-xsss"
+    }, [_vm._v("Adquira já!")])])])]);
+  }), 0) : _c("div", {
+    staticClass: "col-12"
+  }, [!_vm.loading ? _c("div", {
+    staticClass: "app-card card mb-2"
+  }, [_vm._m(1)]) : _c("div", {
+    staticClass: "app-card card mb-2"
+  }, [_vm._m(2)])])]);
+};
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "app-title"
+  }, [_c("h1", [_vm._v("Sorteios")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "app-body d-flex align-items-center justify-content-center py-2"
+  }, [_c("p", {
+    staticClass: "text-muted font-xs text-uppercase mb-0 me-2"
+  }, [_vm._v("Nenhum sorteio encontrado")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "app-body d-flex align-items-center justify-content-center py-2"
+  }, [_c("p", {
+    staticClass: "text-muted font-xs text-uppercase mb-0 me-2"
+  }, [_vm._v("Carregando sorteios...")])]);
+}];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/public/sorteio/MeusNumeros.vue?vue&type=template&id=46aff1b0&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/public/sorteio/MeusNumeros.vue?vue&type=template&id=46aff1b0&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "row"
+  }, [_vm._m(0), _vm._v(" "), _c("div", {
+    staticClass: "blocoListaSorteios"
+  }, [_vm.loading && !_vm.sorteios.length ? _c("div", {
+    staticClass: "text-center mt-3 mb-3 blocoLoader"
+  }, [_c("span", {
+    staticClass: "loader"
+  })]) : _vm._l(_vm.sorteios, function (sorteio) {
+    return _c("div", [_c("div", {
+      staticClass: "col-12 mb-2",
+      on: {
+        click: function click($event) {
+          return _vm.redirecionarPaginaSorteio(sorteio);
+        }
+      }
+    }, [_c("div", {
+      staticClass: "SorteioTpl_sorteioTpl__2s2Wu pointer"
+    }, [_vm._m(1, true), _vm._v(" "), _c("div", {
+      staticClass: "SorteioTpl_info__t1BZr",
+      staticStyle: {
+        width: "70%"
+      }
+    }, [_c("h1", {
+      staticClass: "SorteioTpl_title__3RLtu"
+    }, [_vm._v(_vm._s(sorteio.rifa.titulo) + " ")]), _vm._v(" "), _c("h3", {
+      staticClass: "SorteioTpl_descricao__1b7iL",
+      staticStyle: {
+        "margin-bottom": "1px",
+        "line-height": "1.4em"
+      }
+    }, [_vm._v(_vm._s(sorteio.nome_cliente) + "\n                " + _vm._s(sorteio.telefone_cliente) + " ")]), _vm._v(" "), _c("h3", {
+      staticClass: "SorteioTpl_descricao__1b7iL",
+      staticStyle: {
+        "margin-bottom": "1px",
+        "line-height": "1.4em"
+      }
+    }, [_vm._v("Valor da compra:\n                "), _c("b", [_vm._v(_vm._s(sorteio.valor_da_compra))])]), _vm._v(" "), _c("h3", {
+      staticClass: "SorteioTpl_descricao__1b7iL",
+      staticStyle: {
+        "margin-bottom": "1px",
+        "line-height": "1.4em"
+      }
+    }, [_vm._v("Data da compra: "), _c("b", [_vm._v("\n                " + _vm._s(sorteio.created_at) + " ")])]), _vm._v(" "), _c("h3", {
+      staticClass: "SorteioTpl_descricao__1b7iL",
+      staticStyle: {
+        "margin-bottom": "1px",
+        "line-height": "1.4em"
+      }
+    }, [_vm._v("Status da compra:\n                "), _c("span", {
+      staticClass: "badge bg-danger"
+    }, [_vm._v(_vm._s(sorteio.status))])]), _vm._v(" "), _vm._m(2, true), _vm._v(" "), _vm._l(sorteio.rifa.cotas, function (cota) {
+      return _c("span", {
+        staticClass: "badge bg-warning mb-1 me-1"
+      }, [_vm._v("\n              " + _vm._s(cota.numero) + "\n\t\t\t\t\t\t")]);
+    }), _vm._v(" "), _c("div", {
+      staticStyle: {
+        width: "100%"
+      }
+    })], 2)])])]);
+  })], 2), _vm._v(" "), _c("div", {
+    staticClass: "modal fade show",
+    attrs: {
+      id: "modal-meus-numeros",
+      "aria-modal": "true",
+      "data-bs-backdrop": "static",
+      role: "dialog"
+    }
+  }, [_c("div", {
+    staticClass: "modal-dialog modal-fullscreen-sm-down modal-dialog-centered"
+  }, [_c("div", {
+    staticClass: "modal-content rounded-0"
+  }, [_c("span", {
+    staticClass: "d-none"
+  }, [_vm._v("Usuário não autenticado\n                ")]), _vm._v(" "), _vm._m(3), _vm._v(" "), _c("div", {
+    staticClass: "modal-body checkout"
+  }, [_c("div", {
+    staticClass: "alert alert-warning p-2 mb-2 font-xs msgAlerta",
+    staticStyle: {
+      display: "none"
+    }
+  }), _vm._v(" "), _c("div", {
+    staticClass: "mb-2"
+  }, [_vm._m(4), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.telefone,
+      expression: "telefone"
+    }, {
+      name: "telefone",
+      rawName: "v-telefone"
+    }],
+    staticClass: "form-control mascaraCelular",
+    attrs: {
+      id: "uc_telefone_checkout",
+      inputmode: "numeric",
+      maxlength: "14",
+      name: "uc_telefone_checkout",
+      placeholder: "(xx)xxxxx-xxxx",
+      required: "",
+      type: "text"
+    },
+    domProps: {
+      value: _vm.telefone
+    },
+    on: {
+      blur: function blur($event) {
+        return _vm.validarFormatoTelefone();
+      },
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.telefone = $event.target.value;
+      }
+    }
+  })]), _vm._v(" "), _vm._m(5), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-primary btn-wide",
+    attrs: {
+      id: "botaoContiuarCheckout"
+    },
+    on: {
+      click: function click($event) {
+        return _vm.getSorteios();
+      }
+    }
+  }, [_vm._v("Continuar "), _c("i", {
+    staticClass: "bi bi-arrow-right"
+  })])])])])])]);
+};
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "col-12"
+  }, [_c("div", {
+    staticClass: "app-title"
+  }, [_c("h1", [_vm._v("Meus pedidos")])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "SorteioTpl_imagemContainer__2-pl4 col-auto"
+  }, [_c("div", {
+    staticStyle: {
+      display: "block",
+      overflow: "hidden",
+      position: "absolute",
+      top: "0",
+      left: "0",
+      bottom: "0",
+      right: "0",
+      "box-sizing": "border-box",
+      margin: "0"
+    }
+  }, [_c("img", {
+    staticStyle: {
+      position: "absolute",
+      top: "0",
+      left: "0",
+      bottom: "0",
+      right: "0",
+      "box-sizing": "border-box",
+      padding: "0",
+      border: "none",
+      margin: "auto",
+      display: "block",
+      width: "0",
+      height: "0",
+      "min-width": "100%",
+      "max-width": "100%",
+      "min-height": "100%",
+      "max-height": "100%"
+    },
+    attrs: {
+      alt: "250 PRA 20.000,00",
+      src: ""
+    }
+  }), _vm._v(" "), _c("noscript", [_c("img", {
+    staticClass: "SorteioTpl_imagem__2GXxI",
+    staticStyle: {
+      position: "absolute",
+      top: "0",
+      left: "0",
+      bottom: "0",
+      right: "0",
+      "box-sizing": "border-box",
+      padding: "0",
+      border: "none",
+      margin: "auto",
+      display: "block",
+      width: "0",
+      height: "0",
+      "min-width": "100%",
+      "max-width": "100%",
+      "min-height": "100%",
+      "max-height": "100%"
+    },
+    attrs: {
+      alt: "250 PRA 20.000,00",
+      "data-nimg": "fill",
+      decoding: "async",
+      loading: "lazy",
+      src: ""
+    }
+  })])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("h3", {
+    staticClass: "SorteioTpl_descricao__1b7iL",
+    staticStyle: {
+      "margin-bottom": "1px",
+      "line-height": "1.4em"
+    }
+  }, [_c("b", [_vm._v("Números:")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "modal-header"
+  }, [_c("h5", {
+    staticClass: "modal-title"
+  }, [_vm._v("Login")]), _vm._v(" "), _c("button", {
+    staticClass: "btn-close",
+    attrs: {
+      "aria-label": "Close",
+      "data-bs-dismiss": "modal",
+      type: "button"
+    }
+  })]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("label", {
+    staticClass: "form-label",
+    attrs: {
+      "for": "telefone"
+    }
+  }, [_vm._v("Informe seu telefone "), _c("small", {
+    staticClass: "text-danger uc_telefone_checkout_erro"
+  })]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "alert alert-warning p-2 font-xss mb-2"
+  }, [_c("i", {
+    staticClass: "bi bi-exclamation-circle"
+  }), _vm._v(" Informe seu\n              telefone para continuar.\n            ")]);
 }];
 render._withStripped = true;
 
@@ -114676,6 +115270,8 @@ dropzone_dist_dropzone__WEBPACK_IMPORTED_MODULE_0___default.a.autoDiscover = tru
 Vue.component('loader-helper', __webpack_require__(/*! ./components/helpers/Loader */ "./resources/assets/js/components/helpers/Loader.vue")["default"]);
 Vue.component('paginacao-helper', __webpack_require__(/*! ./components/helpers/Paginacao */ "./resources/assets/js/components/helpers/Paginacao.vue")["default"]);
 Vue.component('public-sorteio-comprar', __webpack_require__(/*! ./components/public/sorteio/Cotas.vue */ "./resources/assets/js/components/public/sorteio/Cotas.vue")["default"]);
+Vue.component('public-sorteios-listar', __webpack_require__(/*! ./components/public/sorteio/Listar.vue */ "./resources/assets/js/components/public/sorteio/Listar.vue")["default"]);
+Vue.component('public-meus-numeros', __webpack_require__(/*! ./components/public/sorteio/MeusNumeros.vue */ "./resources/assets/js/components/public/sorteio/MeusNumeros.vue")["default"]);
 Vue.component('users-count', __webpack_require__(/*! ./components/UsersCount.vue */ "./resources/assets/js/components/UsersCount.vue")["default"]);
 var app = new Vue({
   el: '#app'
@@ -115088,6 +115684,144 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_Cotas_vue_vue_type_template_id_54957169_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_Cotas_vue_vue_type_template_id_54957169_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/public/sorteio/Listar.vue":
+/*!******************************************************************!*\
+  !*** ./resources/assets/js/components/public/sorteio/Listar.vue ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Listar_vue_vue_type_template_id_75a2b9a0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Listar.vue?vue&type=template&id=75a2b9a0&scoped=true& */ "./resources/assets/js/components/public/sorteio/Listar.vue?vue&type=template&id=75a2b9a0&scoped=true&");
+/* harmony import */ var _Listar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Listar.vue?vue&type=script&lang=js& */ "./resources/assets/js/components/public/sorteio/Listar.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Listar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Listar_vue_vue_type_template_id_75a2b9a0_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Listar_vue_vue_type_template_id_75a2b9a0_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "75a2b9a0",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/components/public/sorteio/Listar.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/public/sorteio/Listar.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/assets/js/components/public/sorteio/Listar.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Listar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./Listar.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/public/sorteio/Listar.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Listar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/public/sorteio/Listar.vue?vue&type=template&id=75a2b9a0&scoped=true&":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/assets/js/components/public/sorteio/Listar.vue?vue&type=template&id=75a2b9a0&scoped=true& ***!
+  \*************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_Listar_vue_vue_type_template_id_75a2b9a0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./Listar.vue?vue&type=template&id=75a2b9a0&scoped=true& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/public/sorteio/Listar.vue?vue&type=template&id=75a2b9a0&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_Listar_vue_vue_type_template_id_75a2b9a0_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_Listar_vue_vue_type_template_id_75a2b9a0_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/public/sorteio/MeusNumeros.vue":
+/*!***********************************************************************!*\
+  !*** ./resources/assets/js/components/public/sorteio/MeusNumeros.vue ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _MeusNumeros_vue_vue_type_template_id_46aff1b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MeusNumeros.vue?vue&type=template&id=46aff1b0&scoped=true& */ "./resources/assets/js/components/public/sorteio/MeusNumeros.vue?vue&type=template&id=46aff1b0&scoped=true&");
+/* harmony import */ var _MeusNumeros_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MeusNumeros.vue?vue&type=script&lang=js& */ "./resources/assets/js/components/public/sorteio/MeusNumeros.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _MeusNumeros_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _MeusNumeros_vue_vue_type_template_id_46aff1b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _MeusNumeros_vue_vue_type_template_id_46aff1b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "46aff1b0",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/components/public/sorteio/MeusNumeros.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/public/sorteio/MeusNumeros.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************!*\
+  !*** ./resources/assets/js/components/public/sorteio/MeusNumeros.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MeusNumeros_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./MeusNumeros.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/public/sorteio/MeusNumeros.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MeusNumeros_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/public/sorteio/MeusNumeros.vue?vue&type=template&id=46aff1b0&scoped=true&":
+/*!******************************************************************************************************************!*\
+  !*** ./resources/assets/js/components/public/sorteio/MeusNumeros.vue?vue&type=template&id=46aff1b0&scoped=true& ***!
+  \******************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_MeusNumeros_vue_vue_type_template_id_46aff1b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!../../../../../../node_modules/vue-loader/lib??vue-loader-options!./MeusNumeros.vue?vue&type=template&id=46aff1b0&scoped=true& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/public/sorteio/MeusNumeros.vue?vue&type=template&id=46aff1b0&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_MeusNumeros_vue_vue_type_template_id_46aff1b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_MeusNumeros_vue_vue_type_template_id_46aff1b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

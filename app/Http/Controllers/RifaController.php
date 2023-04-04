@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MercadoPago;
+use App\Models\Pedido;
 use App\Models\Rifa;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,13 +16,26 @@ class RifaController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        if(auth()->user()->isAdmin()){
+        if(auth()->check() and auth()->user()->isAdmin()){
             $rifas = Rifa::all();
             return view('pages.admin.rifas.index')->with(['rifas'=>$rifas]);
+        }else{
+            if($request->expectsJson()){
+                $status = [
+                    'EM_ANDAMENTO'  =>  0,
+                     'ENCERRADO'    => 1
+                ];
+                //Rifas filtrada por status
+                $rifas = Rifa::where('status', '=', $status[$request->status])->get();
+                return response()->json($rifas);
+            }else{
+                return view('pages.public.sorteios');
+            }
+
         }
     }
 
@@ -241,6 +255,28 @@ class RifaController extends Controller
             return redirect()->to('/rifas')->withErrors($e->getMessage());
         }
 
+    }
+
+    public function meusNumeros(){
+        return view('pages.public.meus_numeros');
+    }
+
+    public function buscarRifasPorTelefoneDoPedido(Request $request){
+        $telefone = $request->get('telefone');
+        $pedidos = Pedido::where('telefone_cliente',$telefone)->with('rifa.cotas')->get();
+        //Retorna o nome do usuario, o numero, valor da compra,data da compra,status da compra, titulo da rifa e numero das rifas
+        $pedidos = $pedidos->map(function($pedido){
+            //valor_da_compra em formato de moeda real com R$
+            $pedido->valor_da_compra = number_format($pedido->valor_da_compra,2,',','.');
+            $pedido->valor_da_compra = 'R$ '.$pedido->valor_da_compra;
+            //data_da_compra em formato de data
+            $pedido->data_da_compra = Carbon::parse($pedido->created_at)->format('d/m/Y');
+            //status da compra
+            $pedido->status_da_compra = $pedido->status;
+
+            return $pedido;
+        });
+        return response()->json($pedidos);
     }
 
 
