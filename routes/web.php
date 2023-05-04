@@ -25,7 +25,7 @@ Route::group(['middleware' => ['web', 'checkblocked']], function () {
 });
 
 // Authentication Routes
-Auth::routes();
+// Auth::routes();
 
 // Public Routes
 Route::group(['middleware' => ['web', 'activity', 'checkblocked']], function () {

@@ -1,3 +1,4 @@
+  
 <template>
   <div class="row">
     <div class="col-12">
@@ -17,17 +18,17 @@
 
               <div
                   style="display:block;overflow:hidden;position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;margin:0">
-                <img alt="250 PRA 20.000,00" src=""
+                <img alt="250 PRA 20.000,00" src="https://static.carsdn.co/cldstatic/wp-content/uploads/chevrolet-corvette-z51-2020-01-exterior--front--red.jpg"
                      style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%">
                 <noscript>
                   <img alt="250 PRA 20.000,00" class="SorteioTpl_imagem__2GXxI" data-nimg="fill" decoding="async"
                        loading="lazy"
-                       src="" style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%"/>
+                       src="https://static.carsdn.co/cldstatic/wp-content/uploads/chevrolet-corvette-z51-2020-01-exterior--front--red.jpg" style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%"/>
                 </noscript>
               </div>
             </div>
 
-            <div class="SorteioTpl_info__t1BZr" style="width: 70%;">
+            <div class="SorteioTpl_info__t1BZr" style="width: 70%; margin-top: 20px;">
               <h1 class="SorteioTpl_title__3RLtu">{{ sorteio.rifa.titulo }} </h1>
               <h3 class="SorteioTpl_descricao__1b7iL" style="margin-bottom:1px; line-height: 1.4em;">{{ sorteio.nome_cliente }}
                 {{ sorteio.telefone_cliente }} </h3>

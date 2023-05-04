@@ -1,3 +1,6 @@
+<style>
+    
+</style>
 <footer class="app-footer pb-3" style="padding-top: 20px; margin-top: 20px; display: grid; text-align: center !important;">
     <div class="btn-group" style="display: block;">
         <a class="btn btn-rodape" style="background-color:#E15426;color:white; margin-right: 0.2%; width: 41px; height: 37px; " target="_blank" href="https://www.instagram.com/liderdesigner"><i class="bi bi-instagram"></i>

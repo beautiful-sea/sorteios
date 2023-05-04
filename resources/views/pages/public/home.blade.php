@@ -329,6 +329,9 @@
         .row {
             margin: 0px;
         }
+        .app-ganhadores{
+            padding: 20px;
+        }
     </style>
 @endsection
 @section('content')
@@ -351,7 +354,7 @@
                                          style="width:100%;height:290px">
                                         <div style="display:block;overflow:hidden;position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;margin:0">
                                             <img alt="CHEVROLET CORVETTE STI 2020"
-                                                 src="{{\Storage::url($rifa->primeira_imagem->path)}}"
+                                                 src="https://static.carsdn.co/cldstatic/wp-content/uploads/chevrolet-corvette-z51-2020-01-exterior--front--red.jpg"
                                                  decoding="async" data-nimg="fill" class="SorteioTpl_imagem__2GXxI"
                                                  style="position:absolute;top:0;left:0;bottom:0;right:0;box-sizing:border-box;padding:0;border:none;margin:auto;display:block;width:0;height:0;min-width:100%;max-width:100%;min-height:100%;max-height:100%">
                                             <noscript><img alt="{{$rifa->titulo}}"
@@ -414,7 +417,7 @@
             @endif
         @endforeach
 
-        <div class="app-ganhadores mb-2 p-0 ">
+        <div class="app-ganhadores mb-2 ">
             <div class="col-12">
                 <div class="app-title"><h1>🎉 Ganhadores</h1>
                     <div class="app-title-desc">sortudos

@@ -3111,7 +3111,8 @@ var render = function render() {
     })])])]), _vm._v(" "), _c("div", {
       staticClass: "SorteioTpl_info__t1BZr",
       staticStyle: {
-        width: "70%"
+        width: "70%",
+       
       }
     }, [_c("h1", {
       staticClass: "SorteioTpl_title__3RLtu"
@@ -3177,7 +3178,12 @@ var render = function render() {
   return _c("div", {
     staticClass: "row"
   }, [_vm._m(0), _vm._v(" "), _c("div", {
-    staticClass: "blocoListaSorteios"
+    staticClass: "blocoListaSorteios",
+    staticStyle:{
+      paddingTop:"5px",
+      display: "flex",
+      flexDirection: "column"
+    }
   }, [_vm.loading && !_vm.sorteios.length ? _c("div", {
     staticClass: "text-center mt-3 mb-3 blocoLoader"
   }, [_c("span", {
@@ -3185,6 +3191,7 @@ var render = function render() {
   })]) : _vm._l(_vm.sorteios, function (sorteio) {
     return _c("div", [_c("div", {
       staticClass: "col-12 mb-2",
+      
       on: {
         click: function click($event) {
           return _vm.redirecionarPaginaSorteio(sorteio);
@@ -3192,10 +3199,16 @@ var render = function render() {
       }
     }, [_c("div", {
       staticClass: "SorteioTpl_sorteioTpl__2s2Wu pointer"
+      
+      
     }, [_vm._m(1, true), _vm._v(" "), _c("div", {
       staticClass: "SorteioTpl_info__t1BZr",
       staticStyle: {
         width: "70%"
+        
+        
+        
+
       }
     }, [_c("h1", {
       staticClass: "SorteioTpl_title__3RLtu"
@@ -3349,7 +3362,7 @@ var staticRenderFns = [function () {
     },
     attrs: {
       alt: "250 PRA 20.000,00",
-      src: ""
+      src: "https://static.carsdn.co/cldstatic/wp-content/uploads/chevrolet-corvette-z51-2020-01-exterior--front--red.jpg"
     }
   }), _vm._v(" "), _c("noscript", [_c("img", {
     staticClass: "SorteioTpl_imagem__2GXxI",
