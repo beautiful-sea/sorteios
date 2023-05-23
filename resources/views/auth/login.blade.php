@@ -1,66 +1,97 @@
-@extends('layouts.app')
-@section('page-style')
-    <style>
-        label, h4, p {
-            color: white!important;
-        }
-    </style>
-@endsection
-@section('content')
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Login</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+            href="/admin/https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/admin/css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-gradient-primary">
+
 <div class="container">
+
+    <!-- Outer Row -->
     <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card  mb-0" style="    background: #10163a">
-                <div class="card-body">
-                    <a href="/" class="brand-logo d-flex justify-content-center">
-                       <img src="/images/logo_sorteio1.png" style="width: max-content">
-                    </a>
 
-                    <h4 class="card-title mb-1">Seja bem-vindo! 👋</h4>
-                    <p class="card-text mb-2">Por favor, faça login para acessar sua conta.</p>
+        <div class="col-6">
 
-                    <form class="auth-login-form mt-2" action="/login" method="POST" novalidate="novalidate">
-                        @csrf
-                        <div class="mb-1">
-                            <label for="login-email" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="login-email" name="email" placeholder="john@example.com" aria-describedby="login-email" tabindex="1" autofocus="">
-                            @if ($errors->has('email'))
-                                <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                            @endif
-                        </div>
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="d-flex">
+                        <div class="w-100">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Bem-vindo novamente!</h1>
+                                </div>
+                                <form class="user" action="/login" method="POST">
+                                    @csrf
+                                    <div class="form-group">
+                                        <input type="email" name="email" class="form-control form-control-user"
+                                               id="exampleInputEmail" aria-describedby="emailHelp"
+                                               placeholder="Email">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" name="password" class="form-control form-control-user"
+                                               id="exampleInputPassword" placeholder="Senha">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                            <input type="checkbox" name="remember" class="custom-control-input" id="customCheck">
+                                            <label class="custom-control-label" for="customCheck">Lembrar</label>
+                                        </div>
+                                    </div>
+{{--                                    Erros--}}
+                                    @if($errors->any())
+                                        <div class="alert alert-danger">
+                                            @foreach($errors->all() as $error)
+                                                <li>{{$error}}</li>
+                                            @endforeach
+                                        </div>
+                                    @endif
 
-                        <div class="mb-1">
-                            <div class="d-flex justify-content-between">
-                                <label class="form-label" for="login-password">Senha</label>
-                                <a href="/forgot-password">
-                                    <small>Esqueceu sua senha?</small>
-                                </a>
+                                    <button type="submit" class="btn btn-primary btn-user btn-block">
+                                        Login
+                                    </button>
+                                </form>
                             </div>
-                            <div class="input-group input-group-merge form-password-toggle">
-                                <input type="password" class="form-control form-control-merge" id="login-password" name="password" tabindex="2" placeholder="············" aria-describedby="login-password">
-                                <span class="input-group-text cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
-                            </div>
-                            @if ($errors->has('password'))
-                                <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                            @endif
                         </div>
-
-                        <button class="btn btn-primary w-100 waves-effect waves-float waves-light" tabindex="4">Entrar</button>
-                    </form>
-
-                    <p class="text-center mt-2">
-                        <span>Novo na plataforma?</span>
-                        <a href="/register">
-                            <span>Criar uma conta</span>
-                        </a>
-                    </p>
+                    </div>
                 </div>
             </div>
+
         </div>
+
     </div>
+
 </div>
-@endsection
+
+<!-- Bootstrap core JavaScript-->
+<script src="/admin/vendor/jquery/jquery.min.js"></script>
+<script src="/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="/admin/js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>

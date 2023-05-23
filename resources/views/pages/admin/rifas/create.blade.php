@@ -1,5 +1,4 @@
-@extends('layouts.app')
-
+@extends('pages.admin.layouts.app')
 @section('title', 'Rifas')
 
 @section('vendor-style')
@@ -37,8 +36,20 @@
 
                                 <div class="col-md-6 col-12">
                                     <div class="mb-1">
-                                        <label class="form-label" for="resumo">Resumo</label>
-                                        <input value="{{old('resumo')}}" type="text" id="resumo" class="form-control"   name="resumo">
+                                        <label class="form-label" for="quantidade_de_numeros">Quantidade de Números *</label>
+                                        <input value="{{old('quantidade_de_numeros')}}" type="number" id="quantidade_de_numeros" class="form-control" name="quantidade_de_numeros" >
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="mb-1">
+                                        <label class="form-label" for="valor_por_numero">Valor por número (R$) *</label>
+                                        <input value="{{old('valor_por_numero')}}" type="text" id="valor_por_numero" class="form-control" name="valor_por_numero" >
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="mb-1">
+                                        <label class="form-label" for="quantidade_maxima_de_numeros">Quantidade máxima de Números *</label>
+                                        <input value="{{old('quantidade_maxima_de_numeros')}}" type="number" id="quantidade_maxima_de_numeros" class="form-control" name="quantidade_maxima_de_numeros" >
                                     </div>
                                 </div>
                                 <div class="  col-12">
@@ -109,24 +120,9 @@
                                                         <input value="{{old('periodo')}}"   type="datetime-local" id="periodo" class="form-control" name="periodo" >
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-12">
-                                                    <div class="mb-1">
-                                                        <label class="form-label" for="valor_por_numero">Valor por número (R$) *</label>
-                                                        <input value="{{old('valor_por_numero')}}" type="text" id="valor_por_numero" class="form-control" name="valor_por_numero" >
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-12">
-                                                    <div class="mb-1">
-                                                        <label class="form-label" for="quantidade_de_numeros">Quantidade de Números *</label>
-                                                        <input value="{{old('quantidade_de_numeros')}}" type="number" id="quantidade_de_numeros" class="form-control" name="quantidade_de_numeros" >
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-12">
-                                                    <div class="mb-1">
-                                                        <label class="form-label" for="quantidade_maxima_de_numeros">Quantidade máxima de Números *</label>
-                                                        <input value="{{old('quantidade_maxima_de_numeros')}}" type="number" id="quantidade_maxima_de_numeros" class="form-control" name="quantidade_maxima_de_numeros" >
-                                                    </div>
-                                                </div>
+
+
+
                                                 <div class="col-md-6 col-12">
                                                     <div class="mb-1">
                                                         <label class="form-label" for="porcentagem_comissao_vendas">Porcentagem de comissão por vendas (%)</label>

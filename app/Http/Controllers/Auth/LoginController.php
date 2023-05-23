@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -38,6 +39,25 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+    }
+
+//    formulario de login
+    public function showLoginForm()
+    {
+        return view('auth.login');
+    }
+
+    public function validateLogin(Request $request)
+    {
+        $this->validate($request, [
+            $this->username() => 'required|email',
+            'password' => 'required',
+        ],
+        [
+            'email.required' => 'O campo email é obrigatório',
+            'email.email' => 'O campo email deve ser um email válido',
+            'password.required' => 'O campo senha é obrigatório',
+        ]);
     }
 
     /**

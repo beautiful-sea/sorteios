@@ -6,9 +6,6 @@ use Auth;
 use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Route;
 
 class Authenticate extends Middleware
 {
@@ -50,7 +47,7 @@ class Authenticate extends Middleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, ...$guards)
     {
         if (! $this->auth->check()) {
             return redirect()->to('/login')
@@ -61,17 +58,5 @@ class Authenticate extends Middleware
         return $next($request);
     }
 
-    /**
-     * Log a termination.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param $response
-     * @return void
-     */
-    public function terminate($request, $response)
-    {
-        $user = Auth::user();
-        $currentRoute = Route::currentRouteName();
-        // Log::info('Authenticate middleware was used: '.$currentRoute.'. ', [$user]);
-    }
+
 }

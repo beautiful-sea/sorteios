@@ -264,6 +264,7 @@ class RifaController extends Controller
     public function buscarRifasPorTelefoneDoPedido(Request $request){
         $telefone = $request->get('telefone');
         $pedidos = Pedido::where('telefone_cliente',$telefone)->with('rifa.cotas')->get();
+
         //Retorna o nome do usuario, o numero, valor da compra,data da compra,status da compra, titulo da rifa e numero das rifas
         $pedidos = $pedidos->map(function($pedido){
             //valor_da_compra em formato de moeda real com R$

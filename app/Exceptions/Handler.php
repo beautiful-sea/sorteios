@@ -2,14 +2,8 @@
 
 namespace App\Exceptions;
 
-use App\Mail\ExceptionOccured;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Support\Facades\Log;
-use Mail;
-use Response;
-use Symfony\Component\Debug\Exception\FlattenException;
-use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -66,20 +60,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        $userLevelCheck = $exception instanceof \jeremykenedy\LaravelRoles\App\Exceptions\RoleDeniedException ||
-            $exception instanceof \jeremykenedy\LaravelRoles\App\Exceptions\PermissionDeniedException ||
-            $exception instanceof \jeremykenedy\LaravelRoles\App\Exceptions\LevelDeniedException;
-
-        if ($userLevelCheck) {
-            if ($request->expectsJson()) {
-                return Response::json([
-                    'error'     => 403,
-                    'message'   => 'Unauthorized.',
-                ], 403);
-            }
-
-            abort(403);
-        }
 
         return parent::render($request, $exception);
     }
@@ -108,14 +88,6 @@ class Handler extends ExceptionHandler
      */
     public function sendEmail(Throwable $exception)
     {
-        try {
-            $e = FlattenException::create($exception);
-            $handler = new SymfonyExceptionHandler();
-            $html = $handler->getHtml($e);
 
-            Mail::send(new ExceptionOccured($html));
-        } catch (Throwable $exception) {
-            Log::error($exception);
-        }
     }
 }

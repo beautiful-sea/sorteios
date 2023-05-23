@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('pages.admin.layouts.app')
 
 @section('title', 'Rifas')
 

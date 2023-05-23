@@ -161,8 +161,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        App\Providers\MacroServiceProvider::class,
-        App\Providers\ComposerServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -173,9 +171,7 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        \SocialiteProviders\Manager\ServiceProvider::class,
     ],
 
     /*
@@ -231,7 +227,6 @@ return [
         'Input'         => Illuminate\Support\Facades\Input::class,
         'Gravatar'      => Creativeorange\Gravatar\Facades\Gravatar::class,
         'Image'         => Intervention\Image\Facades\Image::class,
-        'Uuid'          => jeremykenedy\Uuid\Uuid::class,
         'Helper'        => App\Helpers\Helper::class,
     ],
 

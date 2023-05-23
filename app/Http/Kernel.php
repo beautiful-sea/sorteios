@@ -42,9 +42,6 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
-        'activated' => [
-            CheckIsUserActivated::class,
-        ],
     ];
 
     /**
@@ -65,10 +62,5 @@ class Kernel extends HttpKernel
         'signed'            => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle'          => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified'          => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'activated'         => CheckIsUserActivated::class,
-        'role'              => \jeremykenedy\LaravelRoles\App\Http\Middleware\VerifyRole::class,
-        'permission'        => \jeremykenedy\LaravelRoles\App\Http\Middleware\VerifyPermission::class,
-        'level'             => \jeremykenedy\LaravelRoles\App\Http\Middleware\VerifyLevel::class,
-        'currentUser'       => \App\Http\Middleware\CheckCurrentUser::class,
     ];
 }
