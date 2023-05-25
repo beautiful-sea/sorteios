@@ -17,6 +17,7 @@ class CreateRifasImagensTable extends Migration
             $table->id();
             $table->text('path');
             $table->unsignedBigInteger('rifa_id');
+            $table->boolean('is_principal')->default(false);
             $table->foreign('rifa_id')->references('id')->on('rifas');
             $table->timestamps();
         });

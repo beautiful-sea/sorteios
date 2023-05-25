@@ -461,55 +461,25 @@
             <div class="app-title"><h1>🤷 Perguntas frequentes</h1>
             </div>
             <div id="perguntas-box">
+                @foreach($perguntas_frequentes as $perguntas_frequente)
                 <div class="mb-2" style="cursor: pointer;">
                     <div class="pergunta-item d-flex flex-column p-2 bg-card box-shadow-08 rounded-10 font-weight-500 font-xs">
                         <div class="pergunta-item--pergunta" data-bs-toggle="collapse" data-bs-target="#pergunta-3"
                              aria-expanded="false" aria-controls="pergunta-3"><i
                                     class="bi bi-arrow-right me-2 text-cor-primaria"></i>
-                            <span>COMO VEJO MEUS NÚMEROS?												</span>
+                            <span>{{$perguntas_frequente->pergunta}}												</span>
                         </div>
                         <div class="d-block">
                             <div class="pergunta-item--resp collapse mt-1 text-muted" id="pergunta-3"
                                  data-bs-parent="#perguntas-box">
-                                <p>Acesse o menu Meus Números ou o carrinho de compras no topo do site, informe seu
-                                    telefone e você poderá ver todas as suas compras realizadas.</p>
+                                <p>
+                                    {{$perguntas_frequente->resposta}}
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="mb-2" style="cursor: pointer;">
-                    <div class="pergunta-item d-flex flex-column p-2 bg-card box-shadow-08 rounded-10 font-weight-500 font-xs">
-                        <div class="pergunta-item--pergunta" data-bs-toggle="collapse" data-bs-target="#pergunta-1"
-                             aria-expanded="false" aria-controls="pergunta-1"><i
-                                    class="bi bi-arrow-right me-2 text-cor-primaria"></i>
-                            <span>PRECISO ENVIAR COMPROVANTE?												</span>
-                        </div>
-                        <div class="d-block">
-                            <div class="pergunta-item--resp collapse mt-1 text-muted" id="pergunta-1"
-                                 data-bs-parent="#perguntas-box">
-                                <p>Caso você tenha feito o pagamento via Pix QR Code ou copiando o código, não é
-                                    necessário enviar o comprovante, aguardando até 5 minutos após o pagamento, o
-                                    sistema irá dar baixa automaticamente.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="mb-2" style="cursor: pointer;">
-                    <div class="pergunta-item d-flex flex-column p-2 bg-card box-shadow-08 rounded-10 font-weight-500 font-xs">
-                        <div class="pergunta-item--pergunta" data-bs-toggle="collapse" data-bs-target="#pergunta-2"
-                             aria-expanded="false" aria-controls="pergunta-2"><i
-                                    class="bi bi-arrow-right me-2 text-cor-primaria"></i>
-                            <span>POSSO COMPRAR MAIS NÚMEROS?												</span>
-                        </div>
-                        <div class="d-block">
-                            <div class="pergunta-item--resp collapse mt-1 text-muted" id="pergunta-2"
-                                 data-bs-parent="#perguntas-box">
-                                <p>Claro. Você pode comprar quantos números e quantas vezes quiser. Quantos mais você
-                                    comprar mais chances tem de ganhar.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>

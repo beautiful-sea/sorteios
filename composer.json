@@ -26,7 +26,8 @@
         "laravelcollective/html": "^6.1",
         "mercadopago/dx-php": "^2.5",
         "pusher/pusher-php-server": "^4.1",
-        "shvetsgroup/laravel-email-database-log": "^8.0.0"
+        "shvetsgroup/laravel-email-database-log": "^8.0.0",
+        "simplesoftwareio/simple-qrcode": "^4.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",

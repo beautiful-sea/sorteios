@@ -1,33 +1,35 @@
 @extends('layouts.app')
 
-
-
-@section('vendor-style')
-    {{-- vendor css files --}}
-    <link rel="stylesheet" href="{{ asset('vendors/css/extensions/toastr.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('vendors/css/forms/wizard/bs-stepper.min.css') }}">
-@endsection
-@section('page-style')
-    {{-- Page css files --}}
-    <link rel="stylesheet" href="{{ asset('css/base/plugins/extensions/ext-component-toastr.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/base/plugins/forms/form-wizard.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{asset('css/base/plugins/extensions/ext-component-tour.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('css/base/pages/app-ecommerce-details.css')}}">
-
-@endsection
 @section('content')
 
     <div id="app">
         <public-sorteios-listar></public-sorteios-listar>
+
+        <div class="app-perguntas">
+            <div class="app-title"><h1>🤷 Perguntas frequentes</h1>
+            </div>
+            <div id="perguntas-box">
+                @foreach($perguntas_frequentes as $perguntas_frequente)
+                    <div class="mb-2" style="cursor: pointer;">
+                        <div class="pergunta-item d-flex flex-column p-2 bg-card box-shadow-08 rounded-10 font-weight-500 font-xs">
+                            <div class="pergunta-item--pergunta" data-bs-toggle="collapse" data-bs-target="#pergunta-3"
+                                 aria-expanded="false" aria-controls="pergunta-3"><i
+                                        class="bi bi-arrow-right me-2 text-cor-primaria"></i>
+                                <span>{{$perguntas_frequente->pergunta}}												</span>
+                            </div>
+                            <div class="d-block">
+                                <div class="pergunta-item--resp collapse mt-1 text-muted" id="pergunta-3"
+                                     data-bs-parent="#perguntas-box">
+                                    <p>
+                                        {{$perguntas_frequente->resposta}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </div>
 
-@endsection
-
-@section('vendor-script')
-    {{-- vendor files --}}
-    <script src="{{ asset('vendors/js/forms/wizard/bs-stepper.min.js') }} "></script>
-    <script src="{{ asset('vendors/js/extensions/toastr.min.js') }}"></script>
-    <script src="https://sdk.mercadopago.com/js/v2"></script>
-@endsection
-@section('page-script')
 @endsection

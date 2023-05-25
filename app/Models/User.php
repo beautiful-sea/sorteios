@@ -72,8 +72,17 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $appends = [
+        'created_at_formatado',
+    ];
+
     public function isAdmin()
     {
         return $this->role === 'admin';
+    }
+
+    public function getCreatedAtFormatadoAttribute()
+    {
+        return $this->created_at->format('d/m/Y H:i:s');
     }
 }

@@ -394,6 +394,7 @@
         flex-grow: 1;
         flex-shrink: 1;
         flex-basis: 0;
+        margin: 4px;
     }
 
     .raffle-ticket-number .numero-tooltip {
@@ -745,19 +746,19 @@
             background-color: #e4e4e4 !important;
         }
 
-        
-        
-        
-        
+
+
+
+
         .SorteioTpl_sorteioTpl__2s2Wu, .ganhadorItem_ganhadorContainer__1Sbxm, .pergunta-item, .la_cor_3{
             background-color: #ffffff !important;
-            
+
         }
-        
 
 
-        
-        
+
+
+
 
         .la_cor_texto_1, .SorteioTpl_descricao__1b7iL, .SorteioTpl_title__3RLtu, .ganhadorItem_ganhadorNome__2j_J-, .ganhadorItem_ganhadorDescricao__Z4kO2, .pergunta-item--pergunta, .app-title h1, .app-title-desc{
 

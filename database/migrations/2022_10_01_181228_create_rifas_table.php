@@ -21,15 +21,15 @@ class CreateRifasTable extends Migration
 
 
             $table->string('premio');
-            $table->integer('status')->default(false);
+            $table->string('status')->default('EM_ANDAMENTO');
             $table->boolean('mostrar_data_sorteio')->default(false);
             $table->dateTime('periodo');
             $table->float('valor_por_numero');
             $table->integer('quantidade_de_numeros');
             $table->integer('quantidade_maxima_de_numeros');
-            $table->float('porcentagem_comissao_vendas');
+            $table->integer('quantidade_minima_de_numeros')->default(0);
             $table->boolean('has_compra_minima')->default(false);
-            $table->string('contato_whatsapp');
+            $table->string('contato_whatsapp')->nullable();
 
             $table->boolean('is_compra_automatica')->default(false);
 
@@ -47,6 +47,8 @@ class CreateRifasTable extends Migration
             $table->string('id_grupo_botao_whatsapp')->nullable();
 
             $table->string('numero_sorteado')->nullable();
+
+            $table->boolean('is_principal')->default(false);
 
             $table->timestamps();
 

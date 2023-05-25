@@ -11,39 +11,61 @@ use Illuminate\Support\Facades\DB;
 
 class PedidoController extends Controller
 {
-    public function novo(Request $request)
+    public function index(Request $request){
+        $pedidos = Pedido::query();
+        if($request->has('status')){
+            $pedidos->where('status',$request->status);
+        }
+        if($request->has('rifa_id')){
+            $pedidos->where('rifa_id',$request->rifa_id);
+        }
+        if($request->has('search')){
+            $pedidos->where(function($q) use($request){
+                $q->where('nome_cliente','like','%'.$request->search.'%');
+                $q->orWhere('telefone_cliente','like','%'.$request->search.'%');
+            });
+        }
+        if($request->has('id')){
+            $pedidos->where('id',$request->id);
+        }
+        if($request->has('numero_sorteado')){
+            $pedidos->whereHas('cotas',function($query) use ($request){
+                $query->where('numero',$request->numero_sorteado);
+            });
+        }
+        return response()->json($pedidos->paginate($request->perPage??10));
+    }
+    public function byWhatsapp(Request $request)
     {
         $data = $request->all();
-        $data['cotas'] = collect(json_decode($data['cotas'], true));
-        DB::beginTransaction();
-        $rifa = Rifa::find($data['rifa_id']);
-        $total = count($data['cotas']) * $rifa->valor_por_numero;
-        $pedido = Pedido::create([
-            'nome_cliente' => 'TEsate lindomar',
-            'email_cliente' => 'lindomar@teste.com',
-            'telefone_cliente' => '24998734138',
-            'status' => 'PENDENTE',
-            'valor_da_compra' => $total,
-            'rifa_id' => $rifa->id
-        ]);
-        $cotas = Cota::whereIn('id', $data['cotas']->pluck('id')->values())->update([
-            'pedido_id' => $pedido->id,
-            'status' => 'RESERVADO'
-        ]);
-        $data;
+        $data['whatsapp'] = str_replace(['(', ')', '-', ' '], '', $data['whatsapp']);
+        $pedidos = Pedido::where('telefone_cliente', $data['whatsapp'])->get();
+        return response()->json($pedidos);
+    }
 
-        $mp = new MercadoPago();
-        $preference = $mp->preference;
-        // Cria um item na preferência
-        $item = new \MercadoPago\Item();
-        $item->title = $rifa->titulo;
-        $item->quantity = count($data['cotas']);
-        $item->unit_price = $rifa->valor_por_numero;
+    public function update(Request $request, Pedido $pedido)
+    {
+        $data = $request->all();
+        $pedido->update($data);
+        return response()->json($pedido);
+    }
 
-        $preference->items = [$item];
-        $preference->save();
+    public function deletarTodosPendentes(){
+        $pedidos = Pedido::where('status','PENDENTE')->get();
+        foreach($pedidos as $pedido){
+            $pedido->delete();
+        }
+        return response()->json(['message'=>'Pedidos deletados com sucesso']);
+    }
 
-        return response()->json($preference->id);
-        DB::commit();
+    //Se o pedido tiver status PENDENTE, ele é deletado
+    public function destroy(Pedido $pedido)
+    {
+        if($pedido->status == 'PENDENTE'){
+            $pedido->delete();
+            return response()->json(['message'=>'Pedido deletado com sucesso']);
+        }else{
+            return response()->json(['message'=>'Pedido não pode ser deletado']);
+        }
     }
 }

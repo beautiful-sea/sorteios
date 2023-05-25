@@ -26,14 +26,23 @@ Route::group([], function () {
     Route::get('/sorteios', 'App\Http\Controllers\RifaController@index')->name('sorteios.index');
     Route::get('/', 'App\Http\Controllers\RifaController@index')->name('sorteios.index');
     Route::get('/meus-numeros', 'App\Http\Controllers\RifaController@meusNumeros');
-    Route::get('/terms', 'App\Http\Controllers\TermsController@terms')->name('terms');
+    Route::get('/ganhadores', 'App\Http\Controllers\RifaController@ganhadores')->name('ganhadores');
+    Route::get('/termos-de-uso', 'App\Http\Controllers\TermosController@index')->name('termos');
+
 });
 
 
 // Registered, activated, and is admin routes.
 Route::group(['middleware' => ['auth' ]], function () {
 
+    Route::resource('clientes', \App\Http\Controllers\ClienteController::class );
     Route::resource('rifas', \App\Http\Controllers\RifaController::class );
+    Route::resource('pedidos', \App\Http\Controllers\Admin\PedidoController::class );
     Route::get('home', 'App\Http\Controllers\HomeController@index')->name('home');
+    Route::get('logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout');
+    Route::get('perfil', 'App\Http\Controllers\PerfilController@index')->name('profile');
+    Route::get('configuracoes', 'App\Http\Controllers\ConfiguracoesController@index')->name('configuracoes.index');
+
+    Route::get('usuarios', 'App\Http\Controllers\UsuarioController@index')->name('usuarios.index');
 });
 
