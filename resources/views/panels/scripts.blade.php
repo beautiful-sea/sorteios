@@ -10,7 +10,7 @@
 <!-- END: Page Vendor JS-->
 
 {{--Vue--}}
-<script src="{{asset('js/app.js')}}"></script>
+<script src="{{asset('js/app.js?v='.time())}}"></script>
 
 <script src="{{ asset('vendors/js/popper/popper.min.js') }}"></script>
 
