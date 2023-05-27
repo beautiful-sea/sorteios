@@ -31,4 +31,5 @@ class MercadoPago extends Model
         // Cria um objeto de preferência
         $this->preference = new \MercadoPago\Preference();
     }
+
 }

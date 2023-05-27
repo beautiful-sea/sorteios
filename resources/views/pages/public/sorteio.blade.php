@@ -126,9 +126,9 @@
         </div>
 
         @if($rifa->is_compra_automatica)
-        <public-sorteio-aleatorio :rifa="{{$rifa}}" :mp_public_key="'{!! $mp_public_key !!}'"></public-sorteio-aleatorio>
+        <public-sorteio-aleatorio :rifa="{{$rifa}}" ></public-sorteio-aleatorio>
         @else
-        <public-sorteio-cotas :rifa="{{$rifa}}" :mp_public_key="'{!! $mp_public_key !!}'"></public-sorteio-cotas>
+        <public-sorteio-cotas :rifa="{{$rifa}}" ></public-sorteio-cotas>
         @endif
 
 

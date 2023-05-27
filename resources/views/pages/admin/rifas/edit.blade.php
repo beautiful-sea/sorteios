@@ -138,7 +138,7 @@
                                                     <div class="mb-1">
                                                         <label class="form-label" for="valor_por_numero">Valor por
                                                             número (R$) </label>
-                                                        <input value="{{number_format($rifa->valor_por_numero,2,',')}}" type="text"
+                                                        <input value="{{number_format($rifa->valor_por_numero,2,',','.')}}" type="text"
                                                                id="valor_por_numero" class="form-control"
                                                                name="valor_por_numero">
                                                     </div>
@@ -221,21 +221,23 @@
                                                                 class="btn btn-info ml-2"><i class="fa fa-plus"></i>
                                                         </button>
                                                         <div class="row" id="numeros-compra-automatica">
-                                                            @foreach($rifa->compra_automatica_numeros as $compra_automatica_numero)
-                                                                <div class="col-12">
-                                                                    <div class="d-flex justify-content-between"><input
-                                                                                style="border-radius:0px;height: auto"
-                                                                                type="number"
-                                                                                name="compra_automatica_numeros[]"
-                                                                                class="form-control"
-                                                                                value="{{$compra_automatica_numero}}"
-                                                                                placeholder="Quantidade de números">
-                                                                        <button style="    border-radius: 0px 10px 10px 0px"
-                                                                                class="btn btn-danger" type="button"><i
-                                                                                    class="fa fa-trash"></i></button>
+                                                            @if($rifa->is_compra_automatica)
+                                                                @foreach($rifa->compra_automatica_numeros as $compra_automatica_numero)
+                                                                    <div class="col-12">
+                                                                        <div class="d-flex justify-content-between"><input
+                                                                                    style="border-radius:0px;height: auto"
+                                                                                    type="number"
+                                                                                    name="compra_automatica_numeros[]"
+                                                                                    class="form-control"
+                                                                                    value="{{$compra_automatica_numero}}"
+                                                                                    placeholder="Quantidade de números">
+                                                                            <button style="    border-radius: 0px 10px 10px 0px"
+                                                                                    class="btn btn-danger" type="button"><i
+                                                                                        class="fa fa-trash"></i></button>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            @endforeach
+                                                                @endforeach
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -348,32 +350,61 @@
                                         {{--                                        </div>--}}
                                         <div class="tab-pane" id="numero_sorteado-fill" role="tabpanel"
                                              aria-labelledby="numero_sorteado-tab-fill">
-                                            <div class="mb-1">
-                                                <label class="form-label" for="numero_sorteado">Número sorteado</label>
+                                            <div class="mb-1 col-12">
+                                                <h3>Número sorteado</h3>
                                                 <input value="{{$rifa->numero_sorteado}}" type="text"
                                                        class="form-control" name="numero_sorteado" id="numero_sorteado">
                                             </div>
-                                            {{--                                            <h3>Dados do ganhador</h3>--}}
-                                            {{--                                            <div class=" col-12">--}}
-                                            {{--                                                <div class="mb-1">--}}
-                                            {{--                                                    <label class="form-label" for="nome_ganhador_top_five">Nome do ganhador </label>--}}
-                                            {{--                                                    <input value="{{$rifa->nome_ganhador_top_five}}" type="text" name="nome_ganhador_top_five" class="form-control" id="nome_ganhador_top_five" >--}}
-                                            {{--                                                </div>--}}
-                                            {{--                                            </div>--}}
-                                            {{--                                            <div class="col-12">--}}
-                                            {{--                                                <div class="mb-1">--}}
-                                            {{--                                                    <label class="form-label" for="telefone_ganhador_top_five">Telefone do ganhador </label>--}}
-                                            {{--                                                    <input value="{{$rifa->telefone_ganhador_top_five}}" type="text" name="telefone_ganhador_top_five" class="form-control" id="telefone_ganhador_top_five" >--}}
-                                            {{--                                                </div>--}}
-                                            {{--                                            </div>--}}
-                                            {{--                                            <div class="col-12">--}}
-                                            {{--                                                <div class="mb-1">--}}
-                                            {{--                                                    <label class="form-label" for="total_cotas_ganhador_top_five">Total de cotas compradas </label>--}}
-                                            {{--                                                    <input value="{{$rifa->total_cotas_ganhador_top_five}}" type="number" name="total_cotas_ganhador_top_five" class="form-control" id="total_cotas_ganhador_top_five" >--}}
-                                            {{--                                                </div>--}}
-                                            {{--                                            </div>--}}
+                                            @if($rifa->ganhador)
+                                           <div class="col-12">
+                                               <h3>Dados do ganhador</h3>
+                                           </div>
+                                            <div class=" col-12">
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="nome_ganhador_top_five">Nome do
+                                                        ganhador </label>
+                                                    <input disabled value="{{$rifa->ganhador->nome_cliente}}" type="text"
+                                                           name="nome_ganhador_top_five" class="form-control"
+                                                           id="nome_ganhador_top_five">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="telefone_ganhador_top_five">Telefone
+                                                        do ganhador </label>
+                                                    <input disabled value="{{$rifa->ganhador->telefone_cliente}}" type="text"
+                                                           name="telefone_ganhador_top_five" class="form-control"
+                                                           id="telefone_ganhador_top_five">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="total_cotas_ganhador_top_five">Total
+                                                        de cotas compradas </label>
+                                                    <input disabled value="{{count($rifa->ganhador->cotas)}}"
+                                                           type="number" name="total_cotas_ganhador_top_five"
+                                                           class="form-control" id="total_cotas_ganhador_top_five">
+                                                </div>
+                                            </div>
+                                                @endif
                                         </div>
                                     </div>
+                                    @if($rifa->cotas)
+                                        <div class="row" >
+                                            <div class="col-12">
+                                                <h3>Números da rifa</h3>
+                                            </div>
+                                            <div class="col-12" style="max-height: 300px; overflow-y: auto">
+                                                @foreach($rifa->cotas as $numeros)
+                                                    @if($numeros->status == 'RESERVADO')
+                                                    <span class="badge bg-primary m-1 text-white">{{$numeros->numero_formatado}}</span>
+                                                    @else
+                                                    <span class="badge bg-danger m-1 text-white">{{$numeros->numero_formatado}}</span>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
 
                                 <div class="col-12">
@@ -483,6 +514,13 @@
 
         @if(session()->has('message'))
         toastr.success('{{session()->get('message')}}');
+        @endif
+
+        //Exibe os erros do laravel no toastr
+        @if ($errors->any())
+        @foreach ($errors->all() as $error)
+        toastr.error('{{$error}}');
+        @endforeach
         @endif
     </script>
 @endsection

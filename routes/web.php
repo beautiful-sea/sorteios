@@ -46,3 +46,9 @@ Route::group(['middleware' => ['auth' ]], function () {
     Route::get('usuarios', 'App\Http\Controllers\UsuarioController@index')->name('usuarios.index');
 });
 
+//Notificação paggue
+Route::post('paggue/notificacao', 'App\Http\Controllers\Checkout@paggueWebhook')->name('paggue.notificacao');
+
+//Notificação Mercado Pago
+Route::post('mercadopago/notificacao', 'App\Http\Controllers\Checkout@mercadoPagoWebhook')->name('mercadopago.notificacao');
+

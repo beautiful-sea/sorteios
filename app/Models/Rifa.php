@@ -94,7 +94,7 @@ class Rifa extends Model
             case 'EM_ANDAMENTO':
                 return 'Em andamento';
                 break;
-            case 'FINALIZADO':
+            case 'ENCERRADO':
                 return 'Finalizado';
                 break;
             case 'EM_BREVE':

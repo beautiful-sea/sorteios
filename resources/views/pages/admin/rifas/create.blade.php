@@ -66,9 +66,7 @@
 {{--                                        <li class="nav-item">--}}
 {{--                                            <a class="nav-link" id="whatsapp-tab-fill" data-bs-toggle="tab" href="#whatsapp-fill" role="tab" aria-controls="whatsapp-fill" aria-selected="false">Whatsapp</a>--}}
 {{--                                        </li>--}}
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="numero_sorteado-tab-fill" data-bs-toggle="tab" href="#numero_sorteado-fill" role="tab" aria-controls="numero_sorteado-fill" aria-selected="false">Número Sorteado</a>
-                                        </li>
+
                                     </ul>
 
                                     <!-- Tab panes -->
@@ -263,31 +261,7 @@
 {{--                                                </div>--}}
 {{--                                            </div>--}}
 {{--                                        </div>--}}
-                                        <div class="tab-pane" id="numero_sorteado-fill" role="tabpanel" aria-labelledby="numero_sorteado-tab-fill">
-                                            <div class="mb-1">
-                                                <label class="form-label" for="numero_sorteado">Número sorteado</label>
-                                                <input value="{{old('numero_sorteado')}}" type="text" class="form-control" name="numero_sorteado" id="numero_sorteado">
-                                            </div>
-                                            <h3>Dados do ganhador</h3>
-                                            <div class=" col-12">
-                                                <div class="mb-1">
-                                                    <label class="form-label" for="nome_ganhador_top_five">Nome do ganhador </label>
-                                                    <input value="{{old('nome_ganhador_top_five')}}" type="text" name="nome_ganhador_top_five" class="form-control" id="nome_ganhador_top_five" >
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="mb-1">
-                                                    <label class="form-label" for="telefone_ganhador_top_five">Telefone do ganhador </label>
-                                                    <input value="{{old('telefone_ganhador_top_five')}}" type="text" name="telefone_ganhador_top_five" class="form-control" id="telefone_ganhador_top_five" >
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="mb-1">
-                                                    <label class="form-label" for="total_cotas_ganhador_top_five">Total de cotas compradas </label>
-                                                    <input value="{{old('total_cotas_ganhador_top_five')}}" type="number" name="total_cotas_ganhador_top_five" class="form-control" id="total_cotas_ganhador_top_five" >
-                                                </div>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
 

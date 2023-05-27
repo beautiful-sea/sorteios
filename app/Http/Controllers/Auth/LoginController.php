@@ -60,6 +60,15 @@ class LoginController extends Controller
         ]);
     }
 
+    public function sendFailedLoginResponse(Request $request)
+    {
+        return redirect()->back()
+            ->withInput($request->only($this->username(), 'remember'))
+            ->withErrors([
+                $this->username() => 'Email ou senha incorretos',
+            ]);
+    }
+
     /**
      * Logout, Clear Session, and Return.
      *

@@ -18,74 +18,6 @@
 
     <section>
         <div class="row" id="basic-table">
-            <div class="col-lg-12 mb-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">Buscar Pedido</h5>
-                        <span>Filtros para busca de pedidos</span>
-                    </div>
-
-                    <div class="card-body">
-                        <form action="/rifas">
-                            <div class="row">
-
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>Por Sorteio: </label>
-                                        <select class="form-control" name="rifa" id="filtroSorteio">
-                                            <option value="">Selecione o sorteio</option>
-                                            @foreach(\App\Models\Rifa::all() as $rifa)
-                                                <option value="{{$rifa->id}}"  @if(request('rifa') == $rifa->id) selected @endif>{{$rifa->titulo}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label>Status do pedido: </label>
-                                        <select class="form-control" name="status" id="filtroStatus">
-                                            <option value="">Selecione o status</option>
-                                            <option @if(request('status') === "EM_BREVE") selected @endif value="EM_BREVE">Em breve</option>
-                                            <option @if(request('status') === "EM_ANDAMENTO") selected @endif value="EM_ANDAMENTO">Em andamento</option>
-                                            <option @if(request('status') === "FINALIZADO") selected @endif value="FINALIZADO">Finalizado</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label>№ Pedido: </label>
-                                        <input type="text" name="pedido_id" class="form-control format-phone-number" id="filtroCodPedido" placeholder="Ex 8052" value="">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>Digite o Nome, E-mail ou Telefone do Cliente: </label>
-                                        <input type="text" class="form-control" name="search" id="filtroDescricao" placeholder="Digite o Nome, E-mail ou Telefone do Cliente" value="{{request('search')}}">
-                                    </div>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div class="form-group">
-                                        <label>№ Sorteado: </label>
-                                        <input type="text" name="numero_sorteado" class="form-control" placeholder="" id="filtroNumeroSorteado" value="{{request('numero_sorteado')}}">
-                                    </div>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div class="form-group">
-                                        <button id="btnbuscar" class="btn btn-primary btn-block" style="margin-top: 29px;" type="submit"><i class="fa fa-search"></i> &nbsp; Buscar</button>
-
-                                    </div>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div class="form-group">
-                                        <button id="btnlimpar" class="btn btn-light btn-block" style="margin-top: 29px;" type="reset" ><i class="fa fa-ban"></i> &nbsp; Limpar</button>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
@@ -133,7 +65,7 @@
                                     <td>
                                         @if($rifa->status == 'EM_ANDAMENTO')
                                             <span class="badge badge-secondary">Em andamento</span>
-                                        @elseif($rifa->status == 'FINALIZADO')
+                                        @elseif($rifa->status == 'ENCERRADO')
                                             <span class="badge badge-success">Finalizado</span>
                                         @elseif($rifa->status == 'EM_BREVE')
                                             <span class="badge badge-warning">Em breve</span>

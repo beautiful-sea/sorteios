@@ -196,6 +196,13 @@
 <script src="/admin/js/sb-admin-2.min.js"></script>
 @yield('vendor-script')
 @yield('page-script')
+
+<script>
+{{--    O menu sidebar inicia fechado --}}
+    $(document).ready(function () {
+        $("#sidebarToggleTop").click();
+    });
+</script>
 </body>
 
 </html>

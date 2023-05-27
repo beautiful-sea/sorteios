@@ -57,7 +57,10 @@ class RifaController extends Controller
                 //Rifas filtrada por status
                 $rifas = Rifa::when($request->status,function($q) use($request){
                     return $q->where('status', '=', $request->status);
-                })->get();
+                })->
+                //Ordena por mais antiga primeiro
+                orderBy('created_at', 'desc')->
+                get();
                 return response()->json($rifas);
             } else {
                 $perguntas_frequentes = Configuration::where('key','perguntas_frequentes')->first();
@@ -251,7 +254,28 @@ class RifaController extends Controller
                             'is_ganhador' => true
                         ]);
                     }
-                    $data['status'] = 'FINALIZADO';
+                    $data['status'] = 'ENCERRADO';
+                }
+
+                //Se a rifa ja tiver sido encerrada e já tiver sido definido um ganhador, não pode mais ser editada, a nao ser que o numero sorteado seja alterado ou removido
+                if($rifa->status == 'ENCERRADO' && $rifa->numero_sorteado != null
+                    && isset($data['numero_sorteado'])
+                    && $rifa->numero_sorteado != $data['numero_sorteado']){
+                    return redirect()->back()->withErrors('Rifa já encerrada e com ganhador definido, não pode mais ser editada')->withInput($request->all());
+                }
+
+                //Se o numero sorteado esta sendo atualizado para null, o pedido sorteado deve ser atualizado para is_ganhador = false e o status da rifa deve ser alterado para EM ANDAMENTO e
+                //o numero sorteado deve ser atualizado para null
+                if($rifa->status == 'ENCERRADO' && $rifa->numero_sorteado != null
+                    && !isset($data['numero_sorteado']) ){
+                    $pedido_sorteado = $rifa->pedidos()->where('is_ganhador', true)->first();
+                    if($pedido_sorteado){
+                        $pedido_sorteado->update([
+                            'is_ganhador' => false
+                        ]);
+                    }
+                    $data['status'] = 'EM_ANDAMENTO';
+                    $data['numero_sorteado'] = null;
                 }
 
                 $data['periodo'] = Carbon::parse($data['periodo']);
