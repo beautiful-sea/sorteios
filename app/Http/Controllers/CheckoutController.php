@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Configuration;
+use App\Models\Cota;
 use App\Models\Paggue;
 use App\Models\Pedido;
 use App\Models\Rifa;
@@ -158,6 +159,15 @@ class CheckoutController extends Controller
                     $pedido->save();
                 }
             }
+        }
+
+        //Se o pedido estiver pago, altera o status das cotas para PAGO
+        if($pedido->status == 'PAGO'){
+            $cotas = Cota::where('pedido_id', $pedido->id)->get();
+            $cotas->each(function($cota){
+                $cota->status = 'PAGO';
+                $cota->save();
+            });
         }
 
         return response()->json($pedido);

@@ -33,6 +33,8 @@ class PedidoController extends Controller
                 $query->where('numero',$request->numero_sorteado);
             });
         }
+        //Mais recentes primeiro
+        $pedidos->orderBy('created_at','desc');
         return response()->json($pedidos->paginate($request->perPage??10));
     }
     public function byWhatsapp(Request $request)
