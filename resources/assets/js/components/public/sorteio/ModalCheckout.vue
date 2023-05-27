@@ -302,12 +302,12 @@ export default {
                         icon: 'error',
                         confirmButtonText: 'Ok'
                     });
-                    if(!self.rifa.is_compra_automatica){
-                        self.selectedCotas = [];
-                        self.$parent.reset();
-                        //FEcha o modal checkout
-                        self.closeModal();
-                    }
+                    // if(!self.rifa.is_compra_automatica){
+                    //     self.selectedCotas = [];
+                    //     self.$parent.reset();
+                    //     //FEcha o modal checkout
+                    //     self.closeModal();
+                    // }
                 }
             });
         }
