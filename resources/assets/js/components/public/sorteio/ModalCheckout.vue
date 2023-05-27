@@ -102,7 +102,7 @@
                     <div>
                         <h5>QrCode:</h5>
                         <img v-if="payment.metodo_pagamento === 'MERCADO_PAGO'" :src="'data:image/png;base64,'+payment.qrcode" style="width: -webkit-fill-available;">
-                        <img v-else :src="'/storage/'+payment.qrcode" style="width: -webkit-fill-available;">
+                        <img v-else :src="'/storage/qr_code/'+payment.qrcode" style="width: -webkit-fill-available;">
                     </div>
                     <!--                    Copiar chave pix:-->
                     <h5>Copie a chave pix abaixo e realize o pagamento:</h5>
