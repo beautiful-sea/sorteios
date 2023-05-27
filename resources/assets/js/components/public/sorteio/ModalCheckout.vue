@@ -99,6 +99,10 @@
                     </div>
                 </div>
                 <div v-if="step === 3" class="modal-body checkout">
+                    <div>
+                        <h5>QrCode:</h5>
+                        <img :src="'data:image/png;base64,'+payment.qrcode" style="width: -webkit-fill-available;">
+                    </div>
                     <!--                    Copiar chave pix:-->
                     <h5>Copie a chave pix abaixo e realize o pagamento:</h5>
                     <p><span style="word-break: break-all;">{{ payment.chave_pix }}</span></p>

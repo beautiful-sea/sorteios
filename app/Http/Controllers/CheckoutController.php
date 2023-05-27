@@ -214,6 +214,7 @@ class CheckoutController extends Controller
         $file = storage_path('app/public/qr_code/'.$pedido->id.'.png');
         file_put_contents($file, $qr_code);
 
+
         return [
             'hash' => $payment->id,
             'chave_pix' => $payment->point_of_interaction->transaction_data->qr_code,
