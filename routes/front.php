@@ -18,7 +18,7 @@ Route::group([],function () {
 
     Route::get('cotas/{rifa}', 'CotaController@all');
     Route::get('rifas', 'RifaController@index');
-    Route::get('/sorteios', 'RifaController@index')->name('sorteios.index');
+    Route::get('/sorteios', 'RifaController@index');
     Route::post('/checkout/cadastrar', 'CheckoutController@cadastrar');
     Route::get('/checkout/verify/{pedido_id}', 'CheckoutController@verify');
     Route::get('/pedidos/byWhatsapp', 'PedidoController@byWhatsapp');
