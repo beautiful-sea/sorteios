@@ -39,7 +39,7 @@ class CheckoutController extends Controller
             $rifa = Rifa::find($data['rifa_id']);
 
             $data['cliente'] = json_decode($data['cliente']);
-            if($data['selectedCotas']){
+            if(isset($data['selectedCotas'])){
                 $data['selectedCotas'] = json_decode($data['selectedCotas']);
             }
             $pedido = new Pedido();
