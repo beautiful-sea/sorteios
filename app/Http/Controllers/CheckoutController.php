@@ -105,9 +105,8 @@ class CheckoutController extends Controller
 
     public function paggueWebhook(Request $request){
         $data = $request->all();
-        //LOG info
-        Log::info(json_encode($data));
-        $pagamento = Pedido::where('id', $data['external_id'])->first();
+
+        $pagamento = Pedido::where('hash_payment', $data['hash'])->first();
         if($pagamento && ($data['status'] == 'paid' || $data['status'] == 1)){
             $pagamento->status = 'PAGO';
             $pagamento->save();
@@ -128,7 +127,7 @@ class CheckoutController extends Controller
             if($payment->status == 'approved'){
                 $pagamento->status = 'PAGO';
                 $pagamento->save();
-            }  
+            }
         }
 
         return response()->json(['success' => true]);
@@ -137,28 +136,31 @@ class CheckoutController extends Controller
     public function verify(Request $request, $pedido_id){
         $pedido = Pedido::find($pedido_id);
 
-        //Se o pagamento for feito pelo paggue, verifica se o pagamento foi feito
-        if($pedido->metodo_pagamento === 'PAGGUE'){
-            $paggue = new Paggue();
-            $response = $paggue->getBillingOrders($pedido->hash_payment);
-            $response = json_decode($response, true);
-            if (isset($response['error'])) {
-                throw new \Exception($response['error']);
-            }
-            if($response['status'] == 'paid'){
-                $pedido->status = 'PAGO';
-                $pedido->save();
-            }
-        } else {
-            $payment_id = $pedido->hash_payment;
-            //Inicializa o SDK do Mercado Pago
-            \MercadoPago\SDK::setAccessToken(env('MERCADO_PAGO_ACCESS_TOKEN'));
-            $pagamento = \MercadoPago\Payment::find_by_id($payment_id);
-            if($pagamento->status == 'approved'){
-                $pedido->status = 'PAGO';
-                $pedido->save();
+        if($pedido->status != 'PAGO'){
+            //Se o pagamento for feito pelo paggue, verifica se o pagamento foi feito
+            if($pedido->metodo_pagamento === 'PAGGUE'){
+//                $paggue = new Paggue();
+//                $response = $paggue->getBillingOrders($pedido->hash_payment);
+//                $response = json_decode($response, true);
+//                if (isset($response['error'])) {
+//                    throw new \Exception($response['error']);
+//                }
+//                if($response['status'] == 'paid'){
+//                    $pedido->status = 'PAGO';
+//                    $pedido->save();
+//                }
+            } else {
+                $payment_id = $pedido->hash_payment;
+                //Inicializa o SDK do Mercado Pago
+                \MercadoPago\SDK::setAccessToken(env('MERCADO_PAGO_ACCESS_TOKEN'));
+                $pagamento = \MercadoPago\Payment::find_by_id($payment_id);
+                if($pagamento->status == 'approved'){
+                    $pedido->status = 'PAGO';
+                    $pedido->save();
+                }
             }
         }
+
         return response()->json($pedido);
     }
 

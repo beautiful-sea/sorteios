@@ -37,7 +37,7 @@ class Paggue
         // Cria as propriedades com os dados de acesso ao paggue salvos no .env
         $this->client_key = env('PAGGUE_CLIENT_KEY');
         $this->client_secret = env('PAGGUE_CLIENT_SECRET');
-        $this->base_url = env('PAGGUE_BASE_URL');  ;
+        $this->base_url = env('PAGGUE_BASE_URL');
         return $this->login();
     }
 
@@ -118,7 +118,7 @@ class Paggue
         $data = [
             'payer_name' => $payer_name,
             'amount' => $amount,
-            'external_id' => $external_id. '_PESCARIA_' . time(),
+            'external_id' => $external_id. '_SORTEIO_' . time(),
             'description' => $description,
         ];
         return $this->curl($url, $data, 'POST');

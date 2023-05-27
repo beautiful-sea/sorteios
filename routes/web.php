@@ -47,8 +47,8 @@ Route::group(['middleware' => ['auth' ]], function () {
 });
 
 //Notificação paggue
-Route::post('paggue/notificacao', 'App\Http\Controllers\Checkout@paggueWebhook')->name('paggue.notificacao');
+Route::post('paggue/notificacao', 'App\Http\Controllers\CheckoutController@paggueWebhook')->name('paggue.notificacao');
 
 //Notificação Mercado Pago
-Route::post('mercadopago/notificacao', 'App\Http\Controllers\Checkout@mercadoPagoWebhook')->name('mercadopago.notificacao');
+Route::post('mercadopago/notificacao', 'App\Http\Controllers\CheckoutController@mercadoPagoWebhook')->name('mercadopago.notificacao');
 
