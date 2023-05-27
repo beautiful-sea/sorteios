@@ -101,7 +101,8 @@
                 <div v-if="step === 3" class="modal-body checkout">
                     <div>
                         <h5>QrCode:</h5>
-                        <img :src="'data:image/png;base64,'+payment.qrcode" style="width: -webkit-fill-available;">
+                        <img v-if="payment.metodo_pagamento === 'MERCADO_PAGO'" :src="'data:image/png;base64,'+payment.qrcode" style="width: -webkit-fill-available;">
+                        <img v-else :src="'/storage/'+payment.qrcode" style="width: -webkit-fill-available;">
                     </div>
                     <!--                    Copiar chave pix:-->
                     <h5>Copie a chave pix abaixo e realize o pagamento:</h5>
