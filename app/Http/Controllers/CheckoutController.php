@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Log;
 use MercadoPago\Payer;
 use MercadoPago\Payment;
 use MercadoPago\SDK;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CheckoutController extends Controller
 {
@@ -190,10 +189,11 @@ class CheckoutController extends Controller
      * @return array
      */
     public function gerarPagamentoMercadoPago($pedido, $amount){
-        SDK::setAccessToken(env('MERCADO_PAGO_ACCESS_TOKEN','TEST-5635109757831954-013017-286ca5d79237078c47d608573a709acd-95067752'));
+        $access_token = env('MERCADO_PAGO_ACCESS_TOKEN');
+        SDK::setAccessToken($access_token);
 
         $payment = new Payment();
-        $payment->transaction_amount = 100;
+        $payment->transaction_amount = $amount/100;
         $payment->description = 'Produto';
         $payment->external_reference = $pedido->id;
         $payment->payment_method_id = 'pix';
