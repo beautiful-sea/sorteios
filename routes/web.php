@@ -23,7 +23,7 @@ Route::post('login', 'App\Http\Controllers\Auth\LoginController@login');
 // Homepage Route
 Route::group([], function () {
     Route::get('/sorteios/{rifa}', 'App\Http\Controllers\RifaController@show')->name('sorteios.show');
-    Route::get('/sorteios', 'App\Http\Controllers\RifaController@index')->name('sorteios.index');
+    Route::get('/sorteios', 'App\Http\Controllers\RifaController@index');
     Route::get('/', 'App\Http\Controllers\RifaController@index')->name('sorteios.index');
     Route::get('/meus-numeros', 'App\Http\Controllers\RifaController@meusNumeros');
     Route::get('/ganhadores', 'App\Http\Controllers\RifaController@ganhadores')->name('ganhadores');
