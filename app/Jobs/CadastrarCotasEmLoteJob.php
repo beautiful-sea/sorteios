@@ -53,6 +53,10 @@ class CadastrarCotasEmLoteJob implements ShouldQueue
     {
         //Separar as cotas de 100 em 100 mil
         $cotas = array_chunk($this->cotas, 100000);
+
+        foreach ($cotas as $cota) {
+            Cota::insert($cota);
+        }
         //Cria o numero formatado para cada cota. É adicionado 0 a esquerda do numero da cota de acordo com o tamanho de caracteres do maior numero da rifa
         $maior_numero = Cota::where('rifa_id', $this->rifa_id)->max('numero');
         $tamanho_maior_numero = strlen($maior_numero);
@@ -62,9 +66,6 @@ class CadastrarCotasEmLoteJob implements ShouldQueue
                 return $cota;
             });
         });
-        foreach ($cotas as $cota) {
-            Cota::insert($cota);
-        }
 
         Cache::put('cotas_rifa_'.$this->rifa_id,$this->cotas);
 

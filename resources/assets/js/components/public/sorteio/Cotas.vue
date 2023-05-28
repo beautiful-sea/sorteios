@@ -211,6 +211,11 @@ export default {
         },
         changeFilter(filter) {
             this.filter = filter;
+            this.cotas.current_page = 1;
+            this.cotas.data = [];
+            this.cotas.last_page = 1;
+            this.cotas.total = 0;
+            this.cotas.per_page = 1000;
             this.getCotas();
         },
         getCotas(loader = true) {

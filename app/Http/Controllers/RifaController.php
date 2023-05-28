@@ -180,14 +180,15 @@ class RifaController extends Controller
                                 'pedido_id' => null,
                                 'numero' => $i*$quantidade_de_numeros_por_vez + $j + 1,
                                 'status'    =>  'DISPONIVEL',
-                                'rifa_id' => $rifa->id,
-                                'numero_formatado' =>  $numero_formatado
+                                'rifa_id' => $rifa->id
                             ];
                         }
                         Cota::insert($cotas);
                         //Remove o rifa_id das cotas
                         foreach ($cotas as $key => $cota){
                             unset($cotas[$key]['rifa_id']);
+                            //Adiciona o numero formatado
+                            $cotas[$key]['numero_formatado'] = $numero_formatado;
                         }
                         $cotas_to_cache = array_merge($cotas_to_cache,$cotas);
                     }
