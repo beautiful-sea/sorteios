@@ -218,7 +218,6 @@ export default {
             let loading = loader ? 'loading' : false;
             if(!loader) this.isLoadingMore = true;
             //A cada requisição o per_page aumenta em 10000
-            this.cotas.per_page += 10000;
             Vue.requests.listar('/cotas/' + this.rifa.id, this, null, {
                 loader:  loading,
                 params: {
@@ -240,6 +239,7 @@ export default {
                     //Enquanto a lista não estiver completa, continua carregando
                     if (self.cotas.current_page < self.cotas.last_page) {
                         self.cotas.page = self.cotas.page + 1;
+                        this.cotas.per_page = 10000;
                         self.getCotas(false);
                     }
 
