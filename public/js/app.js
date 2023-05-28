@@ -6652,7 +6652,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         page: 1,
         last_page: 1,
         current_page: 1,
-        per_page: 10000,
+        per_page: 1000,
         total: 0,
         from: 0,
         offset: 0,
@@ -6660,7 +6660,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       },
       selectedCotas: [],
       filter: 'DISPONIVEL',
-      isLoadingMore: false
+      isLoadingMore: false,
+      totalComStatusPago: 0,
+      totalComStatusReservado: 0,
+      totalComStatusDisponivel: 0
     };
   },
   computed: {
@@ -6699,6 +6702,27 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     }
   },
   methods: {
+    getTotalComStatusPago: function getTotalComStatusPago() {
+      Vue.requests.listar('cotas/total-com-status-pago', this, 'totalComStatusPago', {
+        params: {
+          rifa_id: this.rifa.id
+        }
+      });
+    },
+    getTotalComStatusReservado: function getTotalComStatusReservado() {
+      Vue.requests.listar('cotas/total-com-status-reservado', this, 'totalComStatusReservado', {
+        params: {
+          rifa_id: this.rifa.id
+        }
+      });
+    },
+    getTotalComStatusDisponivel: function getTotalComStatusDisponivel() {
+      Vue.requests.listar('cotas/total-com-status-disponivel', this, 'totalComStatusDisponivel', {
+        params: {
+          rifa_id: this.rifa.id
+        }
+      });
+    },
     reset: function reset() {
       this.selectedCotas = [];
       this.filter = 'DISPONIVEL';
@@ -6778,6 +6802,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     },
     changeFilter: function changeFilter(filter) {
       this.filter = filter;
+      this.getCotas();
     },
     getCotas: function getCotas() {
       var loader = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
@@ -6801,7 +6826,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           self.cotas.current_page = r.data.current_page;
           self.cotas.last_page = r.data.last_page;
           self.cotas.per_page = r.data.per_page;
-          self.cotas.total = r.data.total;
+          //Enquanto a lista não estiver completa, continua carregando
+          if (self.cotas.current_page < self.cotas.last_page) {
+            self.cotas.page = self.cotas.page + 1;
+            self.getCotas(false);
+          }
         }
         self.isLoadingMore = false;
       });
@@ -6811,17 +6840,19 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         this.cotas.page = this.cotas.page + 1;
         this.getCotas(false);
       }
-    },
-    handleScroll: function handleScroll() {
-      var element = this.$refs.scrollCotas;
-      console.log(element.scrollTop + element.clientHeight, element.scrollHeight);
-      if (element.scrollTop + element.clientHeight >= element.scrollHeight * 0.70) {
-        this.loadMore();
-      }
-    }
+    } // handleScroll() {
+    //     let element =  this.$refs.scrollCotas
+    //     console.log(element.scrollTop + element.clientHeight, element.scrollHeight)
+    //     if (element.scrollTop + element.clientHeight >= element.scrollHeight *0.70) {
+    //         this.loadMore();
+    //     }
+    // },
   },
   created: function created() {
     this.getCotas();
+    this.getTotalComStatusDisponivel();
+    this.getTotalComStatusReservado();
+    this.getTotalComStatusPago();
   },
   updated: function updated() {}
 });
@@ -9563,7 +9594,7 @@ var render = function render() {
         return _vm.changeFilter("DISPONIVEL");
       }
     }
-  }, [_vm._v("Disponível\n                    (" + _vm._s(_vm.disponiveis.length) + ")\n                ")]), _vm._v(" "), _c("button", {
+  }, [_vm._v("Disponível\n                    (" + _vm._s(_vm.totalComStatusDisponivel) + ")\n                ")]), _vm._v(" "), _c("button", {
     staticClass: "btn btn-info",
     attrs: {
       "data-count": "322",
@@ -9576,7 +9607,7 @@ var render = function render() {
         return _vm.changeFilter("RESERVADO");
       }
     }
-  }, [_vm._v("Reservado (" + _vm._s(_vm.reservados.length) + ")\n                ")]), _vm._v(" "), _c("button", {
+  }, [_vm._v("Reservado (" + _vm._s(_vm.totalComStatusReservado) + ")\n                ")]), _vm._v(" "), _c("button", {
     staticClass: "btn btn-success",
     attrs: {
       "data-count": "95",
@@ -9589,7 +9620,7 @@ var render = function render() {
         return _vm.changeFilter("PAGO");
       }
     }
-  }, [_vm._v("Pago (" + _vm._s(_vm.pagos.length) + ")\n                ")])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Pago (" + _vm._s(_vm.totalComStatusPago) + ")\n                ")])])]), _vm._v(" "), _c("div", {
     staticClass: "col-auto mb-3"
   }, [_c("div", {
     staticClass: "pl-0 btn btn-link font-weight-normal",
@@ -9607,10 +9638,7 @@ var render = function render() {
   }), _vm._v(" Mostrar todos\n            ")])])]), _vm._v(" "), _c("div", {
     ref: "scrollCotas",
     staticClass: "raffle-ticket-main",
-    style: _vm.selectedCotas.length ? "margin-bottom: 145px;max-height: 300px;overflow-y: auto;" : " max-height: 300px;overflow-y: auto;",
-    on: {
-      scroll: _vm.handleScroll
-    }
+    style: _vm.selectedCotas.length ? "margin-bottom: 145px;max-height: 300px;overflow-y: auto;" : " max-height: 300px;overflow-y: auto;"
   }, [_c("ul", {
     staticClass: "raffle-ticket-container raffle-ticket--all"
   }, _vm._l(_vm.cotasFiltered, function (cota) {
@@ -95676,26 +95704,35 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       apiUrl = url;
     }
     var dadosCache = {};
-    if (Object.keys(params).length == 0 || Object.keys(params).length == 1 && Object.keys(params)[0] === 'perPage') {
-      dadosCache = self.$helpers.getCacheByUrl(url);
-      if (dadosCache) {
-        if (campoData) {
-          self[campoData] = dadosCache.data;
-        }
-        if (typeof callback == "function") {
-          callback(_objectSpread({
-            error: false
-          }, dadosCache));
-        }
-        if (typeof finalCallback == "function") {
-          finalCallback(_objectSpread({}, dadosCache));
-        }
-        if (loader) {
-          self[loader] = false;
-        }
-        return;
-      }
-    }
+
+    // if(Object.keys(params).length == 0 || (Object.keys(params).length == 1  && Object.keys(params)[0] === 'perPage') ){
+    //
+    //     dadosCache = self.$helpers.getCacheByUrl(url);
+    //     if(dadosCache){
+    //
+    //         if(campoData){
+    //             self[campoData] = dadosCache.data;
+    //         }
+    //
+    //         if (typeof callback == "function"){
+    //             callback({
+    //                 error: false,
+    //                 ...dadosCache
+    //             });
+    //         }
+    //
+    //         if (typeof finalCallback == "function"){
+    //             finalCallback({...dadosCache});
+    //         }
+    //
+    //         if(loader){
+    //             self[loader] = false;
+    //         }
+    //
+    //         return;
+    //     }
+    // }
+
     axios.get(apiUrl, {
       params: params
     }).then(function (response) {

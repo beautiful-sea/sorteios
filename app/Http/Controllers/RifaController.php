@@ -171,6 +171,8 @@ class RifaController extends Controller
                     $quantidade_de_numeros_por_vez = 10000;
                     $quantidade_de_vezes = ceil($quantidade_de_numeros/$quantidade_de_numeros_por_vez);
                     $cotas_to_cache = [];
+                    //Cria o numero formatado para cada cota. É adicionado 0 a esquerda do numero da cota de acordo com o tamanho de caracteres do maior numero da rifa
+                    $numero_formatado = str_pad($quantidade_de_numeros, $quantidade_de_numeros, '0', STR_PAD_LEFT);
                     for($i = 0; $i < $quantidade_de_vezes; $i++){
                         $cotas = [];
                         for($j = 0; $j < $quantidade_de_numeros_por_vez; $j++){
@@ -179,6 +181,7 @@ class RifaController extends Controller
                                 'numero' => $i*$quantidade_de_numeros_por_vez + $j + 1,
                                 'status'    =>  'DISPONIVEL',
                                 'rifa_id' => $rifa->id,
+                                'numero_formatado' =>  $numero_formatado
                             ];
                         }
                         Cota::insert($cotas);

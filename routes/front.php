@@ -15,9 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group([],function () {
-
+    Route::get('cotas/total-com-status-pago', 'CotaController@getTotalComStatusPago');
+    Route::get('cotas/total-com-status-reservado', 'CotaController@getTotalComStatusReservado');
+    Route::get('cotas/total-com-status-disponivel', 'CotaController@getTotalComStatusDisponivel');
     Route::get('cotas/{rifa}', 'CotaController@all');
     Route::get('rifas', 'RifaController@index');
+
     Route::get('/sorteios', 'RifaController@index');
     Route::post('/checkout/cadastrar', 'CheckoutController@cadastrar');
     Route::get('/checkout/verify/{pedido_id}', 'CheckoutController@verify');

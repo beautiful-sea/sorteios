@@ -129,7 +129,10 @@ class Rifa extends Model
     }
 
     public function getNumeroSorteadoFormatadoAttribute(){
-        return str_pad($this->numero_sorteado, 4, '0', STR_PAD_LEFT);
+        $numero_sorteado = $this->numero_sorteado;
+        $maior_numero = $this->cotas->max('numero');
+        $tamanho_maior_numero = strlen($maior_numero);
+        return str_pad($numero_sorteado, $tamanho_maior_numero, '0', STR_PAD_LEFT);
     }
 
     public function getValorEmRealAttribute(){
@@ -157,6 +160,14 @@ class Rifa extends Model
      * @return void
      */
     public static function criarCotasNoCache($cotas,$rifa_id){
+        //Cria o numero formatado para cada cota. É adicionado 0 a esquerda do numero da cota de acordo com o tamanho de caracteres do maior numero da rifa
+        $maior_numero = $cotas->max('numero');
+        $tamanho_maior_numero = strlen($maior_numero);
+        $cotas = $cotas->map(function($cota) use ($tamanho_maior_numero){
+            $cota['numero_formatado'] = str_pad($cota['numero'], $tamanho_maior_numero, '0', STR_PAD_LEFT);
+            return $cota;
+        });
+
         Cache::put('cotas_rifa_'.$rifa_id, $cotas);
     }
 
@@ -168,13 +179,20 @@ class Rifa extends Model
     public static function getCotasNoCache($rifa_id){
         //Verifica se a lista de cotas da rifa está no cache
         if(!Cache::has('cotas_rifa_'.$rifa_id)){
+
             //Se não estiver, cria a lista de cotas da rifa no cache
             $cotas = Cota::where('rifa_id',$rifa_id)->get();
-            $cotas = $cotas->map(function($cota){
+
+            //Cria o numero formatado para cada cota. É adicionado 0 a esquerda do numero da cota de acordo com o tamanho de caracteres do maior numero da rifa
+            $maior_numero = $cotas->max('numero');
+            $tamanho_maior_numero = strlen($maior_numero);
+
+            $cotas = $cotas->map(function($cota) use($tamanho_maior_numero){
                 return [
                     'numero'=>$cota->numero,
                     'status'=>$cota->status,
-                    'pedido_id'=>$cota->pedido_id
+                    'pedido_id'=>$cota->pedido_id,
+                    'numero_formatado'=>str_pad($cota->numero, $tamanho_maior_numero, '0', STR_PAD_LEFT)
                 ];
             });
             self::criarCotasNoCache($cotas,$rifa_id);

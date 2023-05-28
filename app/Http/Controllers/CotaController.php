@@ -87,20 +87,49 @@ class CotaController extends Controller
     public function all(Request $request, Rifa $rifa){
         if($request->expectsJson()){
             $cotas = collect(Rifa::getCotasNoCache($rifa->id));
-            $cotas= $cotas->map(function($cota){
-                $cota['numero_formatado'] = str_pad($cota['numero'], 4, '0', STR_PAD_LEFT);
-                return $cota;
-            });
-//            $cotas = $rifa->cotas()->paginate($request->per_page);
+            if($request->filter){
+                $cotas = $cotas->filter(function($cota) use ($request){
+                    return $cota['status'] == $request->filter;
+                });
+            }
+            $count = $cotas->count();
+            $items = $cotas->forPage($request->page, $request->per_page)->values();
             //Cria a paginação manualmente
             $cotas = new LengthAwarePaginator(
-                $cotas->forPage($request->page, $request->per_page)->values(),
-                $cotas->count(),
+                $items,
+                $count,
                 $request->per_page,
                 $request->page,
                 ['path' => $request->url()]
             );
             return response()->json($cotas);
+        }
+    }
+
+    public function getTotalComStatusPago(Request $request){
+        if($request->expectsJson()){
+            $total_pago = Rifa::where('id',$request->rifa_id)->withCount(['cotas as total_pago' => function($query){
+                $query->where('status','PAGO');
+            }])->first()->total_pago;
+            return response()->json($total_pago);
+        }
+    }
+
+    public function getTotalComStatusReservado(Request $request){
+        if($request->expectsJson()){
+            $total_reservado = Rifa::where('id',$request->rifa_id)->withCount(['cotas as total_reservado' => function($query){
+                $query->where('status','RESERVADO');
+            }])->first()->total_reservado;
+            return response()->json($total_reservado);
+        }
+    }
+
+    public function getTotalComStatusDisponivel(Request $request){
+        if($request->expectsJson()){
+            $total_disponivel = Rifa::where('id',$request->rifa_id)->withCount(['cotas as total_disponivel' => function($query){
+                $query->where('status','DISPONIVEL');
+            }])->first()->total_disponivel;
+            return response()->json($total_disponivel);
         }
     }
 }

@@ -19,13 +19,13 @@
                 <div class="raffle-ticket-tabs btn-group">
                     <button class="btn btn-light active" data-count="583" data-title="Disponível"
                             data-type="available" type="button" @click="changeFilter('DISPONIVEL')">Disponível
-                        ({{ disponiveis.length }})
+                        ({{ totalComStatusDisponivel }})
                     </button>
                     <button class="btn btn-info" data-count="322" data-title="Reservado" data-type="reserved"
-                            type="button" @click="changeFilter('RESERVADO')">Reservado ({{ reservados.length }})
+                            type="button" @click="changeFilter('RESERVADO')">Reservado ({{ totalComStatusReservado }})
                     </button>
                     <button class="btn btn-success" data-count="95" data-title="Pago" data-type="paid"
-                            type="button" @click="changeFilter('PAGO')">Pago ({{ pagos.length }})
+                            type="button" @click="changeFilter('PAGO')">Pago ({{ totalComStatusPago }})
                     </button>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <div class="raffle-ticket-main"  ref="scrollCotas" @scroll="handleScroll" :style="(selectedCotas.length)?'margin-bottom: 145px;max-height: 300px;overflow-y: auto;':' max-height: 300px;overflow-y: auto;'">
+        <div class="raffle-ticket-main"  ref="scrollCotas" :style="(selectedCotas.length)?'margin-bottom: 145px;max-height: 300px;overflow-y: auto;':' max-height: 300px;overflow-y: auto;'">
             <ul class="raffle-ticket-container raffle-ticket--all ">
                 <li v-for="cota in cotasFiltered"
                     :class="'badge mb-1 mr-1 raffle-ticket-number raffle-ticket-number--'+getClassNumeroCota(cota)"
@@ -60,7 +60,7 @@ export default {
                 page: 1,
                 last_page: 1,
                 current_page: 1,
-                per_page: 10000,
+                per_page: 1000,
                 total: 0,
                 from: 0,
                 offset: 0,
@@ -69,6 +69,9 @@ export default {
             selectedCotas: [],
             filter: 'DISPONIVEL',
             isLoadingMore: false,
+            totalComStatusPago: 0,
+            totalComStatusReservado: 0,
+            totalComStatusDisponivel: 0,
         }
     },
     computed: {
@@ -103,6 +106,27 @@ export default {
         }
     },
     methods: {
+        getTotalComStatusPago() {
+           Vue.requests.listar('cotas/total-com-status-pago', this,'totalComStatusPago',{
+                params: {
+                    rifa_id: this.rifa.id,
+                }
+            });
+        },
+        getTotalComStatusReservado() {
+            Vue.requests.listar('cotas/total-com-status-reservado',this, 'totalComStatusReservado',{
+                params: {
+                    rifa_id: this.rifa.id,
+                }
+            });
+        },
+        getTotalComStatusDisponivel() {
+            Vue.requests.listar('cotas/total-com-status-disponivel',this, 'totalComStatusDisponivel',{
+                params: {
+                    rifa_id: this.rifa.id,
+                }
+            });
+        },
         reset() {
             this.selectedCotas = [];
             this.filter = 'DISPONIVEL';
@@ -186,7 +210,8 @@ export default {
             if (cota.status === 'PAGO') return 'paid disabled';
         },
         changeFilter(filter) {
-            this.filter = filter
+            this.filter = filter;
+            this.getCotas();
         },
         getCotas(loader = true) {
             let self = this;
@@ -210,7 +235,11 @@ export default {
                     self.cotas.current_page = r.data.current_page;
                     self.cotas.last_page = r.data.last_page;
                     self.cotas.per_page = r.data.per_page;
-                    self.cotas.total = r.data.total;
+                    //Enquanto a lista não estiver completa, continua carregando
+                    if (self.cotas.current_page < self.cotas.last_page) {
+                        self.cotas.page = self.cotas.page + 1;
+                        self.getCotas(false);
+                    }
 
                 }
                 self.isLoadingMore = false;
@@ -222,16 +251,19 @@ export default {
                 this.getCotas(false);
             }
         },
-        handleScroll() {
-            let element =  this.$refs.scrollCotas
-            console.log(element.scrollTop + element.clientHeight, element.scrollHeight)
-            if (element.scrollTop + element.clientHeight >= element.scrollHeight *0.70) {
-                this.loadMore();
-            }
-        },
+        // handleScroll() {
+        //     let element =  this.$refs.scrollCotas
+        //     console.log(element.scrollTop + element.clientHeight, element.scrollHeight)
+        //     if (element.scrollTop + element.clientHeight >= element.scrollHeight *0.70) {
+        //         this.loadMore();
+        //     }
+        // },
     },
     created() {
         this.getCotas();
+        this.getTotalComStatusDisponivel();
+        this.getTotalComStatusReservado();
+        this.getTotalComStatusPago();
 
     },
     updated() {

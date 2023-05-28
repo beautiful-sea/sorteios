@@ -156,33 +156,33 @@ export default {
 
         var dadosCache = {} ;
 
-        if(Object.keys(params).length == 0 || (Object.keys(params).length == 1  && Object.keys(params)[0] === 'perPage') ){
-
-            dadosCache = self.$helpers.getCacheByUrl(url);
-            if(dadosCache){
-
-                if(campoData){
-                    self[campoData] = dadosCache.data;
-                }
-
-                if (typeof callback == "function"){
-                    callback({
-                        error: false,
-                        ...dadosCache
-                    });
-                }
-
-                if (typeof finalCallback == "function"){
-                    finalCallback({...dadosCache});
-                }
-
-                if(loader){
-                    self[loader] = false;
-                }
-
-                return;
-            }
-        }
+        // if(Object.keys(params).length == 0 || (Object.keys(params).length == 1  && Object.keys(params)[0] === 'perPage') ){
+        //
+        //     dadosCache = self.$helpers.getCacheByUrl(url);
+        //     if(dadosCache){
+        //
+        //         if(campoData){
+        //             self[campoData] = dadosCache.data;
+        //         }
+        //
+        //         if (typeof callback == "function"){
+        //             callback({
+        //                 error: false,
+        //                 ...dadosCache
+        //             });
+        //         }
+        //
+        //         if (typeof finalCallback == "function"){
+        //             finalCallback({...dadosCache});
+        //         }
+        //
+        //         if(loader){
+        //             self[loader] = false;
+        //         }
+        //
+        //         return;
+        //     }
+        // }
 
         axios.get(apiUrl, {params}).then((response) => {
 
