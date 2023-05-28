@@ -177,10 +177,15 @@ class RifaController extends Controller
                             $cotas[] = [
                                 'pedido_id' => null,
                                 'numero' => $i*$quantidade_de_numeros_por_vez + $j + 1,
-                                'status'    =>  'DISPONIVEL'
+                                'status'    =>  'DISPONIVEL',
+                                'rifa_id' => $rifa->id,
                             ];
                         }
                         Cota::insert($cotas);
+                        //Remove o rifa_id das cotas
+                        foreach ($cotas as $key => $cota){
+                            unset($cotas[$key]['rifa_id']);
+                        }
                         $cotas_to_cache = array_merge($cotas_to_cache,$cotas);
                     }
                     Rifa::criarCotasNoCache($cotas_to_cache, $rifa->id); //Coloca as cotas em cache
