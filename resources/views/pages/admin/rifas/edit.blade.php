@@ -13,8 +13,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/base/plugins/forms/form-wizard.css') }}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/base/plugins/extensions/ext-component-tour.css')}}">
     <link rel="stylesheet" type="text/css" href="/css/base/plugins/forms/form-file-uploader.css">
-    <link href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css' rel='stylesheet'
-          type='text/css'/>
+    <!-- Adicione o CSS do Quill -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
 @endsection
 @section('content')
     <section>
@@ -49,7 +50,10 @@
                                 <div class="  col-12">
                                     <div class="mb-1">
                                         <label class="form-label" for="descricao">Descrição</label>
-                                        <textarea type="text" id="descricao" class="form-control" name="descricao">
+                                        <div style="max-height: 200px;" id="editor">
+                                            {!! $rifa->descricao !!} <!-- Aqui você pode carregar o conteúdo existente do campo, se necessário -->
+                                        </div>
+                                        <textarea type="text" style="display: none" id="descricao" class="form-control" name="descricao">
                                         {!! $rifa->descricao !!}
                                         </textarea>
                                     </div>
@@ -227,6 +231,7 @@
                                                                         <div class="d-flex justify-content-between"><input
                                                                                     style="border-radius:0px;height: auto"
                                                                                     type="number"
+                                                                                    disabled
                                                                                     name="compra_automatica_numeros[]"
                                                                                     class="form-control"
                                                                                     value="{{$compra_automatica_numero}}"
@@ -389,22 +394,6 @@
                                                 @endif
                                         </div>
                                     </div>
-                                    @if($rifa->cotas)
-                                        <div class="row" >
-                                            <div class="col-12">
-                                                <h3>Números da rifa</h3>
-                                            </div>
-                                            <div class="col-12" style="max-height: 300px; overflow-y: auto">
-                                                @foreach($rifa->cotas as $numeros)
-                                                    @if($numeros->status == 'RESERVADO')
-                                                    <span class="badge bg-primary m-1 text-white">{{$numeros->numero_formatado}}</span>
-                                                    @else
-                                                    <span class="badge bg-danger m-1 text-white">{{$numeros->numero_formatado}}</span>
-                                                    @endif
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    @endif
                                 </div>
 
                                 <div class="col-12">
@@ -436,16 +425,18 @@
     <script src="{{ asset('vendors/js/forms/wizard/bs-stepper.min.js') }} "></script>
     <script src="{{ asset('vendors/js/extensions/toastr.min.js') }}"></script>
     <script src="{{ asset('vendors/js/maskMoney/jquery.maskMoney.min.js') }}"></script>
-    <script type='text/javascript'
-            src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js'></script>
+    <!-- Adicione o Quill.js -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 @endsection
 @section('page-script')
     <script>
-        var editor = new FroalaEditor('#descricao', {
-            language: 'pt_BR',
-            fileUpload: false,
-            //Altera o placeholder
-            placeholderText: 'Escreva aqui a descrição da rifa',
+        var quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+
+        var textarea = document.querySelector('textarea[name="descricao"]');
+        quill.on('text-change', function() {
+            textarea.value = quill.root.innerHTML;
         });
 
         //Quando uma ou mais imagens são selecionadas, adiciona o preview na div #images-list

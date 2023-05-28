@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\CadastrarCotasEmLoteJob;
 use App\Models\Configuration;
+use App\Models\Cota;
 use App\Models\MercadoPago;
 use App\Models\Pedido;
 use App\Models\Rifa;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -109,8 +112,7 @@ class RifaController extends Controller
                 'valor_por_numero' => 'required',
                 'quantidade_de_numeros' => 'required',
                 'quantidade_maxima_de_numeros' => 'required',
-//                'porcentagem_comissao_vendas'    =>'required',
-//                'contato_whatsapp'   =>'required',
+
                 'files.*' => 'image|required'
             ],
                 [
@@ -122,10 +124,10 @@ class RifaController extends Controller
                     'quantidade_de_numeros.required' => 'Quantidade de números obrigátorio',
                     'quantidade_maxima_de_numeros.required' => 'Quantidade máxima de números obrigatório',
                     'quantidade_minima_de_numeros' => 'Quantidade mínima de números obrigatório',
-//                    'porcentagem_comissao_vendas.required'    =>'Porcentagem da comissão de vendas obrigatório',
+
                     'files.*.required' => 'Imagem obrigatória',
                     'files.*.image' => 'Arquivo deve ser uma imagem válida',
-//                    'contato_whatsapp.required'   =>'Contato do whatsapp obrigatório',
+
                 ])->validate();
             DB::beginTransaction();
             try {
@@ -151,22 +153,43 @@ class RifaController extends Controller
                     Rifa::where('id', '!=', $rifa->id)->update(['is_principal' => false]);
                 }
 
-                for ($i = 1; $i <= $data['quantidade_de_numeros']; $i++) {
-                    $rifa->cotas()->create([
-                        'numero' => $i
+                //Criação das imagens
+                $files = $request->file('files');
+                foreach ($files as $key => $file) {
+                    $path = $file->store('rifas_imagens', 'public');
+                    $rifa->imagens()->create([
+                        'path' => $path,
+                        'is_principal' => $request->imagem_principal_index == $key ? true : false,
                     ]);
                 }
-                if ($request->has('files')) {
-                    $files = $request->file('files');
-                    foreach ($files as $key => $file) {
-                        $path = $file->store('rifas_imagens', 'public');
-                        $rifa->imagens()->create([
-                            'path' => $path,
-                            'is_principal' => $request->imagem_principal_index == $key ? true : false,
-                        ]);
+                //Se a quantidade de cotas for maior que 100mil, usa o job CadastrarCotasEmLoteJob
+                if($data['quantidade_de_numeros'] > 100000){
+                    CadastrarCotasEmLoteJob::dispatch($data['quantidade_de_numeros'],$rifa->id);
+                }else{
+                    //Divide a criação das cotas de 10000 em 10000
+                    $quantidade_de_numeros = $data['quantidade_de_numeros'];
+                    $quantidade_de_numeros_por_vez = 10000;
+                    $quantidade_de_vezes = ceil($quantidade_de_numeros/$quantidade_de_numeros_por_vez);
+                    $cotas_to_cache = [];
+                    for($i = 0; $i < $quantidade_de_vezes; $i++){
+                        $cotas = [];
+                        for($j = 0; $j < $quantidade_de_numeros_por_vez; $j++){
+                            $cotas[] = [
+                                'pedido_id' => null,
+                                'numero' => $i*$quantidade_de_numeros_por_vez + $j + 1,
+                                'status'    =>  'DISPONIVEL'
+                            ];
+                        }
+                        Cota::insert($cotas);
+                        $cotas_to_cache = array_merge($cotas_to_cache,$cotas);
                     }
+                    Rifa::criarCotasNoCache($cotas_to_cache, $rifa->id); //Coloca as cotas em cache
                 }
+
                 DB::commit();
+
+
+
                 return redirect()->to('/rifas')->with(['message' => 'Rifa cadastrada com sucesso']);
             } catch (\Exception $e) {
                 return redirect()->back()->withErrors($e->getMessage())->withInput($request->all());
@@ -242,6 +265,12 @@ class RifaController extends Controller
                 $data = collect($request->all())->filter(function ($value, $key) {
                     return $value != null;
                 })->toArray();
+
+                //Não permite alterar a quantidade de numeros, retorna erro
+                if($data['quantidade_de_numeros'] != $rifa->quantidade_de_numeros){
+                    return redirect()->back()->withErrors('Não é possível alterar a quantidade de números')->withInput($request->all());
+                }
+
 
                 if(isset($data['numero_sorteado']) && $data['numero_sorteado'] != null ){
                     $cota_sorteada = $rifa->cotas() ->where('numero', $data['numero_sorteado'])->first();
@@ -341,6 +370,8 @@ class RifaController extends Controller
             $pedidos = $rifa->pedidos();
 
             $cotas->delete();
+            //Deleta o cache das cotas
+            Rifa::deletarCotasNoCache($rifa->id);
             $pedidos->delete();
             $imagens->delete();
             foreach ($imagens->get() as $imagem) {

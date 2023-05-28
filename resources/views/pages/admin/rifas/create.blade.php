@@ -12,7 +12,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/base/plugins/forms/form-wizard.css') }}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/base/plugins/extensions/ext-component-tour.css')}}">
     <link rel="stylesheet" type="text/css" href="/css/base/plugins/forms/form-file-uploader.css">
-    <link href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
+
+    <!-- Adicione o CSS do Quill -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 @endsection
 @section('content')
     <section >
@@ -43,7 +45,10 @@
                                 <div class="  col-12">
                                     <div class="mb-1">
                                         <label class="form-label" for="descricao">Descrição</label>
-                                        <textarea type="text"  id="descricao" class="form-control"  name="descricao">
+                                        <div style="max-height: 200px;" id="editor">
+                                            {!! old('descricao') !!} <!-- Aqui você pode carregar o conteúdo existente do campo, se necessário -->
+                                        </div>
+                                        <textarea type="text" style="display: none" id="descricao" class="form-control" name="descricao">
                                         {!! old('descricao') !!}
                                         </textarea>
                                     </div>
@@ -294,16 +299,21 @@
     <script src="{{ asset('vendors/js/forms/wizard/bs-stepper.min.js') }} "></script>
     <script src="{{ asset('vendors/js/extensions/toastr.min.js') }}"></script>
     <script src="{{ asset('vendors/js/maskMoney/jquery.maskMoney.min.js') }}"></script>
-    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js'></script>
+
+    <!-- Adicione o Quill.js -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 @endsection
 @section('page-script')
     <script>
-        var editor = new FroalaEditor('#descricao',{
-            language:'pt_BR',
-            fileUpload: false,
-            //Altera o placeholder
-            placeholderText: 'Escreva aqui a descrição da rifa',
+        var quill = new Quill('#editor', {
+            theme: 'snow'
         });
+
+        var textarea = document.querySelector('textarea[name="descricao"]');
+        quill.on('text-change', function() {
+            textarea.value = quill.root.innerHTML;
+        });
+
 
         //Quando uma ou mais imagens são selecionadas, adiciona o preview na div #images-list
         $('#images').on('change', function(){

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Rifa;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class CotaController extends Controller
 {
@@ -85,7 +86,20 @@ class CotaController extends Controller
 
     public function all(Request $request, Rifa $rifa){
         if($request->expectsJson()){
-            $cotas = $rifa->cotas()->with('pedido')->get();
+            $cotas = collect(Rifa::getCotasNoCache($rifa->id));
+            $cotas= $cotas->map(function($cota){
+                $cota['numero_formatado'] = str_pad($cota['numero'], 4, '0', STR_PAD_LEFT);
+                return $cota;
+            });
+//            $cotas = $rifa->cotas()->paginate($request->per_page);
+            //Cria a paginação manualmente
+            $cotas = new LengthAwarePaginator(
+                $cotas->forPage($request->page, $request->per_page)->values(),
+                $cotas->count(),
+                $request->per_page,
+                $request->page,
+                ['path' => $request->url()]
+            );
             return response()->json($cotas);
         }
     }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Cota extends Model
 {
@@ -20,4 +21,5 @@ class Cota extends Model
     public function getNumeroFormatadoAttribute(){
         return str_pad($this->numero, 4, '0', STR_PAD_LEFT);
     }
+
 }

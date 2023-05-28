@@ -35,14 +35,12 @@
                 </div>
             </div>
         </div>
-        <div class="raffle-ticket-main" :style="(selectedCotas.length)?'margin-bottom: 145px':''">
-            <ul class="raffle-ticket-container raffle-ticket--all">
+        <div class="raffle-ticket-main"  ref="scrollCotas" @scroll="handleScroll" :style="(selectedCotas.length)?'margin-bottom: 145px;max-height: 300px;overflow-y: auto;':' max-height: 300px;overflow-y: auto;'">
+            <ul class="raffle-ticket-container raffle-ticket--all ">
                 <li v-for="cota in cotasFiltered"
                     :class="'badge mb-1 mr-1 raffle-ticket-number raffle-ticket-number--'+getClassNumeroCota(cota)"
                     data-ticket-number="0"
                     data-ticket-status="reserved" @click="toggleCota(cota)">
-                    <div class="numero-tooltip">Número {{ cota.numero_formatado }} reservado <br>por <b
-                            class="text-warning">José</b></div>
                     {{ cota.numero_formatado }}
                 </li>
 
@@ -58,9 +56,19 @@ export default {
     data() {
         return {
             loading: false,
-            cotas: [],
+            cotas: {
+                page: 1,
+                last_page: 1,
+                current_page: 1,
+                per_page: 10000,
+                total: 0,
+                from: 0,
+                offset: 0,
+                data:[]
+            },
             selectedCotas: [],
-            filter: 'DISPONIVEL'
+            filter: 'DISPONIVEL',
+            isLoadingMore: false,
         }
     },
     computed: {
@@ -74,22 +82,22 @@ export default {
             return this.total.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
         },
         cotasFiltered() {
-            return this.filter ? this.cotas.filter((cota) => {
+            return this.filter ? this.cotas.data.filter((cota) => {
                 return cota.status === this.filter
-            }) : this.cotas;
+            }) : this.cotas.data;
         },
         disponiveis() {
-            return this.cotas.filter((cota) => {
+            return this.cotas.data.filter((cota) => {
                 return cota.status === 'DISPONIVEL'
             });
         },
         reservados() {
-            return this.cotas.filter((cota) => {
+            return this.cotas.data.filter((cota) => {
                 return cota.status === 'RESERVADO'
             });
         },
         pagos() {
-            return this.cotas.filter((cota) => {
+            return this.cotas.data.filter((cota) => {
                 return cota.status === 'PAGO'
             });
         }
@@ -126,7 +134,7 @@ export default {
         },
         cotaIsSelected(cota) {
             return this.selectedCotas.find((cota_find) => {
-                return cota_find.id === cota.id
+                return cota_find.numero === cota.numero
             });
         },
         finalizar() {
@@ -158,14 +166,14 @@ export default {
             if (cota.status === 'RESERVADO'){
                 toastr.error('Este número já está reservado!');
                 return;
-            };
+            }
             let exists = this.selectedCotas.find((cota_find) => {
-                return cota_find.id === cota.id
+                return cota_find.numero === cota.numero
             });
 
             if (exists) {
                 this.selectedCotas = this.selectedCotas.filter((cota_filter) => {
-                    return cota_filter.id !== cota.id
+                    return cota_filter.numero !== cota.numero
                 });
                 return;
             }
@@ -180,16 +188,54 @@ export default {
         changeFilter(filter) {
             this.filter = filter
         },
-        getCotas() {
-            Vue.requests.listar('/cotas/' + this.rifa.id, this, 'cotas', {
-                loader: 'loading',
+        getCotas(loader = true) {
+            let self = this;
+            let loading = loader ? 'loading' : false;
+            if(!loader) this.isLoadingMore = true;
+            Vue.requests.listar('/cotas/' + this.rifa.id, this, null, {
+                loader:  loading,
+                params: {
+                    page: this.cotas.page,
+                    filter: this.filter,
+                    per_page: this.cotas.per_page,
+
+                }
+            },function (r) {
+                //Adiciona as cotas na lista sem duplicar, mantendo a ordem de exibição e mantendo o scroll no mesmo lugar
+                if(!r.error){
+                    self.cotas.data = [...self.cotas.data, ...r.data.data];
+
+                    //Atualiza o offset
+                    self.cotas.offset = r.data.offset;
+                    self.cotas.current_page = r.data.current_page;
+                    self.cotas.last_page = r.data.last_page;
+                    self.cotas.per_page = r.data.per_page;
+                    self.cotas.total = r.data.total;
+
+                }
+                self.isLoadingMore = false;
             })
-        }
+        },
+        loadMore() {
+            if (this.cotas.current_page < this.cotas.last_page && !this.isLoadingMore) {
+                this.cotas.page = this.cotas.page + 1;
+                this.getCotas(false);
+            }
+        },
+        handleScroll() {
+            let element =  this.$refs.scrollCotas
+            console.log(element.scrollTop + element.clientHeight, element.scrollHeight)
+            if (element.scrollTop + element.clientHeight >= element.scrollHeight *0.70) {
+                this.loadMore();
+            }
+        },
     },
     created() {
         this.getCotas();
+
     },
     updated() {
+
     }
 }
 </script>

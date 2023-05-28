@@ -8,6 +8,7 @@ use App\Models\Paggue;
 use App\Models\Pedido;
 use App\Models\Rifa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use MercadoPago\Payer;
@@ -56,7 +57,10 @@ class CheckoutController extends Controller
                     $cota->pedido_id = $pedido->id;
                     $cota->status = 'RESERVADO';
                     $cota->save();
+                    //Autaliza o status no cache
+                    Rifa::atualizarStatusDaCotaNoCache($cota->rifa_id, $cota->numero, 'RESERVADO',$pedido->id);
                 });
+
             }else{
                 foreach ($data['selectedCotas'] as $cot) {
                     $cota = $rifa->cotas()->where('id', $cot->id)->first();
@@ -72,6 +76,8 @@ class CheckoutController extends Controller
                     $cota->pedido_id = $pedido->id;
                     $cota->status = 'RESERVADO';
                     $cota->save();
+                    //Autaliza o status no cache
+                    Rifa::atualizarStatusDaCotaNoCache($cota->rifa_id, $cota->numero, 'RESERVADO',$pedido->id);
                 }
             }
             $metodo_pagamento = Configuration:: where('key', 'metodo_pagamento')->first();
@@ -168,6 +174,8 @@ class CheckoutController extends Controller
                 $cota->status = 'PAGO';
                 $cota->save();
             });
+            //Altera o status da cota no cache para PAGO
+            Rifa::atualizarStatusNoCache($pedido->rifa_id, $cotas, 'PAGO');
         }
 
         return response()->json($pedido);

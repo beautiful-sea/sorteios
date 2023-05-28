@@ -6,13 +6,11 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 class Rifa extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-
-
 
     protected $fillable = [
         'titulo',
@@ -138,5 +136,66 @@ class Rifa extends Model
         $valor = number_format($this->valor_por_numero,2,',','.');
         return "R$ $valor";
     }
+
+    //Atualiza o status da cota na lista de cotas da rifa no cache
+    public static function atualizarStatusDaCotaNoCache($rifa_id, $numero_cota, $status,$pedido_id = null){
+        $cotas = Cache::get('cotas_rifa_'.$rifa_id);
+        foreach ($cotas as $key => $cota) {
+            if($cota['numero'] == $numero_cota){
+                $cotas[$key]['pedido_id'] = $pedido_id;
+                $cotas[$key]['status'] = $status;
+                break;
+            }
+        }
+        Cache::put('cotas_rifa_'.$rifa_id, $cotas);
+    }
+
+    /**
+     * Cria a lista de cotas da rifa no cache
+     * @param $cotas
+     * @param $rifa_id
+     * @return void
+     */
+    public static function criarCotasNoCache($cotas,$rifa_id){
+        Cache::put('cotas_rifa_'.$rifa_id, $cotas);
+    }
+
+    /**
+     * Retorna a lista de cotas da rifa no cache
+     * @param $rifa_id
+     * @return mixed
+     */
+    public static function getCotasNoCache($rifa_id){
+        //Verifica se a lista de cotas da rifa está no cache
+        if(!Cache::has('cotas_rifa_'.$rifa_id)){
+            //Se não estiver, cria a lista de cotas da rifa no cache
+            $cotas = Cota::where('rifa_id',$rifa_id)->get();
+            $cotas = $cotas->map(function($cota){
+                return [
+                    'numero'=>$cota->numero,
+                    'status'=>$cota->status,
+                    'pedido_id'=>$cota->pedido_id
+                ];
+            });
+            self::criarCotasNoCache($cotas,$rifa_id);
+        }
+        return Cache::get('cotas_rifa_'.$rifa_id);
+    }
+
+    /**
+     * Deleta a lista de cotas da rifa no cache
+     * @param $rifa_id
+     * @return void
+     */
+    public static function deletarCotasNoCache($rifa_id){
+        Cache::forget('cotas_rifa_'.$rifa_id);
+    }
+
+    /**
+     * Cria
+     * @param $cotas
+     * @param $rifa_id
+     * @return void
+     */
 
 }
