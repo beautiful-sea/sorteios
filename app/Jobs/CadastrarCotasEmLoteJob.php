@@ -58,7 +58,7 @@ class CadastrarCotasEmLoteJob implements ShouldQueue
             Cota::insert($cota);
         }
         //Cria o numero formatado para cada cota. É adicionado 0 a esquerda do numero da cota de acordo com o tamanho de caracteres do maior numero da rifa
-        $maior_numero = Cota::where('rifa_id', $this->rifa_id)->max('numero');
+        $maior_numero = collect($this->cotas)->max('numero');
         $tamanho_maior_numero = strlen($maior_numero);
         $cotas = collect($cotas)->map(function ($cotas) use ($tamanho_maior_numero) {
             return collect($cotas)->map(function ($cota) use ($tamanho_maior_numero) {

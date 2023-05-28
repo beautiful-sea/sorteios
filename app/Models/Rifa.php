@@ -161,7 +161,7 @@ class Rifa extends Model
      */
     public static function criarCotasNoCache($cotas,$rifa_id){
         //Cria o numero formatado para cada cota. É adicionado 0 a esquerda do numero da cota de acordo com o tamanho de caracteres do maior numero da rifa
-        $maior_numero = $cotas->max('numero');
+        $maior_numero = collect($cotas)->max('numero');
         $tamanho_maior_numero = strlen($maior_numero);
         $cotas = $cotas->map(function($cota) use ($tamanho_maior_numero){
             $cota['numero_formatado'] = str_pad($cota['numero'], $tamanho_maior_numero, '0', STR_PAD_LEFT);
