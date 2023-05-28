@@ -6809,6 +6809,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var self = this;
       var loading = loader ? 'loading' : false;
       if (!loader) this.isLoadingMore = true;
+      //A cada requisição o per_page aumenta em 10000
+      this.cotas.per_page += 10000;
       Vue.requests.listar('/cotas/' + this.rifa.id, this, null, {
         loader: loading,
         params: {
