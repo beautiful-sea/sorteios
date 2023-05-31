@@ -22,7 +22,7 @@
                     <div class="mb-2">
                         <label for="telefone" class="form-label">Informe seu telefone <small
                                 class="text-danger uc_telefone_checkout_erro"></small></label>
-                        <input v-model="cliente.whatsapp" type="text" class="form-control mascaraCelular"
+                        <input v-model="cliente.whatsapp" type="text" v-mask-phone class="form-control mascaraCelular"
                                id="uc_telefone_checkout"
                                name="uc_telefone_checkout" required="" value="" maxlength="14"
                                placeholder="(xx)xxxxx-xxxx" inputmode="numeric">
@@ -58,14 +58,14 @@
 
                         <div class="col-12 mb-2">
                             <label for="uc_telefone" class="form-label">Celular </label>
-                            <input class="form-control mascaraCelular ignore-loader" name="uc_telefone" v-model="cliente.whatsapp" id="uc_telefone"
+                            <input v-mask-phone class="form-control mascaraCelular ignore-loader" name="uc_telefone" v-model="cliente.whatsapp" id="uc_telefone"
                                    required="" disabled="" value="" inputmode="numeric">
                         </div>
 
                         <div class="col-12 mb-2">
                             <label for="rtelefone" class="form-label">Confirme o celular <small
                                     class="text-danger uc_telefone_confirma_erro"></small></label>
-                            <input class="form-control mascaraCelular" v-model="cliente.confirm_whatsapp"
+                            <input class="form-control mascaraCelular" v-mask-phone v-model="cliente.confirm_whatsapp"
                                    name="uc_telefone_confirma" id="uc_telefone_confirma" required="" value=""
                                    maxlength="14" inputmode="numeric">
                         </div>
@@ -177,7 +177,7 @@ export default {
                 }
             },
             deep: true
-        }
+        },
     },
 
     methods: {
@@ -224,13 +224,13 @@ export default {
         setStep(step) {
             this.step = step;
         },
-        verifyPayment() {
+        verifyPayment(silence = false) {
             let self = this;
             Vue.requests.listar('/checkout/verify/' + this.payment.pedido_id, self, 'pedido', {
                     params: {
                         pedido_id: this.payment.pedido_id
                     },
-                    loader: 'loading'
+                    loader: silence ? null : 'loading'
                 }, function (response) {
                     if (response.status === 200) {
                         if (response.data.status === 'PAGO') {
@@ -248,7 +248,7 @@ export default {
                             self.closeModal();
 
                         }
-                        if (response.data.status === 'PENDENTE') {
+                        if (response.data.status === 'PENDENTE' && !silence) {
                             Swal.fire({
                                 title: 'Aguardando pagamento',
                                 text: 'O pagamento ainda não foi confirmado, aguarde a confirmação do pagamento.',
@@ -299,6 +299,11 @@ export default {
                 if (response.status === 200) {
                     self.payment = response.data;
                     self.step = 3;
+
+                    //Fica verificando se o pagamento foi confirmado a cada 5 segundos
+                    setInterval(function () {
+                        self.verifyPayment( true);
+                    }, 5000);
                 }
                 if(response.status === 400){
                     Swal.fire({
@@ -313,13 +318,24 @@ export default {
                     //     //FEcha o modal checkout
                     //     self.closeModal();
                     // }
+                    self.loading = false;
                 }
+            },function () {
+                Swal.fire({
+                    title: 'Erro ao concluir',
+                    text: response.data.message,
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+                // if(!self.rifa.is_compra_automatica){
+                //     self.selectedCotas = [];
+                //     self.$parent.reset();
+                //     //FEcha o modal checkout
+                //     self.closeModal();
+                // }
+                self.loading = false;
             });
         }
-    },
-    updated() {
-        //Mascara do telefone
-        $('.mascaraCelular').mask('(00)00000-0000');
     },
     created() {
         let self = this;
@@ -334,7 +350,56 @@ export default {
             self.step = 3;
             $('#modalCheckout').modal('show');
         });
-    }
+    },
+    //Diretiva que mascara o celular no formato (99) 99999-9999
+    directives: {
+        'mask-phone': {
+            bind(el) {
+                // Aplica a máscara de telefone (99) 99999-9999 sem biblioteca do jquery mask
+                el.oninput = function (e) {
+                    if (!e.isTrusted) {
+                        return;
+                    }
+                    if (this.value.length > 14) {
+                        this.value = this.value.slice(0, 14);
+                    }
+                    if (this.value.length === 1) {
+                        this.value = '(' + this.value;
+                    }
+                    if (this.value.length === 3) {
+                        this.value = this.value + ')';
+                    }
+                    if (this.value.length === 9) {
+                        this.value = this.value + '-';
+                    }
+                }
+            },
+            update(el) {
+                // Reaplica a máscara de telefone quando o componente é atualizado
+                el.oninput = function (e) {
+                    if (!e.isTrusted) {
+                        return;
+                    }
+                    if (this.value.length > 14) {
+                        this.value = this.value.slice(0, 14);
+                    }
+                    if (this.value.length === 1) {
+                        this.value = '(' + this.value;
+                    }
+                    if (this.value.length === 3) {
+                        this.value = this.value + ')';
+                    }
+                    if (this.value.length === 9) {
+                        this.value = this.value + '-';
+                    }
+                    console.log('length: '+this.value.length);
+                    e.value = this.value;
+                }
+                console.log('update: ', el.value);
+
+            }
+        }
+    },
 }
 </script>
 

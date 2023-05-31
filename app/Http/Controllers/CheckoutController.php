@@ -63,7 +63,7 @@ class CheckoutController extends Controller
 
             }else{
                 foreach ($data['selectedCotas'] as $cot) {
-                    $cota = $rifa->cotas()->where('id', $cot->id)->first();
+                    $cota = $rifa->cotas()->where('numero', $cot->numero)->first();
                     if(!$cota){
                         DB::rollBack();
                         return response()->json(['message' => 'A cota '.$cot->numero.' não existe. Por favor, escolha outra para prosseguir.'], 400);
@@ -99,6 +99,7 @@ class CheckoutController extends Controller
             $response['qrcode'] = $dados_pagamento['qrcode'];
             $response['chave_pix'] = $dados_pagamento['chave_pix'];
             $response['hash'] = $dados_pagamento['hash'];
+            $response['metodo_pagamento'] = $pedido->metodo_pagamento;
 
             DB::commit();
             return response()->json($response);
@@ -140,11 +141,12 @@ class CheckoutController extends Controller
     }
 
     public function verify(Request $request, $pedido_id){
-        $pedido = Pedido::find($pedido_id);
+        try{
+            $pedido = Pedido::find($pedido_id);
 
-        if($pedido->status != 'PAGO'){
-            //Se o pagamento for feito pelo paggue, verifica se o pagamento foi feito
-            if($pedido->metodo_pagamento === 'PAGGUE'){
+            if($pedido->status != 'PAGO'){
+                //Se o pagamento for feito pelo paggue, verifica se o pagamento foi feito
+                if($pedido->metodo_pagamento === 'PAGGUE'){
 //                $paggue = new Paggue();
 //                $response = $paggue->getBillingOrders($pedido->hash_payment);
 //                $response = json_decode($response, true);
@@ -155,30 +157,33 @@ class CheckoutController extends Controller
 //                    $pedido->status = 'PAGO';
 //                    $pedido->save();
 //                }
-            } else {
-                $payment_id = $pedido->hash_payment;
-                //Inicializa o SDK do Mercado Pago
-                \MercadoPago\SDK::setAccessToken(env('MERCADO_PAGO_ACCESS_TOKEN'));
-                $pagamento = \MercadoPago\Payment::find_by_id($payment_id);
-                if($pagamento->status == 'approved'){
-                    $pedido->status = 'PAGO';
-                    $pedido->save();
+                } else {
+                    $payment_id = $pedido->hash_payment;
+                    //Inicializa o SDK do Mercado Pago
+                    \MercadoPago\SDK::setAccessToken(env('MERCADO_PAGO_ACCESS_TOKEN'));
+                    $pagamento = \MercadoPago\Payment::find_by_id($payment_id);
+                    if($pagamento->status == 'approved'){
+                        $pedido->status = 'PAGO';
+                        $pedido->save();
+                    }
                 }
             }
-        }
 
-        //Se o pedido estiver pago, altera o status das cotas para PAGO
-        if($pedido->status == 'PAGO'){
-            $cotas = Cota::where('pedido_id', $pedido->id)->get();
-            $cotas->each(function($cota){
-                $cota->status = 'PAGO';
-                $cota->save();
-            });
-            //Altera o status da cota no cache para PAGO
-            Rifa::atualizarStatusNoCache($pedido->rifa_id, $cotas, 'PAGO');
-        }
+            //Se o pedido estiver pago, altera o status das cotas para PAGO
+            if($pedido->status == 'PAGO'){
+                $cotas = Cota::where('pedido_id', $pedido->id)->get();
+                $cotas->each(function($cota){
+                    $cota->status = 'PAGO';
+                    $cota->save();
+                });
+                //Altera o status da cota no cache para PAGO
+                Rifa::atualizarStatusDaCotaNoCache($pedido->rifa_id, $cotas, 'PAGO');
+            }
 
-        return response()->json($pedido);
+            return response()->json($pedido);
+        }catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(),'trace'=> $e->getTrace()], 400);
+        }
     }
 
     /**

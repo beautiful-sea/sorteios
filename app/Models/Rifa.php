@@ -143,13 +143,15 @@ class Rifa extends Model
     //Atualiza o status da cota na lista de cotas da rifa no cache
     public static function atualizarStatusDaCotaNoCache($rifa_id, $numero_cota, $status,$pedido_id = null){
         $cotas = Cache::get('cotas_rifa_'.$rifa_id);
-        foreach ($cotas as $key => $cota) {
-            if($cota['numero'] == $numero_cota){
-                $cotas[$key]['pedido_id'] = $pedido_id;
-                $cotas[$key]['status'] = $status;
-                break;
+        $cotas = collect($cotas);
+        $cotas = $cotas->map(function ($cota) use ($numero_cota, $status, $pedido_id) {
+            if ($cota['numero'] == $numero_cota) {
+                $cota['pedido_id'] = $pedido_id;
+                $cota['status'] = $status;
             }
-        }
+
+            return $cota;
+        });
         Cache::put('cotas_rifa_'.$rifa_id, $cotas);
     }
 
@@ -163,7 +165,7 @@ class Rifa extends Model
         //Cria o numero formatado para cada cota. É adicionado 0 a esquerda do numero da cota de acordo com o tamanho de caracteres do maior numero da rifa
         $maior_numero = collect($cotas)->max('numero');
         $tamanho_maior_numero = strlen($maior_numero);
-        $cotas = $cotas->map(function($cota) use ($tamanho_maior_numero){
+        $cotas = collect($cotas)->map(function($cota) use ($tamanho_maior_numero){
             $cota['numero_formatado'] = str_pad($cota['numero'], $tamanho_maior_numero, '0', STR_PAD_LEFT);
             return $cota;
         });

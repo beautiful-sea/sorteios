@@ -41,8 +41,18 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Anterior</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Próximo</span>
+                            </button>
                         </div>
                     </div>
+
                     <div class="SorteioTpl_info__t1BZr"><h1 class="SorteioTpl_title__3RLtu">{{ sorteioPrincipal.titulo }}</h1>
                         <p class="SorteioTpl_descricao__1b7iL" style="margin-bottom:1px">
                             {{sorteioPrincipal.resumo}}
@@ -149,6 +159,14 @@ export default {
     },
     mounted() {
         this.listarSorteios();
+        //Ativa os carroulseis
+        this.$nextTick(() => {
+            var myCarousel = document.getElementById('carousel');
+            var carousel = new bootstrap.Carousel(myCarousel, {
+                interval: 5000,
+                wrap: true
+            });
+        });
     },
 }
 </script>

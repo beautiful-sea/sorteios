@@ -17,6 +17,8 @@ window.$ = window.jQuery = require('jquery');
 require('jquery-mask-plugin');
 //Bootstrap
 require('./bootstrap');
+// window.bootstrap = require('bootstrap');
+
 require('hideshowpassword');
 // var Dropzone = require('dropzone');
 var password = require('password-strength-meter');
