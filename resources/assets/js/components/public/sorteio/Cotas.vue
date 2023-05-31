@@ -241,10 +241,14 @@ export default {
                     self.cotas.current_page = r.data.current_page;
                     self.cotas.last_page = r.data.last_page;
                     self.cotas.per_page = r.data.per_page;
+                    self.cotas.total = r.data.total;
+                    console.log(self.cotas.total, self.cotas.data.length)
+                    console.log(self.cotas.total >= 10000 && self.cotas.data.length < 10000)
                     //Enquanto a lista não estiver completa, continua carregando
-                    if (self.cotas.current_page < self.cotas.last_page) {
+                    if (self.cotas.total >= 10000 && self.cotas.data.length < 10000){
+                        console.log('entrou')
                         self.cotas.page = self.cotas.page + 1;
-                        this.cotas.per_page = 10000;
+                        self.cotas.per_page = 2000;
                         self.getCotas(false);
                     }
 

@@ -16,4 +16,5 @@ class Cota extends Model
         return $this->belongsTo(Pedido::class);
     }
 
+
 }

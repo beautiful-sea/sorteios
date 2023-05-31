@@ -6832,10 +6832,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           self.cotas.current_page = r.data.current_page;
           self.cotas.last_page = r.data.last_page;
           self.cotas.per_page = r.data.per_page;
+          self.cotas.total = r.data.total;
+          console.log(self.cotas.total, self.cotas.data.length);
+          console.log(self.cotas.total >= 10000 && self.cotas.data.length < 10000);
           //Enquanto a lista não estiver completa, continua carregando
-          if (self.cotas.current_page < self.cotas.last_page) {
+          if (self.cotas.total >= 10000 && self.cotas.data.length < 10000) {
+            console.log('entrou');
             self.cotas.page = self.cotas.page + 1;
-            this.cotas.per_page = 10000;
+            self.cotas.per_page = 2000;
             self.getCotas(false);
           }
         }
@@ -7049,7 +7053,8 @@ __webpack_require__.r(__webpack_exports__);
         pedido_id: null
       },
       pedido: null,
-      loading: false
+      loading: false,
+      verifying: false
     };
   },
   watch: {
@@ -7112,6 +7117,7 @@ __webpack_require__.r(__webpack_exports__);
     verifyPayment: function verifyPayment() {
       var silence = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
       var self = this;
+      this.loading = false;
       Vue.requests.listar('/checkout/verify/' + this.payment.pedido_id, self, 'pedido', {
         params: {
           pedido_id: this.payment.pedido_id
@@ -7141,6 +7147,7 @@ __webpack_require__.r(__webpack_exports__);
               confirmButtonText: 'Ok'
             });
           }
+          self.verifying = false;
         }
       });
     },
@@ -7179,13 +7186,21 @@ __webpack_require__.r(__webpack_exports__);
         loader: 'loading',
         toast: false
       }, function (response) {
+        self.loading = false;
         if (response.status === 200) {
           self.payment = response.data;
           self.step = 3;
 
-          //Fica verificando se o pagamento foi confirmado a cada 5 segundos
-          setInterval(function () {
-            self.verifyPayment(true);
+          //Fica verificando se o pagamento foi confirmado a cada 5 segundos enquanto o step for 3. Não deixa repetir a verificação caso alguma verificação já esteja sendo feita
+          self.interval = setInterval(function () {
+            if (self.step === 3 && !self.verifying) {
+              self.verifying = true;
+              self.verifyPayment(true);
+            } else {
+              clearInterval(self.interval);
+              self.interval = null;
+              self.verifying = false;
+            }
           }, 5000);
         }
         if (response.status === 400) {
@@ -8906,7 +8921,10 @@ var render = function render() {
   }, [_vm._v("Concluído")])])]), _vm._v(" "), _vm.pedido.cotas.length ? _c("div", {
     staticClass: "col-12 mb-2"
   }, [_c("b", [_vm._v("Números escolhidos: ")]), _vm._v(" "), _c("div", {
-    staticClass: "d-flex"
+    staticClass: "d-flex",
+    staticStyle: {
+      "overflow-x": "auto"
+    }
   }, _vm._l(_vm.pedido.cotas, function (cota) {
     return _c("div", {
       staticClass: "m-1"

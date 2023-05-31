@@ -35,7 +35,15 @@ class PedidoController extends Controller
         }
         //Mais recentes primeiro
         $pedidos->orderBy('created_at','desc');
-        return response()->json($pedidos->paginate($request->perPage??10));
+        $pedidos = $pedidos->paginate($request->perPage??10);
+        //Formata os números das cota do pedido de acordo com o tamanho de cotas total da rifa
+        $total_cotas_rifa = Cota::where('rifa_id',$request->rifa_id)->count();
+        foreach($pedidos as $pedido){
+            foreach($pedido->cotas as $cota){
+                $cota->numero_formatado = str_pad($cota->numero, strlen($total_cotas_rifa), '0', STR_PAD_LEFT);
+            }
+        }
+        return response()->json($pedidos);
     }
     public function byWhatsapp(Request $request)
     {

@@ -140,11 +140,36 @@ class Rifa extends Model
         return "R$ $valor";
     }
 
+
     //Atualiza o status da cota na lista de cotas da rifa no cache
     public static function atualizarStatusDaCotaNoCache($rifa_id, $numero_cota, $status,$pedido_id = null){
         $cotas = Cache::get('cotas_rifa_'.$rifa_id);
         $cotas = collect($cotas);
         $cotas = $cotas->map(function ($cota) use ($numero_cota, $status, $pedido_id) {
+            //se numero cota for uma collection, fazer o processo para cada cota
+            if (is_a($numero_cota, 'Illuminate\Support\Collection')) {
+                $numero_cota = $numero_cota->toArray();
+                $numero_cota = array_map(function ($item) {
+                    return (int)$item;
+                }, $numero_cota);
+                if (in_array($cota['numero'], $numero_cota)) {
+                    $cota['pedido_id'] = $pedido_id;
+                    $cota['status'] = $status;
+                }
+                return $cota;
+            }
+            //se numero cota for um array, fazer o processo para cada cota
+            if (is_array($numero_cota)) {
+                $numero_cota = array_map(function ($item) {
+                    return (int)$item;
+                }, $numero_cota);
+                if (in_array($cota['numero'], $numero_cota)) {
+                    $cota['pedido_id'] = $pedido_id;
+                    $cota['status'] = $status;
+                }
+                return $cota;
+            }
+            //se numero cota for um numero inteiro, fazer o processo para uma cota
             if ($cota['numero'] == $numero_cota) {
                 $cota['pedido_id'] = $pedido_id;
                 $cota['status'] = $status;

@@ -184,7 +184,7 @@
                             </div>
                             <div class="col-12 mb-2" v-if="pedido.cotas.length">
                                 <b>Números escolhidos: </b>
-                                <div class="d-flex">
+                                <div class="d-flex" style="overflow-x: auto">
                                     <div class="m-1" v-for="cota in pedido.cotas">
                                         <span class="badge badge-success">{{cota.numero_formatado}}</span>
                                     </div>

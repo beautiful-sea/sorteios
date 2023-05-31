@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cota;
 use App\Models\Rifa;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -86,14 +87,22 @@ class CotaController extends Controller
 
     public function all(Request $request, Rifa $rifa){
         if($request->expectsJson()){
-            $cotas = collect(Rifa::getCotasNoCache($rifa->id));
+            $cotas = Cota::where('rifa_id',$rifa->id)->limit($request->per_page);
             if($request->filter){
-                $cotas = $cotas->filter(function($cota) use ($request){
-                    return $cota['status'] == $request->filter;
+                $cotas = $cotas->where(function($q) use ($request){
+                    //STatus
+                    $q->where('status',$request->filter);
                 });
             }
             $count = $cotas->count();
-            $items = $cotas->forPage($request->page, $request->per_page)->values();
+            $items = $cotas->get();
+
+            $items = $items->map(function($item) use($count){
+                //Numero formatado deixa o numero com a quantidade de digitos do maior numero da rifa, adicionando zeros a esquerda
+                $item->numero_formatado = str_pad($item->numero, strlen($count), '0', STR_PAD_LEFT);
+                return $item;
+            });
+
             //Cria a paginação manualmente
             $cotas = new LengthAwarePaginator(
                 $items,

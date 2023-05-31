@@ -177,7 +177,7 @@ class CheckoutController extends Controller
                     $cota->save();
                 });
                 //Altera o status da cota no cache para PAGO
-                Rifa::atualizarStatusDaCotaNoCache($pedido->rifa_id, $cotas, 'PAGO');
+//                Rifa::atualizarStatusDaCotaNoCache($pedido->rifa_id, $cotas, 'PAGO');
             }
 
             return response()->json($pedido);

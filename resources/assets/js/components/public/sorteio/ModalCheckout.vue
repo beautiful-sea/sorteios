@@ -58,7 +58,8 @@
 
                         <div class="col-12 mb-2">
                             <label for="uc_telefone" class="form-label">Celular </label>
-                            <input v-mask-phone class="form-control mascaraCelular ignore-loader" name="uc_telefone" v-model="cliente.whatsapp" id="uc_telefone"
+                            <input v-mask-phone class="form-control mascaraCelular ignore-loader" name="uc_telefone"
+                                   v-model="cliente.whatsapp" id="uc_telefone"
                                    required="" disabled="" value="" inputmode="numeric">
                         </div>
 
@@ -101,7 +102,8 @@
                 <div v-if="step === 3" class="modal-body checkout">
                     <div>
                         <h5>QrCode:</h5>
-                        <img v-if="payment.metodo_pagamento === 'MERCADO_PAGO'" :src="'data:image/png;base64,'+payment.qrcode" style="width: -webkit-fill-available;">
+                        <img v-if="payment.metodo_pagamento === 'MERCADO_PAGO'"
+                             :src="'data:image/png;base64,'+payment.qrcode" style="width: -webkit-fill-available;">
                         <img v-else :src="'/storage/qr_code/'+payment.qrcode" style="width: -webkit-fill-available;">
                     </div>
                     <!--                    Copiar chave pix:-->
@@ -150,7 +152,7 @@ export default {
         return {
             rifa: this.$parent.rifa,
             qtdCotas: this.$parent.qtdCotas,
-            selectedCotas:this.$parent.selectedCotas??[],
+            selectedCotas: this.$parent.selectedCotas ?? [],
             step: 1,
             cliente: {
                 nome: '',
@@ -161,7 +163,8 @@ export default {
                 pedido_id: null,
             },
             pedido: null,
-            loading: false
+            loading: false,
+            verifying: false,
         }
     },
     watch: {
@@ -226,6 +229,7 @@ export default {
         },
         verifyPayment(silence = false) {
             let self = this;
+            this.loading = false;
             Vue.requests.listar('/checkout/verify/' + this.payment.pedido_id, self, 'pedido', {
                     params: {
                         pedido_id: this.payment.pedido_id
@@ -256,6 +260,7 @@ export default {
                                 confirmButtonText: 'Ok'
                             })
                         }
+                        self.verifying = false;
                     }
                 }
             )
@@ -287,7 +292,7 @@ export default {
                 qtdCotas: this.qtdCotas,
                 cliente: JSON.stringify(this.cliente)
             }
-            if(!this.rifa.is_compra_automatica){
+            if (!this.rifa.is_compra_automatica) {
                 params['selectedCotas'] = JSON.stringify(this.selectedCotas);
             }
             let self = this;
@@ -296,16 +301,24 @@ export default {
                 loader: 'loading',
                 toast: false
             }, function (response) {
+                self.loading = false;
                 if (response.status === 200) {
                     self.payment = response.data;
                     self.step = 3;
 
-                    //Fica verificando se o pagamento foi confirmado a cada 5 segundos
-                    setInterval(function () {
-                        self.verifyPayment( true);
+                    //Fica verificando se o pagamento foi confirmado a cada 5 segundos enquanto o step for 3. Não deixa repetir a verificação caso alguma verificação já esteja sendo feita
+                    self.interval = setInterval(function () {
+                        if (self.step === 3 && !self.verifying) {
+                            self.verifying = true;
+                            self.verifyPayment(true);
+                        } else {
+                            clearInterval(self.interval);
+                            self.interval = null;
+                            self.verifying = false;
+                        }
                     }, 5000);
                 }
-                if(response.status === 400){
+                if (response.status === 400) {
                     Swal.fire({
                         title: 'Erro ao concluir',
                         text: response.data.message,
@@ -320,7 +333,7 @@ export default {
                     // }
                     self.loading = false;
                 }
-            },function () {
+            }, function () {
                 Swal.fire({
                     title: 'Erro ao concluir',
                     text: response.data.message,
@@ -392,7 +405,7 @@ export default {
                     if (this.value.length === 9) {
                         this.value = this.value + '-';
                     }
-                    console.log('length: '+this.value.length);
+                    console.log('length: ' + this.value.length);
                     e.value = this.value;
                 }
                 console.log('update: ', el.value);
