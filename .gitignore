@@ -43,6 +43,7 @@ yarn.lock
 /storage/framework
 /storage/logs
 /storage/users
+/storage/app/public/*
 packages/
 .phpunit.result.cache
 .env.backup
