@@ -10205,35 +10205,39 @@ var render = function render() {
         "margin-bottom": "1px",
         "line-height": "1.4em"
       }
-    }, [_vm._v(_vm._s(sorteio.nome_cliente) + "\n                " + _vm._s(sorteio.telefone_cliente) + " ")]), _vm._v(" "), _c("h3", {
+    }, [_vm._v("\n                            " + _vm._s(sorteio.nome_cliente) + "\n                            " + _vm._s(sorteio.telefone_cliente) + " ")]), _vm._v(" "), _c("h3", {
       staticClass: "SorteioTpl_descricao__1b7iL",
       staticStyle: {
         "margin-bottom": "1px",
         "line-height": "1.4em"
       }
-    }, [_vm._v("Valor da compra:\n                "), _c("b", [_vm._v(_vm._s(sorteio.valor_da_compra))])]), _vm._v(" "), _c("h3", {
+    }, [_vm._v("Valor\n                            da compra:\n                            "), _c("b", [_vm._v(_vm._s(sorteio.valor_da_compra))])]), _vm._v(" "), _c("h3", {
       staticClass: "SorteioTpl_descricao__1b7iL",
       staticStyle: {
         "margin-bottom": "1px",
         "line-height": "1.4em"
       }
-    }, [_vm._v("Data da compra: "), _c("b", [_vm._v("\n                " + _vm._s(sorteio.created_at) + " ")])]), _vm._v(" "), _c("h3", {
+    }, [_vm._v("Data\n                            da compra: "), _c("b", [_vm._v("\n                                " + _vm._s(sorteio.created_at) + " ")])]), _vm._v(" "), _c("h3", {
       staticClass: "SorteioTpl_descricao__1b7iL",
       staticStyle: {
         "margin-bottom": "1px",
         "line-height": "1.4em"
       }
-    }, [_vm._v("Status da compra:\n                "), _c("span", {
+    }, [_vm._v("\n                            Status da compra:\n                            "), _c("span", {
       staticClass: "badge bg-danger"
-    }, [_vm._v(_vm._s(sorteio.status))])]), _vm._v(" "), _vm._m(2, true), _vm._v(" "), _vm._l(sorteio.rifa.cotas, function (cota) {
+    }, [_vm._v(_vm._s(sorteio.status))])]), _vm._v(" "), _vm._m(2, true), _vm._v(" "), _c("div", {
+      staticStyle: {
+        "overflow-x": "auto"
+      }
+    }, _vm._l(sorteio.rifa.cotas, function (cota) {
       return _c("span", {
         staticClass: "badge bg-warning mb-1 me-1"
-      }, [_vm._v("\n              " + _vm._s(cota.numero) + "\n\t\t\t\t\t\t")]);
-    }), _vm._v(" "), _c("div", {
+      }, [_vm._v("\n                            " + _vm._s(cota.numero) + "\n                          ")]);
+    }), 0), _vm._v(" "), _c("div", {
       staticStyle: {
         width: "100%"
       }
-    })], 2)])])]);
+    })])])])]);
   })], 2), _vm._v(" "), _c("div", {
     staticClass: "modal fade show",
     attrs: {
@@ -10248,7 +10252,7 @@ var render = function render() {
     staticClass: "modal-content rounded-0"
   }, [_c("span", {
     staticClass: "d-none"
-  }, [_vm._v("Usuário não autenticado\n                ")]), _vm._v(" "), _vm._m(3), _vm._v(" "), _c("div", {
+  }, [_vm._v("Usuário não autenticado\n            ")]), _vm._v(" "), _vm._m(3), _vm._v(" "), _c("div", {
     staticClass: "modal-body checkout"
   }, [_c("div", {
     staticClass: "alert alert-warning p-2 mb-2 font-xs msgAlerta",
@@ -10299,7 +10303,7 @@ var render = function render() {
         return _vm.getSorteios();
       }
     }
-  }, [_vm._v("Continuar "), _c("i", {
+  }, [_vm._v("\n                        Continuar "), _c("i", {
     staticClass: "bi bi-arrow-right"
   })])])])])])]);
 };
@@ -10422,7 +10426,7 @@ var staticRenderFns = [function () {
     staticClass: "alert alert-warning p-2 font-xss mb-2"
   }, [_c("i", {
     staticClass: "bi bi-exclamation-circle"
-  }), _vm._v(" Informe seu\n              telefone para continuar.\n            ")]);
+  }), _vm._v("\n                        Informe seu\n                        telefone para continuar.\n                    ")]);
 }];
 render._withStripped = true;
 
@@ -10888,7 +10892,7 @@ var render = function render() {
     staticClass: "resultConsultaCompra"
   }, _vm._l(_vm.pedidos, function (pedido) {
     return _c("div", [_c("div", {
-      staticClass: "card app-card mb-2 pointer border-bottom border-2 border-warning"
+      staticClass: "card p-2 app-card mb-2 pointer border-bottom border-2 border-warning"
     }, [_c("div", {
       staticClass: "card-body"
     }), _vm._v(" "), _c("div", {
@@ -10936,7 +10940,10 @@ var render = function render() {
     }, [_c("div", {
       staticClass: "compra-title font-weight-500"
     }, [_vm._v(_vm._s(pedido.rifa.titulo))]), _vm._v(" "), _c("br"), _vm._v(" "), _c("small", [_vm._v(_vm._s(pedido.created_at_diff))]), _vm._v(" "), _c("div", {
-      staticClass: "d-flex"
+      staticClass: "d-flex",
+      staticStyle: {
+        "overflow-x": "auto"
+      }
     }, _vm._l(pedido.cotas, function (cota) {
       return _c("span", {
         staticClass: "badge bg-warning mb-1 me-1"

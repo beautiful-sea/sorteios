@@ -31,7 +31,7 @@
 
                     <div class="resultConsultaCompra">
                         <div v-for="pedido in pedidos">
-                            <div class="card app-card mb-2 pointer border-bottom border-2 border-warning">
+                            <div class="card p-2 app-card mb-2 pointer border-bottom border-2 border-warning">
                                 <div class="card-body" >
 
                                 </div>
@@ -50,7 +50,7 @@
                                         <div class="compra-title font-weight-500">{{ pedido.rifa.titulo }}</div>
                                         <br>
                                         <small>{{pedido.created_at_diff}}</small>
-                                        <div class="d-flex">
+                                        <div class="d-flex" style="overflow-x: auto">
                                             <span class="badge bg-warning mb-1 me-1" v-for="cota in pedido.cotas">
                                               {{ cota.numero_formatado }}
                                             </span>
