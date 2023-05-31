@@ -6127,6 +6127,44 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    deletarTodosPendentesVencidos: function deletarTodosPendentesVencidos() {
+      var self = this;
+      //Swal de confirmação
+      Swal.fire({
+        title: 'Tem certeza que deseja excluir todos os pedidos pendentes e vencidos?',
+        text: 'Esta ação não poderá ser desfeita!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sim, excluir!',
+        cancelButtonText: 'Não, cancelar!',
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          self.loading = true;
+          var params = {
+            _method: 'DELETE'
+          };
+          axios["delete"]('/pedidos/deletar-todos-pendentes-vencidos', {
+            params: params
+          }).then(function (response) {
+            self.loading = false;
+            self.getPedidos();
+            Swal.fire({
+              title: 'Sucesso!',
+              text: 'Todos os pedidos pendentes e vencidos foram excluídos!',
+              icon: 'success'
+            });
+          })["catch"](function (error) {
+            self.loading = false;
+            Swal.fire({
+              title: 'Erro!',
+              text: 'Ocorreu um erro ao excluir os pedidos pendentes e vencidos!',
+              icon: 'error'
+            });
+          });
+        }
+      });
+    },
     deletarTodosPendentes: function deletarTodosPendentes() {
       var self = this;
       //Swal de confirmação
@@ -8781,7 +8819,14 @@ var render = function render() {
         return _vm.deletarTodosPendentes();
       }
     }
-  }, [_vm._v("Apagar todos pendentes")])]) : _vm._e(), _vm._v(" "), _c("div", {
+  }, [_vm._v("Apagar todos pendentes")]), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-danger ml-2",
+    on: {
+      click: function click($event) {
+        return _vm.deletarTodosPendentesVencidos();
+      }
+    }
+  }, [_vm._v("Apagar todos pendentes vencidos")])]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-12"

@@ -31,6 +31,7 @@ Route::group([],function () {
 
 Route::group(['middleware' => 'admin'], function () {
     Route::delete('pedidos/deletar-todos-pendentes' , 'PedidoController@deletarTodosPendentes');
+    Route::delete('pedidos/deletar-todos-pendentes-vencidos' , 'PedidoController@deletarTodosPendentesVencidos');
     Route::put('pedidos/{pedido}', 'PedidoController@update');
     Route::delete('pedidos/{pedido}', 'PedidoController@destroy');
     Route::get('pedidos', 'PedidoController@index');

@@ -67,6 +67,7 @@
                 </div>
                 <div v-if="withExtraOptions" class="d-flex mb-2">
                     <button class="btn btn-danger" @click="deletarTodosPendentes()">Apagar todos pendentes</button>
+                    <button class="btn btn-danger ml-2" @click="deletarTodosPendentesVencidos()">Apagar todos pendentes vencidos</button>
                 </div>
                 <div class="row">
                     <div class="col-12">
@@ -228,6 +229,44 @@ export default {
         }
     },
     methods: {
+        deletarTodosPendentesVencidos() {
+            let self = this;
+            //Swal de confirmação
+            Swal.fire ({
+                title: 'Tem certeza que deseja excluir todos os pedidos pendentes e vencidos?',
+                text: 'Esta ação não poderá ser desfeita!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sim, excluir!',
+                cancelButtonText: 'Não, cancelar!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    self.loading = true;
+                    let params = {
+                        _method: 'DELETE'
+                    }
+                    axios.delete('/pedidos/deletar-todos-pendentes-vencidos', {params})
+                        .then(response => {
+                            self.loading = false;
+                            self. getPedidos();
+                            Swal.fire({
+                                title: 'Sucesso!',
+                                text: 'Todos os pedidos pendentes e vencidos foram excluídos!',
+                                icon: 'success'
+                            })
+                        })
+                        .catch(error => {
+                            self.loading = false;
+                            Swal.fire({
+                                title: 'Erro!',
+                                text: 'Ocorreu um erro ao excluir os pedidos pendentes e vencidos!',
+                                icon: 'error'
+                            })
+                        })
+                }
+            })
+        },
         deletarTodosPendentes() {
             let self = this;
             //Swal de confirmação

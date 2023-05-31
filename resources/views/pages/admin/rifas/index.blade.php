@@ -60,7 +60,7 @@
                                         {{$rifa->ganhador->nome_cliente ?? '--'}}
                                     </td>
                                     <td>{{$rifa->numero_sorteado_formatado}}</td>
-                                    <td>{{$rifa->created_at }}</td>
+                                    <td>{{date('d/m/y H:i:s',strtotime($rifa->periodo)) }}</td>
                                     <td>{{$rifa->valor_em_real}}</td>
                                     <td>
                                         @if($rifa->status == 'EM_ANDAMENTO')

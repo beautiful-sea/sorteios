@@ -62,10 +62,46 @@ class PedidoController extends Controller
 
     public function deletarTodosPendentes(){
         $pedidos = Pedido::where('status','PENDENTE')->get();
+        $cotas_do_pedido = [];
         foreach($pedidos as $pedido){
-            $pedido->delete();
+            foreach($pedido->cotas as $cota){
+                $cotas_do_pedido[] = $cota->id;
+            }
         }
+        //Deleta as cotas primeiro
+        DB::table('cotas')->whereIn('id',$cotas_do_pedido)->delete();
+        //Deleta os pedidos
+        Pedido::whereIn('id',$pedidos->pluck('id'))->delete();
         return response()->json(['message'=>'Pedidos deletados com sucesso']);
+    }
+
+    /**
+     * Deleta todos os pedidos que estao com status PENDENTE e que o 'periodo' da rifa ja passou
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deletarTodosPendentesVencidos(){
+       try{
+           $pedidos = Pedido::where('pedidos.status', 'PENDENTE')
+               ->join('rifas', 'rifas.id', '=', 'pedidos.rifa_id')
+               ->where('rifas.periodo', '<', now()) // Comparando com a data atual
+               ->select('pedidos.*')
+               ->get();
+
+           $cotas_do_pedido = [];
+           foreach($pedidos as $pedido){
+               foreach($pedido->cotas as $cota){
+                   $cotas_do_pedido[] = $cota->id;
+               }
+           }
+           //Deleta as cotas primeiro
+           Cota::whereIn('id',$cotas_do_pedido)->delete();
+           $pedidos_id = $pedidos->pluck('id');
+           //Deleta os pedidos
+           Pedido::whereIn('id',$pedidos_id)->delete();
+           return response()->json(['message'=>'Pedidos deletados com sucesso']);
+       } catch (\Exception $e){
+           return response()->json(['message'=>'Erro ao deletar pedidos']);
+       }
     }
 
     //Se o pedido tiver status PENDENTE, ele é deletado
