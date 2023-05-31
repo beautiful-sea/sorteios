@@ -280,7 +280,7 @@
                                             </ul>
                                         </div>
                                     @endif
-                                    <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light">Enviar</button>
+                                    <button type="submit" id="btn-cadastrar" class="btn btn-primary me-1 waves-effect waves-float waves-light">Cadastrar</button>
 
 
 
@@ -377,6 +377,11 @@
             div.append(divInput);
 
             $('#numeros-compra-automatica').append(div);
+        });
+
+        //Quando o formulario for enviado, desabilita o botao de enviar e muda o texto para "Cadastrando..."
+        $('#formRifa').submit(function () {
+            $('#btn-cadastrar').attr('disabled', true).html('Cadastrando...');
         });
     </script>
 @endsection
